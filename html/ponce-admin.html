@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Botón flotante</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@0.11.5/dist/styled.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style/ponce-admin.css" />
+    <script src="../js/solutions/baseCalls.js"></script>
+    <script src="../js/definitions.js"></script>
+    <script src="../js/panel/cardsControl.js"></script>
+    <script src="../js/panel/panel.js"></script>
+  </head>
+  <body>
+    <span
+      id="pa-cubierta"
+      class="fixed bg-black bg-opacity-50 w-full h-full"
+    ></span>
+    <div
+      id="pa-contenedor-boton-fixed"
+      class="fixed -mr-2 transition-all duration-500 z-50"
+    >
+      <span
+        class="z-40 absolute ponce-admin__ping-decoration bg-black h-full w-full rounded-full bg-opacity-20"
+      ></span>
+      <span
+        class="z-40 absolute ponce-admin__ping-decoration ponce-admin__ping-decoration--2 bg-black h-full w-full rounded-full bg-opacity-20"
+      ></span>
+      <span
+        class="z-40 absolute ponce-admin__ping-decoration ponce-admin__ping-decoration--3 bg-black h-full w-full rounded-full bg-opacity-20"
+      ></span>
+      <button
+        id="pa-button-fixed"
+        class="z-50 absolute rounded-full h-full w-full flex items-center justify-center bg-black text-white font-semibold focus:outline-none"
+      >
+        <img src="../assets/img/logo-ponceleon.svg" alt="logo" />
+      </button>
+    </div>
+    <div
+      id="pa-lateral-deslizable"
+      class="bg-white fixed shadow min-h-screen p-4 w-3/4 transition-all duration-500 z-50"
+    >
+      <div class="mx-3">
+        <div class="flex bg-gray-100 rounded-xl my-3">
+          <input
+            type="search"
+            placeholder="Buscar"
+            class="bg-transparent flex-grow px-4 outline-none"
+            id="pa-buscador-config"
+          />
+          <button class="btn btn-square btn-ghost">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              class="inline-block w-6 h-6 stroke-current"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div
+          class="grid grid-cols-2 xl:grid-cols-3 gap-4"
+          id="pa-container-config"
+        ></div>
+      </div>
+    </div>
+  </body>
+</html>
