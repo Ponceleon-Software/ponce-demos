@@ -10,7 +10,7 @@ const endpointurl = getHomeUrl();
 async function wpRestApi(path) {
   let response;
   try {
-    response = await fetch(`${endpointurl}/wp-json/ponceadmin/v2/${path}`, {
+    response = await fetch(`${endpointurl}/wp-json/ponce-demos/v2/${path}`, {
       method: "GET",
       "Access-Control-Allow-Origin": "*",
       mode: "cors",
