@@ -123,8 +123,11 @@ add_action( 'wp_enqueue_scripts', 'wpse_206839' );
 */
 
 
-wp_enqueue_style('frame-css','/wp-content/plugins/ponce-demos/style/frame.css');
-wp_enqueue_script( 'main', '/wp-content/plugins/ponce-demos/js/main.js', array(), null, true );
+wp_enqueue_style('frame-css', plugins_url('/style/frame.css', __FILE__));
+wp_enqueue_script( 'main', plugins_url('/js/main.js', __FILE__), array(), null, true );
+wp_localize_script('main', 'paths', array(
+	'pluginsUrl' => plugins_url("", __FILE__),
+));
 
 //todo: En lugar de usar un script ya existente (basecalls), crear uno nuevo. Y desde basecalls llamar a ese specialObj como variable del parent
 ?>
