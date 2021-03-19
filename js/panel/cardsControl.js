@@ -42,9 +42,7 @@ const createAllCards = (settings) => {
  */
 const cardsControl = async () => {
   const response = await wpRestApi("demos");
-  const settings = JSON.parse(await response.json());
-
-  console.log(settings);
+  const settings = await response.json();
   let sectores = [];
   let colores = [];
   settings.forEach((el) => {
