@@ -42,7 +42,6 @@ const cardsControl = async () => {
     settings.push(settingsAsc[i]);
   }
 
-  console.log(settings);
   let sectores = [];
   let colores = [];
   settings.forEach((el) => {

@@ -2,7 +2,6 @@ let endpointurl = getHomeUrl();
 window.addEventListener("load", function () {
   let frame;
   htmlbutton = `${`<iframe name="iframe" id="iframe" src="${endpointurl}/html/ponce-demos.html"></iframe>`}`;
-
   function createElementFromHTML(htmlString) {
     var div = document.createElement("div");
     div.innerHTML = htmlString.trim();
