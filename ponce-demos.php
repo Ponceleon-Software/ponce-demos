@@ -18,6 +18,7 @@ add_action('rest_api_init', function () {
     register_rest_route('ponce-demos/v2', 'demos', array(
         'methods' => 'GET',
         'callback' => 'getDemos',
+
     ));
 });
 
@@ -31,6 +32,9 @@ function wp_enqueue_files()
 {
     wp_enqueue_style('frame-css', '/wp-content/plugins/ponce-demos/style/frame.css');
     wp_enqueue_script('main', '/wp-content/plugins/ponce-demos/js/main.js', array(), null, true);
+    wp_localize_script('main', 'paths', array(
+      'pluginsUrl' => plugins_url("", __FILE__),
+    ));
 
 }
 
