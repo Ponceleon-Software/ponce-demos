@@ -9,16 +9,11 @@ const cardsEndpoints = {
  * @returns {TarjetaConfiguracion[]}
  */
 const createAllCards = (settings) => {
-  console.log(settings);
   return settings.map((value) => {
-    const name = value.name;
-    const sectores = value.sectores;
-    const tipografia = value.tipografia;
-    const colores = value.colores;
-    const url = value.url;
-    if (!value.imgurl) console.log(name);
-    const imgurl = value.imgurl
-      ? value.imgurl
+    const { name, sectores, tipografia, colores, url } = value;
+    if (!value.thumbnail) console.log(name);
+    const imgurl = value.thumbnail
+      ? value.thumbnail
       : "https://i.pinimg.com/564x/66/08/1d/66081dff2bd229c7a9b1e30625ddf2a1.jpg"; //CORREGIR IMAGEN DE NOTARIA PUBLICA
     const tarjeta = new TarjetaConfiguracion(
       name,
@@ -28,10 +23,9 @@ const createAllCards = (settings) => {
       imgurl,
       url
     );
-    tarjeta.addKeyWords(value.sectores);
-    tarjeta.addKeyWords(value.sectores);
-    tarjeta.addKeyWords(value.name);
-    tarjeta.addKeyWords(value.tipografia[0]);
+    tarjeta.addKeyWords(sectores);
+    tarjeta.addKeyWords(name);
+    tarjeta.addKeyWords(tipografia[0]);
     console.log(tarjeta.keyword);
     return tarjeta;
   });
@@ -42,7 +36,12 @@ const createAllCards = (settings) => {
  */
 const cardsControl = async () => {
   const response = await wpRestApi("demos");
-  const settings = await response.json();
+  const settingsAsc = JSON.parse(await response.json());
+  const settings = [];
+  for (let i in settingsAsc) {
+    settings.push(settingsAsc[i]);
+  }
+
   let sectores = [];
   let colores = [];
   settings.forEach((el) => {
