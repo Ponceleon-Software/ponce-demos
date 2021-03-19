@@ -36,14 +36,18 @@ Modificador.prototype.addElements = function (ids) {
  */
 function TarjetaConfiguracion(
   titulo,
-  descripcion = "",
-  dbaction = () => {},
-  ajustes = {}
+  tipografia,
+  sectores,
+  colores,
+  imgurl,
+  url
 ) {
   this.titulo = titulo;
-  this.descripcion = descripcion;
-  this.dbaction = dbaction;
-  this.ajustes = ajustes;
+  this.tipografia = tipografia;
+  this.sectores = sectores;
+  this.colores = colores;
+  this.imgurl = imgurl;
+  this.url = url;
 
   this.keyword = [];
 
@@ -88,21 +92,47 @@ function TarjetaConfiguracion(
     "div",
     { className: "card shadow-lg rounded-xl" },
     [
-      utils.createElement("div", { className: "card-body p-4" }, [
-        utils.createElement("h2", {
-          className: "card-title text-base capitalize",
-          innerHTML: this.titulo,
-        }),
-        utils.createElement("div", {
-          innerHTML: this.descripcion,
-          className: "text-sm max-h-10 overflow-hidden pa-max-lines-2",
-        }),
-        utils.createElement(
-          "div",
-          { className: "flex justify-between items-center mt-2" },
-          [this.switch.elementoPadre, this.botonAjustes]
-        ),
-      ]),
+      utils.createElement(
+        "div",
+        {
+          className: "bg-cover parent",
+          style: `background-image: url(${this.imgurl})`,
+        },
+        [
+          utils.createElement("div", { className: "   " }, [
+            utils.createElement("div", { className: " child card-body p-20" }, [
+              utils.createElement("h2", {
+                className:
+                  "card-title text-base capitalize text-white z-10 text-center ",
+                innerHTML: this.titulo,
+              }),
+
+              utils.createElement("div", { className: "flex justify-evenly" }, [
+                utils.createElement(
+                  "button",
+                  {
+                    className:
+                      "btn btn-primary p-0 min-h-0 h-7 w-7 fill-current text-white z-10",
+                    innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15 12c0 1.654-1.346 3-3 3s-3-1.346-3-3 1.346-3 3-3 3 1.346 3 3zm9-.449s-4.252 8.449-11.985 8.449c-7.18 0-12.015-8.449-12.015-8.449s4.446-7.551 12.015-7.551c7.694 0 11.985 7.551 11.985 7.551zm-7 .449c0-2.757-2.243-5-5-5s-5 2.243-5 5 2.243 5 5 5 5-2.243 5-5z"/></svg>`,
+                  },
+                  [],
+                  () => window.open(this.url, "_blank")
+                ),
+                utils.createElement(
+                  "button",
+                  {
+                    className:
+                      "btn btn-accent p-0 min-h-0 h-7 w-7 fill-current text-white z-10",
+                    innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z"/></svg>`,
+                  },
+                  [],
+                  () => window.open(this.url, "_blank")
+                ),
+              ]),
+            ]),
+          ]),
+        ]
+      ),
     ]
   );
 }
@@ -236,7 +266,7 @@ const utils = {
    * @param {Node[]} children Arreglo de elementos hijos
    * @returns {Node}
    */
-  createElement: (tagName, attributes = {}, children = []) => {
+  createElement: (tagName, attributes = {}, children = [], onclick = false) => {
     const elemento = document.createElement(tagName);
 
     for (let key in attributes) {
@@ -248,6 +278,7 @@ const utils = {
     children.forEach((value) => {
       elemento.appendChild(value);
     });
+    if (onclick) elemento.onclick = onclick;
 
     return elemento;
   },

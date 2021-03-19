@@ -9,20 +9,30 @@ const cardsEndpoints = {
  * @returns {TarjetaConfiguracion[]}
  */
 const createAllCards = (settings) => {
+  console.log(settings);
   return settings.map((value) => {
-    const name = value.name
-      .split(/([A-Z][a-z]*)/)
-      .filter((value) => Boolean(value))
-      .join(" ");
-    const descripcion = value.description;
-    const isActive = value.is_active === "1";
-    const dbaction = cardsEndpoints[value.name]
-      ? async () => await wpRestApi(cardsEndpoints[value.name])
-      : () => {};
-
-    const tarjeta = new TarjetaConfiguracion(name, descripcion, dbaction);
-    tarjeta.setSwitch(isActive);
-    tarjeta.addKeyWords(value.keywords);
+    const name = value.name;
+    const sectores = value.sectores;
+    const tipografia = value.tipografia;
+    const colores = value.colores;
+    const url = value.url;
+    if (!value.imgurl) console.log(name);
+    const imgurl = value.imgurl
+      ? value.imgurl
+      : "https://i.pinimg.com/564x/66/08/1d/66081dff2bd229c7a9b1e30625ddf2a1.jpg"; //CORREGIR IMAGEN DE NOTARIA PUBLICA
+    const tarjeta = new TarjetaConfiguracion(
+      name,
+      tipografia,
+      sectores,
+      colores,
+      imgurl,
+      url
+    );
+    tarjeta.addKeyWords(value.sectores);
+    tarjeta.addKeyWords(value.sectores);
+    tarjeta.addKeyWords(value.name);
+    tarjeta.addKeyWords(value.tipografia[0]);
+    console.log(tarjeta.keyword);
     return tarjeta;
   });
 };
@@ -31,8 +41,21 @@ const createAllCards = (settings) => {
  * Controla la salida de las tarjetas y la manera en que se van a mostrar
  */
 const cardsControl = async () => {
-  const response = await wpRestApi("settings");
+  const response = await wpRestApi("demos");
   const settings = await response.json();
+  console.log(typeof(setings));
+
+  console.log(settings);
+  let sectores = [];
+  let colores = [];
+  settings.forEach((el) => {
+    el.sectores.forEach((sector) => {
+      if (!sectores.includes(sector) && sector) sectores.push(sector);
+    });
+    el.colores.forEach((color) => {
+      if (!colores.includes(color) && color) colores.push(color);
+    });
+  });
 
   const controlTarjetas = new Modificador();
   controlTarjetas.state = {
@@ -42,6 +65,10 @@ const cardsControl = async () => {
   controlTarjetas.addElements({
     contenedor: "pa-container-config",
     buscador: "pa-buscador-config",
+    peso: "pa-weight-config",
+    serif: "pa-serif-config",
+    sectores: "pa-sectors-config",
+    colores: "pa-colors-config",
   });
   controlTarjetas.template = () => {
     const devuelto = [];
@@ -80,6 +107,81 @@ const cardsControl = async () => {
   controlTarjetas.buscador.addEventListener("keyup", () => {
     controlTarjetas.setState({ buscador: controlTarjetas.buscador.value });
   });
+  controlTarjetas.peso.addEventListener("click", (event) => {
+    let prevState = controlTarjetas.state.buscador;
+    let newState = "";
+    event.target.classList.toggle("btn-active");
+    let value;
+    const botones = getSiblings(event.target, true);
+    botones.forEach((el) => {
+      value = el.getAttribute("data-filter-weight");
+      if (el.classList.contains("btn-active") && !prevState.includes(value))
+        newState += value + " ";
+      else prevState = prevState.replace(value, "");
+    });
+
+    newState = (prevState + newState).trim();
+    controlTarjetas.setState({ buscador: newState });
+    console.log(newState);
+  });
+  controlTarjetas.serif.addEventListener("click", (event) => {
+    let prevState = controlTarjetas.state.buscador;
+    let newState = "";
+    event.target.classList.toggle("btn-active");
+    let value;
+    const botones = getSiblings(event.target, true);
+    botones.forEach((el) => {
+      value = el.getAttribute("data-filter-serif");
+      if (el.classList.contains("btn-active") && !prevState.includes(value))
+        newState += value + " ";
+      else prevState = prevState.replace(value, "");
+    });
+    prevState;
+    newState = prevState + " " + newState;
+    controlTarjetas.setState({ buscador: newState });
+    console.log("Nuevo:" + controlTarjetas.state.buscador);
+  });
+  controlTarjetas.colores.addEventListener("change", (event) => {
+    let prevState = controlTarjetas.state.buscador;
+    let newState = event.target.value;
+    const options = [].slice.apply(event.target.options);
+    options.forEach((el) => {
+      if (prevState.includes(el.value)) {
+        prevState = prevState.replace(el.value, "");
+      }
+    });
+    newState = prevState.trim() + " " + newState;
+    controlTarjetas.setState({ buscador: newState });
+    console.log(newState);
+  });
 
   controlTarjetas.render();
+
+  sectores.forEach((sector) => {
+    let el;
+    el = utils.createElement("option", { innerHTML: sector, value: sector });
+    controlTarjetas.sectores.appendChild(el);
+  });
+  colores.forEach((color) => {
+    let el;
+    el = utils.createElement("option", { innerHTML: color, value: color });
+    controlTarjetas.colores.appendChild(el);
+  });
+};
+
+let getSiblings = function (e, needFirst = false) {
+  let siblings = [];
+  if (!e.parentNode) {
+    return siblings;
+  }
+  let sibling = e.parentNode.firstChild;
+
+  while (sibling) {
+    if (sibling.nodeType === 1 && sibling !== e) {
+      siblings.push(sibling);
+    }
+    sibling = sibling.nextSibling;
+  }
+  siblings.unshift(e);
+  return siblings;
 };

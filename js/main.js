@@ -1,7 +1,7 @@
 let endpointurl = getHomeUrl();
 window.addEventListener("load", function () {
   let frame;
-  htmlbutton = `${`<iframe name="iframe" id="iframe" src="${endpointurl}/wp-content/plugins/Ponce-admin/html/ponce-admin.html"></iframe>`}`;
+  htmlbutton = `${`<iframe name="iframe" id="iframe" src="${endpointurl}/wp-content/plugins/ponce-demos/html/ponce-demos.html"></iframe>`}`;
 
   function createElementFromHTML(htmlString) {
     var div = document.createElement("div");
@@ -10,7 +10,9 @@ window.addEventListener("load", function () {
   }
 
   frame = createElementFromHTML(htmlbutton);
-  element = document.querySelector("#wpbody-content");
+  element = document.querySelector("#wpbody-content")
+    ? document.querySelector("#wpbody-content")
+    : document.querySelector("#page");
   element.appendChild(frame);
   let iframe = document.getElementById("iframe");
   iframe.addEventListener("load", function (e) {
@@ -35,32 +37,9 @@ window.addEventListener("load", function () {
   });
 });
 
-/*/Ruta dinámica implementada (kindof, falta testear fuera de wp-admin)
-async function wpRestApi() {
-  let response;
-  try {
-    //topbar es para mostrar o quitar el topbar
-    response = await fetch(`${endpointurl}/wp-json/ponceadmin/v2/settings`, {
-      method: "GET",
-      "Access-Control-Allow-Origin": "*",
-      mode: "cors",
-      credentials: "include",
-    });
-    let data = await response.json();
-    return data;
-  } catch (e) {
-    alert(e);
-  }
-}
-
-let result = wpRestApi();
-result.then((r) => {
-  console.log(r);
-});*/
-
 function getHomeUrl() {
   var href = window.location.href;
   var index = href.indexOf("/wp-admin");
-  var homeUrl = href.substring(0, index);
+  var homeUrl = index !== -1 ? href.substring(0, index) : href;
   return homeUrl;
 }
