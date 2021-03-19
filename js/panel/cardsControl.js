@@ -26,7 +26,7 @@ const createAllCards = (settings) => {
     tarjeta.addKeyWords(sectores);
     tarjeta.addKeyWords(name);
     tarjeta.addKeyWords(tipografia[0]);
-    console.log(tarjeta.keyword);
+    //console.log(tarjeta.keyword);
     return tarjeta;
   });
 };
@@ -36,7 +36,7 @@ const createAllCards = (settings) => {
  */
 const cardsControl = async () => {
   const response = await wpRestApi("demos");
-  const settingsAsc = JSON.parse(await response.json());
+  const settingsAsc = await response.json();
   const settings = [];
   for (let i in settingsAsc) {
     settings.push(settingsAsc[i]);

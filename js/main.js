@@ -20,7 +20,6 @@ window.addEventListener("load", function () {
 
     //#region Datos desde php
     windowIframe.demo = demo;
-    console.log(windowIframe.demo);
     //#endregion
 
     const changeIframe = function () {
@@ -45,6 +44,6 @@ window.addEventListener("load", function () {
 
 function getHomeUrl() {
   var href = demo.pluginsUrl;
-  console.log(href);
+  //console.log(href);
   return href;
 }
