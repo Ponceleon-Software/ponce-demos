@@ -8,9 +8,14 @@
  * Author URI: http://www.ponceleon.site
  */
 //Endpoint settings//
-$file = __DIR__.'\ponce-demos-iterable.json';
+
+include 'php/new_page.php';
+
+$file = __DIR__.'\ponce-demos.json';
 $json = file_get_contents($file);
-$json_data = json_decode($json);
+$json_data = json_decode($json, true);
+
+require_once( ABSPATH . 'wp-includes/pluggable.php' );
 
 defined('ABSPATH') or die("Bye bye");
 
@@ -68,7 +73,6 @@ function getDemos(){
 			$json_array=json_encode($array_json);*/
 	//Pruebas en local
 
-	global $json_data;
 	mb_convert_variables('utf-8', 'original encode', $json_data);
 
 	//$json_data=json_encode($json_data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
@@ -121,13 +125,13 @@ function wpse_206839() {
 }
 add_action( 'wp_enqueue_scripts', 'wpse_206839' );
 */
-
-
 wp_enqueue_style('frame-css', plugins_url('/style/frame.css', __FILE__));
 wp_enqueue_script( 'main', plugins_url('/js/main.js', __FILE__), array(), null, true );
-wp_localize_script('main', 'paths', array(
-	'pluginsUrl' => plugins_url("", __FILE__),
-));
-
+$data = array( 
+        'pluginsUrl' => plugins_url("", __FILE__),
+    );
+wp_localize_script( 'main', 'demo', $data ); //Coloca esto luego de los enqueues
 //todo: En lugar de usar un script ya existente (basecalls), crear uno nuevo. Y desde basecalls llamar a ese specialObj como variable del parent
+
+
 ?>

@@ -16,7 +16,14 @@ window.addEventListener("load", function () {
   element.appendChild(frame);
   let iframe = document.getElementById("iframe");
   iframe.addEventListener("load", function (e) {
-    const documentIframe = iframe.contentWindow.document;
+    const windowIframe = iframe.contentWindow;
+    const documentIframe = windowIframe.document;
+
+    //#region Datos desde php
+    windowIframe.demo = demo;
+    console.log(windowIframe.demo);
+    //#endregion
+
     const changeIframe = function () {
       if (iframe.style.width != "100vw") {
         iframe.style.width = "100vw";
@@ -38,7 +45,7 @@ window.addEventListener("load", function () {
 });
 
 function getHomeUrl() {
-  var href = paths.pluginsUrl;
+  var href = demo.pluginsUrl;
   console.log(href);
   return href;
 }
