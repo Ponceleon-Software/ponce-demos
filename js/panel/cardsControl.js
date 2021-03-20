@@ -1,7 +1,3 @@
-const cardsEndpoints = {
-  ponceTopBar: "topbar",
-};
-
 /**
  * Toma el arreglo de configuraciones de la base de datos y devuelve
  * las tarjetas correspondientes
@@ -26,7 +22,6 @@ const createAllCards = (settings) => {
     tarjeta.addKeyWords(sectores);
     tarjeta.addKeyWords(name);
     tarjeta.addKeyWords(tipografia[0]);
-    //console.log(tarjeta.keyword);
     return tarjeta;
   });
 };
@@ -118,7 +113,6 @@ const cardsControl = async () => {
 
     newState = (prevState + newState).trim();
     controlTarjetas.setState({ buscador: newState });
-    console.log(newState);
   });
   controlTarjetas.serif.addEventListener("click", (event) => {
     let prevState = controlTarjetas.state.buscador;
@@ -135,7 +129,6 @@ const cardsControl = async () => {
     prevState;
     newState = prevState + " " + newState;
     controlTarjetas.setState({ buscador: newState });
-    console.log("Nuevo:" + controlTarjetas.state.buscador);
   });
   controlTarjetas.colores.addEventListener("change", (event) => {
     let prevState = controlTarjetas.state.buscador;
@@ -148,7 +141,6 @@ const cardsControl = async () => {
     });
     newState = prevState.trim() + " " + newState;
     controlTarjetas.setState({ buscador: newState });
-    console.log(newState);
   });
 
   controlTarjetas.render();

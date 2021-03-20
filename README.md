@@ -37,23 +37,30 @@ permaturuit.
 ## Folder Structure
 
 ```
-ponce-demos
-├─ html
-│  └─ ponce-admin.html
-├─ js
-│  ├─ definitions.js
-│  ├─ main.js
-│  ├─ panel
-│  │  ├─ cardsControl.js
-│  │  ├─ panel.js
-│  │  └─ solutionCards.js
-│  └─ solutions
-│     └─ baseCalls.js
-├─ ponce-demos.php
-├─ ponce-demos.json
-├─ ponce-iterables.json
-└─ style
-   └─ frame.css
+📦ponce-demos
+ ┣ 📂assets
+ ┃ ┣ 📂demos
+ ┃ ┃ ┗ 📜5483.json
+ ┃ ┗ 📂img
+ ┃ ┃ ┗ 📜logo-ponceleon.svg
+ ┣ 📂html
+ ┃ ┗ 📜ponce-demos.html
+ ┣ 📂js
+ ┃ ┣ 📂panel
+ ┃ ┃ ┣ 📜cardsControl.js
+ ┃ ┃ ┣ 📜panel.js
+ ┃ ┃ ┗ 📜solutionCards.js
+ ┃ ┣ 📂solutions
+ ┃ ┃ ┗ 📜baseCalls.js
+ ┃ ┣ 📜definitions.js
+ ┃ ┗ 📜main.js
+ ┣ 📂php
+ ┃ ┗ 📜new_page.php
+ ┣ 📂style
+ ┃ ┣ 📜frame.css
+ ┃ ┗ 📜ponce-demos.css
+ ┣ 📜ponce-demos.json
+ ┗ 📜ponce-demos.php
 
 ```
 ### Contributors

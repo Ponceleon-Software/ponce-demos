@@ -50,7 +50,6 @@ const controlPanel = () => {
 
 window.addEventListener("DOMContentLoaded", (e) => {
   controlPanel();
-
   cardsControl();
 });
 

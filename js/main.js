@@ -44,6 +44,5 @@ window.addEventListener("load", function () {
 
 function getHomeUrl() {
   var href = demo.pluginsUrl;
-  //console.log(href);
   return href;
 }
