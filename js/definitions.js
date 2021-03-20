@@ -99,21 +99,40 @@ function TarjetaConfiguracion(
           style: `background-image: url(${this.imgurl})`,
         },
         [
-          utils.createElement("div", { className: "   " }, [
-            utils.createElement("div", { className: " child card-body p-20" }, [
+          utils.createElement(
+            "div",
+            { className: "child card-body p-20 flex justify-evenly" },
+            [
+              utils.createElement(
+                "div",
+                {
+                  className: "bg-cover",
+                  style: `background-image: url(${this.imgurl})`,
+                },
+                []
+              ),
+
               utils.createElement("h2", {
                 className:
-                  "card-title text-base capitalize text-white z-10 text-center ",
+                  "card-title text-base capitalize text-black z-10 flex justify content text-right ",
                 innerHTML: this.titulo,
               }),
+
+              utils.createElement("div", { className: "flex justify-evenly" }, [
+                utils.createElement("h2", {
+                  className:
+                    "card-title text-base capitalize text-black z-10 flex justify content text-right ",
+                  innerHTML: `</br><p>** Estrellas **</p><br/>`,
+                }),
+              ]),
 
               utils.createElement("div", { className: "flex justify-evenly" }, [
                 utils.createElement(
                   "button",
                   {
                     className:
-                      "btn btn-primary p-0 min-h-0 h-7 w-7 fill-current text-white z-10",
-                    innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15 12c0 1.654-1.346 3-3 3s-3-1.346-3-3 1.346-3 3-3 3 1.346 3 3zm9-.449s-4.252 8.449-11.985 8.449c-7.18 0-12.015-8.449-12.015-8.449s4.446-7.551 12.015-7.551c7.694 0 11.985 7.551 11.985 7.551zm-7 .449c0-2.757-2.243-5-5-5s-5 2.243-5 5 2.243 5 5 5 5-2.243 5-5z"/></svg>`,
+                      "btn btn-light p-0 min-h-0 h-7 w-7 fill-current text-black z-10",
+                    innerHTML: `<p>view</p>`,
                   },
                   [],
                   () => window.open(this.url, "_blank")
@@ -122,15 +141,15 @@ function TarjetaConfiguracion(
                   "button",
                   {
                     className:
-                      "btn btn-accent p-0 min-h-0 h-7 w-7 fill-current text-white z-10",
-                    innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z"/></svg>`,
+                      "btn btn-dark p-0 min-h-0 h-7 w-7 fill-current text-black z-10",
+                    innerHTML: `<p>Install</p>`,
                   },
                   [],
                   () => window.open(this.url, "_blank")
                 ),
               ]),
-            ]),
-          ]),
+            ]
+          ),
         ]
       ),
     ]

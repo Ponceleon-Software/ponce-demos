@@ -22,7 +22,7 @@ add_action( 'rest_api_init', function () {
 } );
 
 function getDemos(){
-	global $json_data;
+	//global $json_data;
 	/*$sectores='';
 	//Pruebas en .site
 	$colores='';
@@ -69,21 +69,8 @@ function getDemos(){
 	//Pruebas en local
 
 	global $json_data;
-	mb_convert_variables('utf-8', 'original encode', $json_data);
+	return($json_data);
 
-	//$json_data=json_encode($json_data,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
-	return(json_encode($json_data));
-
-}
-
-
-function utf8_converter($array){
-    array_walk_recursive($array, function(&$item, $key){
-        if(!mb_detect_encoding($item, 'utf-8', true)){
-            $item = utf8_encode($item);
-        }
-    }); 
-    return $array;
 }
 
 /*
@@ -122,12 +109,14 @@ function wpse_206839() {
 add_action( 'wp_enqueue_scripts', 'wpse_206839' );
 */
 
+function wp_enqueue_files(){
+	wp_enqueue_style('frame-css','/wp-content/plugins/ponce-demos/style/frame.css');
+wp_enqueue_script( 'main', '/wp-content/plugins/ponce-demos/js/main.js', array(), null, true );
 
-wp_enqueue_style('frame-css', plugins_url('/style/frame.css', __FILE__));
-wp_enqueue_script( 'main', plugins_url('/js/main.js', __FILE__), array(), null, true );
-wp_localize_script('main', 'paths', array(
-	'pluginsUrl' => plugins_url("", __FILE__),
-));
+}
+
+add_action( 'admin_enqueue_scripts', 'wp_enqueue_files' );
+
+
 
 //todo: En lugar de usar un script ya existente (basecalls), crear uno nuevo. Y desde basecalls llamar a ese specialObj como variable del parent
-?>

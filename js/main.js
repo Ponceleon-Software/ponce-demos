@@ -1,7 +1,7 @@
 let endpointurl = getHomeUrl();
 window.addEventListener("load", function () {
   let frame;
-  htmlbutton = `${`<iframe name="iframe" id="iframe" src="${endpointurl}/html/ponce-demos.html"></iframe>`}`;
+  htmlbutton = `${`<iframe name="iframe" id="iframe" src="${endpointurl}/wp-content/plugins/ponce-demos/html/ponce-demos.html"></iframe>`}`;
 
   function createElementFromHTML(htmlString) {
     var div = document.createElement("div");
@@ -38,7 +38,8 @@ window.addEventListener("load", function () {
 });
 
 function getHomeUrl() {
-  var href = paths.pluginsUrl;
-  console.log(href);
-  return href;
+  var href = window.location.href;
+  var index = href.indexOf("/wp-admin");
+  var homeUrl = index !== -1 ? href.substring(0, index) : href;
+  return homeUrl;
 }

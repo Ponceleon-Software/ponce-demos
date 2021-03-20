@@ -25,38 +25,38 @@
   <body>
     <span
       id="pa-cubierta"
-      class="fixed bg-black bg-opacity-50 w-full h-full"
+      class="fixed w-full h-full bg-black bg-opacity-50"
     ></span>
     <div
       id="pa-contenedor-boton-fixed"
-      class="fixed -mr-2 transition-all duration-500 z-50"
+      class="fixed z-50 -mr-2 transition-all duration-500"
     >
       <span
-        class="z-40 absolute ponce-admin__ping-decoration bg-black h-full w-full rounded-full bg-opacity-20"
+        class="absolute z-40 w-full h-full bg-black rounded-full ponce-admin__ping-decoration bg-opacity-20"
       ></span>
       <span
-        class="z-40 absolute ponce-admin__ping-decoration ponce-admin__ping-decoration--2 bg-black h-full w-full rounded-full bg-opacity-20"
+        class="absolute z-40 w-full h-full bg-black rounded-full ponce-admin__ping-decoration ponce-admin__ping-decoration--2 bg-opacity-20"
       ></span>
       <span
-        class="z-40 absolute ponce-admin__ping-decoration ponce-admin__ping-decoration--3 bg-black h-full w-full rounded-full bg-opacity-20"
+        class="absolute z-40 w-full h-full bg-black rounded-full ponce-admin__ping-decoration ponce-admin__ping-decoration--3 bg-opacity-20"
       ></span>
       <button
         id="pa-button-fixed"
-        class="z-50 absolute rounded-full h-full w-full flex items-center justify-center bg-black text-white font-semibold focus:outline-none"
+        class="absolute z-50 flex items-center justify-center w-full h-full font-semibold text-white bg-black rounded-full focus:outline-none"
       >
         <img src="../assets/img/logo-ponceleon.svg" alt="logo" />
       </button>
     </div>
     <div
       id="pa-lateral-deslizable"
-      class="bg-white fixed shadow h-screen p-4 w-3/4 transition-all duration-500 z-50 overflow-auto"
+      class="fixed z-50 w-3/4 min-h-screen p-4 transition-all duration-500 bg-white shadow"
     >
-      <div class="mx-3">
-        <div class="flex bg-gray-100 rounded-xl my-3">
+      <div class="mx-3 scroll">
+        <div class="flex my-3 bg-gray-100 rounded-xl">
           <input
             type="search"
             placeholder="Buscar"
-            class="bg-transparent flex-grow px-4 outline-none"
+            class="flex-grow px-4 bg-transparent outline-none"
             id="pa-buscador-config"
           />
           <button class="btn btn-square btn-ghost">
@@ -76,49 +76,49 @@
           </button>
         </div>
         <div class="flex">
-          <div class="btn-group my-3" id="pa-weight-config">
-            <button class="btn btn-xs font-light" data-filter-weight="delgada">
+          <div class="my-3 btn-group" id="pa-weight-config">
+            <button class="font-light btn btn-xs" data-filter-weight="delgada">
               L
             </button>
             <button
-              class="btn btn-xs font-normal italic"
+              class="italic font-normal btn btn-xs"
               data-filter-weight="inclinada"
             >
               I
             </button>
             <button
-              class="btn btn-xs font-semibold"
+              class="font-semibold btn btn-xs"
               data-filter-weight="intermedia"
             >
               B
             </button>
             <button
-              class="btn btn-xs font-extrabold"
+              class="font-extrabold btn btn-xs"
               data-filter-weight="gruesa"
             >
               B+
             </button>
           </div>
-          <div class="btn-group my-3 mx-3" id="pa-serif-config">
-            <button class="btn btn-xs font-serif" data-filter-serif="Serifadas">
+          <div class="mx-3 my-3 btn-group" id="pa-serif-config">
+            <button class="font-serif btn btn-xs" data-filter-serif="Serifadas">
               Serif
             </button>
             <button
-              class="btn btn-xs font-normal font-sans"
+              class="font-sans font-normal btn btn-xs"
               data-filter-serif="Sin serifa"
             >
               Sans Serif
             </button>
           </div>
           <select
-            class="select select-bordered w-72 my-3 ml-12 select-xs"
+            class="my-3 ml-12 select select-bordered w-72 select-xs"
             id="pa-sectors-config"
           >
             <option disabled="disabled" selected="selected">Sectores</option>
             <option value="Todos">Todos</option>
           </select>
           <select
-            class="select select-bordered w-32 my-3 mx-4 select-xs"
+            class="w-32 mx-4 my-3 select select-bordered select-xs"
             id="pa-colors-config"
           >
             <option disabled="disabled" selected="selected">colores</option>
@@ -126,7 +126,7 @@
           </select>
         </div>
         <div
-          class="grid grid-cols-2 xl:grid-cols-3 gap-4"
+          class="grid grid-cols-2 gap-4 xl:grid-cols-3"
           id="pa-container-config"
         ></div>
       </div>
