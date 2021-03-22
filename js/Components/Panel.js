@@ -1,7 +1,10 @@
+import {utils} from '../Utilities/utilities.js'
+
 /**
  * Función que inicializa el control del panel lateral de forma
  * reactiva
  */
+
 const controlPanel = () => {
   const statePanel = { lateralOpen: false };
   const idElements = {
@@ -47,25 +50,4 @@ const controlPanel = () => {
   modPanel.botonAbrir.addEventListener("click", setLateralOpen);
   modPanel.cubierta.addEventListener("click", setLateralOpen);
 };
-
-window.addEventListener("DOMContentLoaded", (e) => {
-  controlPanel();
-
-  cardsControl();
-});
-
-/*const labeledInputFile = (input, attributes) => {
-  input.className += " hidden";
-  return utils.createElement("div", { className: "flex justify-center" }, [
-    utils.createElement(
-      "label",
-      {
-        ...attributes,
-        htmlFor: input.id,
-        className: "btn btn-circle btn-primary",
-        innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="30px" height="30px"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>`,
-      },
-      [input]
-    ),
-  ]);
-};*/
+export {controlPanel};

@@ -1,8 +1,8 @@
 let endpointurl = getHomeUrl();
 window.addEventListener("load", function () {
   let frame;
-  htmlbutton = `${`<iframe name="iframe" id="iframe" src="${endpointurl}/wp-content/plugins/ponce-demos/html/ponce-demos.html"></iframe>`}`;
 
+  htmlbutton = `${`<iframe name="iframe" id="iframe" src="${endpointurl}/html/ponce-demos.html"></iframe>`}`;
   function createElementFromHTML(htmlString) {
     var div = document.createElement("div");
     div.innerHTML = htmlString.trim();
@@ -16,7 +16,13 @@ window.addEventListener("load", function () {
   element.appendChild(frame);
   let iframe = document.getElementById("iframe");
   iframe.addEventListener("load", function (e) {
-    const documentIframe = iframe.contentWindow.document;
+    const windowIframe = iframe.contentWindow;
+    const documentIframe = windowIframe.document;
+
+    //#region Datos desde php
+    windowIframe.demo = demo;
+    //#endregion
+
     const changeIframe = function () {
       if (iframe.style.width != "100vw") {
         iframe.style.width = "100vw";
@@ -38,8 +44,7 @@ window.addEventListener("load", function () {
 });
 
 function getHomeUrl() {
-  var href = window.location.href;
-  var index = href.indexOf("/wp-admin");
-  var homeUrl = index !== -1 ? href.substring(0, index) : href;
-  return homeUrl;
+
+  var href = demo.pluginsUrl;
+  return href;
 }
