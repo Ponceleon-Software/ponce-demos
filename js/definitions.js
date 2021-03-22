@@ -101,53 +101,64 @@ function TarjetaConfiguracion(
         [
           utils.createElement(
             "div",
-            { className: "child card-body p-20 flex justify-evenly" },
+            {
+              className: "child z-10 flex flex-row border-black",
+            },
             [
               utils.createElement(
                 "div",
                 {
-                  className: "bg-cover",
+                  className: " bg-cover z-10 border-black px-24 py-32  ",
                   style: `background-image: url(${this.imgurl})`,
                 },
                 []
               ),
-
-              utils.createElement("h2", {
-                className:
-                  "card-title text-base capitalize text-black z-10 flex justify content text-right ",
-                innerHTML: this.titulo,
-              }),
-
-              utils.createElement("div", { className: "flex justify-evenly" }, [
-                utils.createElement("h2", {
-                  className:
-                    "card-title text-base capitalize text-black z-10 flex justify content text-right ",
-                  innerHTML: `</br><p>** Estrellas **</p><br/>`,
-                }),
-              ]),
-
-              utils.createElement("div", { className: "flex justify-evenly" }, [
-                utils.createElement(
-                  "button",
-                  {
+              utils.createElement(
+                "div",
+                { className: "z-10 w-28 border-black pl-3 mt-10 ml-6" },
+                [
+                  utils.createElement("h2", {
                     className:
-                      "btn btn-light p-0 min-h-0 h-7 w-7 fill-current text-black z-10",
-                    innerHTML: `<p>view</p>`,
-                  },
-                  [],
-                  () => window.open(this.url, "_blank")
-                ),
-                utils.createElement(
-                  "button",
-                  {
-                    className:
-                      "btn btn-dark p-0 min-h-0 h-7 w-7 fill-current text-black z-10",
-                    innerHTML: `<p>Install</p>`,
-                  },
-                  [],
-                  () => window.open(this.url, "_blank")
-                ),
-              ]),
+                      "card-title tamanno text-base capitalize text-black z-10 content text-center ",
+                    innerHTML: this.titulo,
+                  }),
+
+                  utils.createElement("div", { className: "" }, [
+                    utils.createElement("h2", {
+                      className:
+                        "card-title text-base capitalize text-black z-10  content text-center ",
+                      innerHTML: `<p>★★★★★</p>`,
+                    }),
+
+                    utils.createElement(
+                      "div",
+                      { className: "flex justify-evenly z-10" },
+                      [
+                        utils.createElement(
+                          "button",
+                          {
+                            className:
+                              "bg-white px-3 py-1 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-50 rounded border-black fill-current text-black z-10",
+                            innerHTML: `<p>view</p>`,
+                          },
+                          [],
+                          () => window.open(this.url, "_blank")
+                        ),
+                        utils.createElement(
+                          "button",
+                          {
+                            className:
+                              " bg-black px-3 py-1 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50 rounded fill-current text-white z-10",
+                            innerHTML: `<p>Install</p>`,
+                          },
+                          [],
+                          () => window.open(this.url, "_blank")
+                        ),
+                      ]
+                    ),
+                  ]),
+                ]
+              ),
             ]
           ),
         ]

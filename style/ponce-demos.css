@@ -79,7 +79,6 @@
   display: block;
   opacity: 1;
 }
-
 .child:before {
   content: "";
   display: none;
