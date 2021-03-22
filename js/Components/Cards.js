@@ -13,14 +13,16 @@ function TarjetaConfiguracion(
   tipografia,
   sectores,
   colores,
-  imgurl,
+  thumbnail,
+  fullsize,
   url
 ) {
   this.titulo = titulo;
   this.tipografia = tipografia;
   this.sectores = sectores;
   this.colores = colores;
-  this.imgurl = imgurl;
+  this.thumbnail =thumbnail;
+  this.fullsize =fullsize;
   this.url = url;
 
   this.keyword = [];
@@ -165,15 +167,19 @@ const createAllCards = (settings) => {
   return settings.map((value) => {
     const { name, sectores, tipografia, colores, url } = value;
     if (!value.thumbnail) console.log(name);
-    const imgurl = value.thumbnail
+    const thumbnail = value.thumbnail
       ? value.thumbnail
+      : "https://i.pinimg.com/564x/66/08/1d/66081dff2bd229c7a9b1e30625ddf2a1.jpg"; //CORREGIR IMAGEN DE NOTARIA PUBLICA
+    const fullsize = value.fullsize
+      ? value.fullsize
       : "https://i.pinimg.com/564x/66/08/1d/66081dff2bd229c7a9b1e30625ddf2a1.jpg"; //CORREGIR IMAGEN DE NOTARIA PUBLICA
     const tarjeta = new TarjetaConfiguracion(
       name,
       tipografia,
       sectores,
       colores,
-      imgurl,
+      thumbnail,
+      fullsize,
       url
     );
     tarjeta.addKeyWords(sectores);
