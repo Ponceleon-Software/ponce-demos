@@ -1,4 +1,4 @@
-# Ponce demos [![Demos Count](https://img.shields.io/badge/Demos-153-blue.svg)](https://shields.io/)  [![Issues](https://img.shields.io/github/issues/ponceleon-software/ponce-admin?logo=Github)](https://shields.io)
+# Ponce demos [![Demos Count](https://img.shields.io/badge/Demos-153-blue.svg)](https://shields.io/)  [![Issues](https://img.shields.io/github/issues/ponceleon-software/ponce-demos?logo=Github)](https://shields.io)
 
 Sua nec thalamoque Midan. Esse qua est mihi portarum venerit undis ex moderata
 **corpora**, Exadius dicta mollia ne in alios. E versata quaque sus risitque
