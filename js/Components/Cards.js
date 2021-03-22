@@ -21,8 +21,8 @@ function TarjetaConfiguracion(
   this.tipografia = tipografia;
   this.sectores = sectores;
   this.colores = colores;
-  this.thumbnail =thumbnail;
-  this.fullsize =fullsize;
+  this.thumbnail = thumbnail;
+  this.fullsize = fullsize;
   this.url = url;
 
   this.keyword = [];
@@ -95,7 +95,7 @@ function TarjetaConfiguracion(
                 [
                   utils.createElement("h2", {
                     className:
-                      "card-title tamanno text-base capitalize text-black z-10 content text-center ",
+                      "card-title text-base capitalize text-black z-10 content text-center ",
                     innerHTML: this.titulo,
                   }),
 
