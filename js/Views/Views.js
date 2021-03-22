@@ -1,34 +1,12 @@
-/**
- * Toma el arreglo de configuraciones de la base de datos y devuelve
- * las tarjetas correspondientes
- * @param {any[]} settings
- * @returns {TarjetaConfiguracion[]}
- */
-const createAllCards = (settings) => {
-  return settings.map((value) => {
-    const { name, sectores, tipografia, colores, url } = value;
-    if (!value.thumbnail) console.log(name);
-    const imgurl = value.thumbnail
-      ? value.thumbnail
-      : "https://i.pinimg.com/564x/66/08/1d/66081dff2bd229c7a9b1e30625ddf2a1.jpg"; //CORREGIR IMAGEN DE NOTARIA PUBLICA
-    const tarjeta = new TarjetaConfiguracion(
-      name,
-      tipografia,
-      sectores,
-      colores,
-      imgurl,
-      url
-    );
-    tarjeta.addKeyWords(sectores);
-    tarjeta.addKeyWords(name);
-    tarjeta.addKeyWords(tipografia[0]);
-    return tarjeta;
-  });
-};
+import { wpRestApi } from "../Utilities/utilities.js";
+import { Modificador } from "../Utilities/Renderer.js";
+import { createAllCards } from "../Components/Cards.js";
+import { utils } from "../Utilities/utilities.js";
 
 /**
  * Controla la salida de las tarjetas y la manera en que se van a mostrar
- */
+ * VISTA DE GRID TARJETAS
+ * */
 const cardsControl = async () => {
   const response = await wpRestApi("demos");
   const settingsAsc = await response.json();
@@ -157,19 +135,78 @@ const cardsControl = async () => {
   });
 };
 
-let getSiblings = function (e, needFirst = false) {
-  let siblings = [];
-  if (!e.parentNode) {
-    return siblings;
-  }
-  let sibling = e.parentNode.firstChild;
+/**
+ *
+ * VISTA DE CREAR PÁGINA
+ * */
 
-  while (sibling) {
-    if (sibling.nodeType === 1 && sibling !== e) {
-      siblings.push(sibling);
-    }
-    sibling = sibling.nextSibling;
-  }
-  siblings.unshift(e);
-  return siblings;
-};
+const crearPagina = utils.createElementFromHTML(
+  `<div  class="relative px-6 pt-32 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start">
+  <h2 class="font-sans text-4xl absolute top-12 text-black font-bold"> Bienvenido </h2>
+  <div class="mt-5 px-2 py-2 card">
+    <div class="form-control">
+      <input
+        type="text"
+        placeholder="Nombre para su nuevo sitio"
+        class="text-left input input-lg input-bordered w-96"
+      />
+      <div class="flex flex-row mt-3 justify-around">
+        <button
+          class="btn bg-black text-white hover:bg-gray-700"
+          style="width: 11.9rem"
+        >
+          Crear con ayuda
+        </button>
+        <button class="btn bg-gray-100 text-black" style="width: 11.9rem">
+          Yo me encargo
+        </button>
+      </div>
+      <div class="mt-5">
+        <p class="font-sans text-1xl">
+          ¿Te gustaría que un Técnico Profesional se encargue de la
+          construcción de tu sitio web?
+        </p>
+      </div>
+      <div class="mt-5">
+        <p class="font-sans text-1xl">
+          Si eliges un Técnico, recibirás una llamada para asistirte en el
+          proceso.
+        </p>
+      </div>
+      <div class="mt-5">
+        <button class="btn w-96 bg-black text-white hover:bg-gray-700">Continuar</button>
+      </div>
+    </div>
+  </div>
+</div>`
+);
+const loginForm = utils.createElementFromHTML(
+  `<div class="relative px-6 pt-32 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start" >
+    <h2 class="font-sans text-4xl absolute top-12 text-black font-bold"> ¿Tienes Cuenta? </h2>
+    <div class="mt-2 px-10 py-2 card mb-6">
+      <div class="flex flex-col justify-between">
+        <a id="google-button" class="btn bg-black text-white  hover:bg-gray-700 mb-3 flex justify-start ">
+          <img src="../assets/svg/google.svg" class="w-6 h-6 mx-5 colorize-white">Google Social Login
+        </a>
+        <button class="btn bg-gray-100 text-black mb-3 flex justify-start w-96" >
+          <img src="../assets/img/logo-ponceleon.svg" class="w-8 h-8 ml-4 mr-4  " />
+           Sí, Iniciar Sesión
+        </button>
+      </div>
+        
+      </div>
+        <h2 class="font-sans text-2xl text-black font-bold text-center"> O, Regístrate para Continuar </h2>
+          <div class="px-2 py-2 card mb-2 mt-2">
+            <div class="flex flex-col mt-3 justify-between">
+              <a id="google-button" class="btn bg-black text-white  hover:bg-gray-700 mb-3 flex justify-start ">
+                <img src="../assets/svg/google.svg" class="w-6 h-6 mx-5 colorize-white">Google Social Login
+              </a>   
+              <button class="btn bg-gray-100 text-black mb-3 flex justify-start w-96" >
+              <img src="../assets/img/logo-ponceleon.svg" class="w-8 h-8 ml-4 mr-4  " /> Continuar
+              </button>
+            </div>
+    </div>
+  </div>`
+);
+
+export { cardsControl, crearPagina };
