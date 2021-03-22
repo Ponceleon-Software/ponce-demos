@@ -1,6 +1,5 @@
-
-import {utils} from '../Utilities/utilities.js'
-import {LockeableSwitch} from '../Components/Components.js'
+import { utils } from "../Utilities/utilities.js";
+import { LockeableSwitch } from "../Components/Components.js";
 /**
  * Crea una tarjeta estandar del panel
  * @param {string} titulo
@@ -16,7 +15,7 @@ function TarjetaConfiguracion(
   colores,
   imgurl,
   url
-  ) {
+) {
   this.titulo = titulo;
   this.tipografia = tipografia;
   this.sectores = sectores;
@@ -71,41 +70,71 @@ function TarjetaConfiguracion(
         "div",
         {
           className: "bg-cover parent",
-          style: `background-image: url(${this.imgurl})`,
+          style: `background-image: url(${this.thumbnail})`,
         },
         [
-          utils.createElement("div", { className: "   " }, [
-            utils.createElement("div", { className: " child card-body p-20" }, [
-              utils.createElement("h2", {
-                className:
-                  "card-title text-base capitalize text-white z-10 text-center ",
-                innerHTML: this.titulo,
-              }),
+          utils.createElement(
+            "div",
+            {
+              className: "child z-10 flex flex-row border-black",
+            },
+            [
+              utils.createElement(
+                "div",
+                {
+                  className: " bg-cover z-10 border-black px-24 py-32  ",
+                  style: `background-image: url(${this.fullsize})`,
+                },
+                []
+              ),
+              utils.createElement(
+                "div",
+                { className: "z-10 w-28 border-black pl-3 mt-10 ml-6" },
+                [
+                  utils.createElement("h2", {
+                    className:
+                      "card-title tamanno text-base capitalize text-black z-10 content text-center ",
+                    innerHTML: this.titulo,
+                  }),
 
-              utils.createElement("div", { className: "flex justify-evenly" }, [
-                utils.createElement(
-                  "button",
-                  {
-                    className:
-                      "btn btn-primary p-0 min-h-0 h-7 w-7 fill-current text-white z-10",
-                    innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15 12c0 1.654-1.346 3-3 3s-3-1.346-3-3 1.346-3 3-3 3 1.346 3 3zm9-.449s-4.252 8.449-11.985 8.449c-7.18 0-12.015-8.449-12.015-8.449s4.446-7.551 12.015-7.551c7.694 0 11.985 7.551 11.985 7.551zm-7 .449c0-2.757-2.243-5-5-5s-5 2.243-5 5 2.243 5 5 5 5-2.243 5-5z"/></svg>`,
-                  },
-                  [],
-                  () => window.open(this.url, "_blank")
-                ),
-                utils.createElement(
-                  "button",
-                  {
-                    className:
-                      "btn btn-accent p-0 min-h-0 h-7 w-7 fill-current text-white z-10",
-                    innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z"/></svg>`,
-                  },
-                  [],
-                  () => window.open(this.url, "_blank")
-                ),
-              ]),
-            ]),
-          ]),
+                  utils.createElement("div", { className: "" }, [
+                    utils.createElement("h2", {
+                      className:
+                        "card-title text-base capitalize text-black z-10  content text-center ",
+                      innerHTML: `<p>★★★★★</p>`,
+                    }),
+
+                    utils.createElement(
+                      "div",
+                      { className: "flex justify-evenly z-10" },
+                      [
+                        utils.createElement(
+                          "button",
+                          {
+                            className:
+                              "bg-white px-3 py-1 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-50 rounded border-black fill-current text-black z-10",
+                            innerHTML: `<p>view</p>`,
+                          },
+                          [],
+                          () => window.open(this.url, "_blank")
+                        ),
+                        utils.createElement(
+                          "button",
+                          {
+                            className:
+                              " bg-black px-3 py-1 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50 rounded fill-current text-white z-10",
+                            innerHTML: `<p>Install</p>`,
+                          },
+                          [],
+                          () => window.open(this.url, "_blank")
+                        ),
+                      ]
+                    ),
+                  ]),
+                ]
+              ),
+            ]
+          ),
         ]
       ),
     ]
@@ -153,4 +182,4 @@ const createAllCards = (settings) => {
     return tarjeta;
   });
 };
-export {createAllCards,TarjetaConfiguracion};
+export { createAllCards, TarjetaConfiguracion };
