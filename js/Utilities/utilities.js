@@ -1,4 +1,4 @@
-import {Modificador} from '../Utilities/Renderer.js'
+import { Modificador } from "../Utilities/Renderer.js";
 function getHomeUrl() {
   var href = window.location.href;
   var index = href.indexOf("/wp-content");
@@ -16,6 +16,25 @@ async function wpRestApi(path) {
       "Access-Control-Allow-Origin": "*",
       mode: "cors",
       credentials: "include",
+    });
+    return response;
+  } catch (e) {
+    alert(e);
+  }
+}
+
+async function wpRestApiPost(path, params = {}) {
+  let response;
+  try {
+    response = await fetch(`${endpointurl}/wp-json/ponce-demos/v2/${path}`, {
+      method: "POST",
+      "Access-Control-Allow-Origin": "*",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
     });
     return response;
   } catch (e) {
@@ -117,4 +136,4 @@ const utils = {
       ]
     ),
 };
-export {utils,wpRestApi};
+export { utils, wpRestApi, wpRestApiPost };

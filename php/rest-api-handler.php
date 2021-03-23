@@ -55,10 +55,10 @@ class Rest_Api_Handler {
   }
 
   /**
-   * Crea un post según los datos del request y devuelve el id del
+   * Crea un post según los datos del request y devuelve el url del
    * post creado o false si falla la creación
    * 
-   * @return int|boolean El id del nuevo post o false si falló la creación
+   * @return string|boolean El url del nuevo post o false si falló la creación
    */
   public function create_post_endpoint ( $request ){
 
@@ -73,7 +73,13 @@ class Rest_Api_Handler {
     $post_title = $post_title ? $post_title : 'demo - ' . $demo_data[ 'name' ];
     $meta_data_post =  $this->json_manager->get_meta_data( $id_demo );
 
-    return $this->pages_manager->create_page($post_title, $post_content, $post_type, $meta_data_post);
+    $id_new_post = $this->pages_manager
+      ->create_page($post_title, $post_content, $post_type, $meta_data_post);
+
+    if(!$id_new_post){
+      return $id_new_post;
+    }
+    return get_permalink( $id_new_post );
 
   }
 
