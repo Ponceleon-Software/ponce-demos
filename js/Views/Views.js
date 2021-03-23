@@ -1,5 +1,5 @@
 import { wpRestApi } from "../Utilities/utilities.js";
-import { Modificador } from "../Utilities/Renderer.js";
+import { Componente } from "../Components/Components.js";
 import { createAllCards } from "../Components/Cards.js";
 import { utils } from "../Utilities/utilities.js";
 
@@ -8,13 +8,16 @@ import { utils } from "../Utilities/utilities.js";
  * VISTA DE GRID TARJETAS
  * */
 const cardsControl = async () => {
+  //#region get settings
   const response = await wpRestApi("demos");
   const settingsAsc = await response.json();
   const settings = [];
   for (let i in settingsAsc) {
     settings.push(settingsAsc[i]);
   }
+  //#endregion
 
+  //#region Obtener colores y sectores
   let sectores = [];
   let colores = [];
   settings.forEach((el) => {
@@ -25,101 +28,173 @@ const cardsControl = async () => {
       if (!colores.includes(color) && color) colores.push(color);
     });
   });
+  //#endregion
 
-  const controlTarjetas = new Modificador();
+  //#region definir html
+  const inputBuscador = `<input
+    type="search"
+    placeholder="Buscar"
+    class="bg-transparent flex-grow px-4 outline-none"
+    id="pa-buscador-config"
+  />`,
+    botonBuscador = `<button class="btn btn-square btn-ghost">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    class="inline-block w-6 h-6 stroke-current"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+    ></path>
+  </svg>
+</button>`,
+    peso = `<div class="btn-group my-3" id="pa-weight-config">
+    <button class="btn btn-xs font-light" data-filter="delgada">
+      L
+    </button>
+    <button
+      class="btn btn-xs font-normal italic"
+      data-filter="inclinada"
+    >
+      I
+    </button>
+    <button
+      class="btn btn-xs font-semibold"
+      data-filter="intermedia"
+    >
+      B
+    </button>
+    <button
+      class="btn btn-xs font-extrabold"
+      data-filter="gruesa"
+    >
+      B+
+    </button>
+  </div>`,
+    serif = `<div class="btn-group my-3 mx-3" id="pa-serif-config">
+    <button class="btn btn-xs font-serif" data-filter="Serifadas">
+      Serif
+    </button>
+    <button
+      class="btn btn-xs font-normal font-sans"
+      data-filter="Sin serifa"
+    >
+      Sans Serif
+    </button>
+  </div>`,
+    selectSectores = `<select
+      class="select select-bordered w-72 my-3 ml-12 select-xs"
+      id="pa-sectors-config"
+      data-filter="sectores"
+    >
+      <option disabled="disabled" selected="selected">Sectores</option>
+      <option value="">Todos</option>
+    </select>`,
+    selectColores = `<select
+  class="select select-bordered w-32 my-3 mx-4 select-xs"
+  id="pa-colors-config"
+  data-filter="colores"
+  >
+  <option disabled="disabled" selected="selected">colores</option>
+  <option value="">Todos</option>
+  </select>`;
+  //#endregion
+
+  const controlTarjetas = new Componente();
   controlTarjetas.state = {
     buscador: "",
+    filters: [],
+    sectores: "",
+    colores: "",
   };
+
+  controlTarjetas.elementoPadre = utils.createElementFromHTML(
+    `<div
+      class="grid grid-cols-2 xl:grid-cols-3 gap-4"
+      id="pa-container-config"
+    ></div>`
+  );
+
   controlTarjetas.tarjetas = createAllCards(settings);
-  controlTarjetas.addElements({
-    contenedor: "pa-container-config",
+
+  controlTarjetas.buscador = utils.createElementFromHTML(inputBuscador);
+  controlTarjetas.peso = utils.createElementFromHTML(peso);
+  controlTarjetas.serif = utils.createElementFromHTML(serif);
+  controlTarjetas.sectores = utils.createElementFromHTML(selectSectores);
+  controlTarjetas.colores = utils.createElementFromHTML(selectColores);
+
+  /*controlTarjetas.addElements({
+    elementoPadre: "pa-container-config",
     buscador: "pa-buscador-config",
     peso: "pa-weight-config",
     serif: "pa-serif-config",
     sectores: "pa-sectors-config",
     colores: "pa-colors-config",
-  });
+  });*/
+
   controlTarjetas.template = () => {
-    const devuelto = [];
-    return devuelto.concat(
-      controlTarjetas.tarjetas
-        .filter((value) =>
-          value.keyword.some((word) =>
-            word
-              .toLowerCase()
-              .includes(controlTarjetas.state.buscador.toLowerCase())
-          )
-        )
-        .map((value) => value.tarjeta)
-    );
-  };
-  controlTarjetas.render = () => {
-    const template = controlTarjetas.template();
-    const actual = controlTarjetas.contenedor.children;
+    const state = JSON.parse(JSON.stringify(controlTarjetas.state));
+    const { buscador, filters, sectores, colores } = state;
 
-    template.forEach((value, index) => {
-      if (actual[index] && value !== actual[index]) {
-        controlTarjetas.contenedor.replaceChild(value, actual[index]);
-      } else if (!actual[index]) {
-        controlTarjetas.contenedor.appendChild(value);
-      }
-    });
+    /**
+     * Función que comprueba cada tarjeta para ver si debe mostrarse con
+     * los filtros actuales
+     *
+     * @param {TarjetaConfiguracion} tarjeta Una tarjeta de demo
+     *
+     * @returns true si la tarjeta debe mostrarse, false si no
+     */
+    const matchFilters = (tarjeta) => {
+      return (
+        tarjeta.titulo.includes(buscador) &&
+        filters.every((filter) => tarjeta.keyword.includes(filter)) &&
+        (!sectores || tarjeta.sectores.includes(sectores)) &&
+        (!colores || tarjeta.colores.includes(colores))
+      );
+    };
 
-    if (actual.length > template.length) {
-      for (let i = template.length; i < actual.length; i++) {
-        controlTarjetas.contenedor.removeChild(actual[i]);
-      }
-    }
-    controlTarjetas.buscador.focus();
+    return controlTarjetas.tarjetas
+      .filter(matchFilters)
+      .map((value) => value.tarjeta);
   };
 
   controlTarjetas.buscador.addEventListener("keyup", () => {
     controlTarjetas.setState({ buscador: controlTarjetas.buscador.value });
   });
-  controlTarjetas.peso.addEventListener("click", (event) => {
-    let prevState = controlTarjetas.state.buscador;
-    let newState = "";
-    event.target.classList.toggle("btn-active");
-    let value;
-    const botones = getSiblings(event.target, true);
-    botones.forEach((el) => {
-      value = el.getAttribute("data-filter-weight");
-      if (el.classList.contains("btn-active") && !prevState.includes(value))
-        newState += value + " ";
-      else prevState = prevState.replace(value, "");
-    });
 
-    newState = (prevState + newState).trim();
-    controlTarjetas.setState({ buscador: newState });
-  });
-  controlTarjetas.serif.addEventListener("click", (event) => {
-    let prevState = controlTarjetas.state.buscador;
-    let newState = "";
-    event.target.classList.toggle("btn-active");
-    let value;
-    const botones = getSiblings(event.target, true);
-    botones.forEach((el) => {
-      value = el.getAttribute("data-filter-serif");
-      if (el.classList.contains("btn-active") && !prevState.includes(value))
-        newState += value + " ";
-      else prevState = prevState.replace(value, "");
-    });
-    prevState;
-    newState = prevState + " " + newState;
-    controlTarjetas.setState({ buscador: newState });
-  });
-  controlTarjetas.colores.addEventListener("change", (event) => {
-    let prevState = controlTarjetas.state.buscador;
-    let newState = event.target.value;
-    const options = [].slice.apply(event.target.options);
-    options.forEach((el) => {
-      if (prevState.includes(el.value)) {
-        prevState = prevState.replace(el.value, "");
-      }
-    });
-    newState = prevState.trim() + " " + newState;
-    controlTarjetas.setState({ buscador: newState });
-  });
+  const clickButtonFilter = (e) => {
+    const state = JSON.parse(JSON.stringify(controlTarjetas.state));
+    const { filters } = state;
+    const filtersCopy = JSON.parse(JSON.stringify(filters));
+    let filter;
+
+    filter = e.target.dataset.filter;
+    e.target.classList.toggle("btn-active");
+
+    if (filtersCopy.includes(filter)) {
+      filtersCopy.splice(filtersCopy.indexOf(filter), 1);
+    } else {
+      filtersCopy.push(filter);
+    }
+
+    console.log(filtersCopy);
+    controlTarjetas.setState({ filters: filtersCopy });
+  };
+
+  const filterInputChange = (e) => {
+    const filter = e.target.dataset.filter;
+
+    controlTarjetas.setState({ [filter]: e.target.value });
+  };
+
+  controlTarjetas.peso.addEventListener("click", clickButtonFilter);
+  controlTarjetas.serif.addEventListener("click", clickButtonFilter);
+  controlTarjetas.colores.addEventListener("change", filterInputChange);
+  controlTarjetas.sectores.addEventListener("change", filterInputChange);
 
   controlTarjetas.render();
 
@@ -133,6 +208,21 @@ const cardsControl = async () => {
     el = utils.createElement("option", { innerHTML: color, value: color });
     controlTarjetas.colores.appendChild(el);
   });
+
+  return utils.createElement("div", { className: "mx-3" }, [
+    utils.createElement(
+      "div",
+      { className: "flex bg-gray-100 rounded-xl my-3" },
+      [controlTarjetas.buscador, utils.createElementFromHTML(botonBuscador)]
+    ),
+    utils.createElement("div", { className: "flex" }, [
+      controlTarjetas.peso,
+      controlTarjetas.serif,
+      controlTarjetas.sectores,
+      controlTarjetas.colores,
+    ]),
+    controlTarjetas.elementoPadre,
+  ]);
 };
 
 /**
@@ -209,4 +299,4 @@ const loginForm = utils.createElementFromHTML(
   </div>`
 );
 
-export { cardsControl, crearPagina };
+export { cardsControl, crearPagina, loginForm };
