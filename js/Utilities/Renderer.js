@@ -1,9 +1,9 @@
-import {controlPanel} from '../Components/Panel.js'
-import {cardsControl} from '../Views/Views.js'
+import { controlPanel } from "../Components/Panel.js";
+import { viewsContainer } from "../Views/ViewsContainer.js";
 
 window.addEventListener("DOMContentLoaded", (e) => {
   controlPanel();
-  cardsControl();
+  viewsContainer.init();
 });
 
 /**
@@ -34,4 +34,4 @@ Modificador.prototype.addElements = function (ids) {
     this[key] = document.getElementById(ids[key]);
   }
 };
-export {Modificador};
+export { Modificador };
