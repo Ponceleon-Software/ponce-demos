@@ -150,7 +150,7 @@ const cardsControl = async () => {
      */
     const matchFilters = (tarjeta) => {
       return (
-        tarjeta.titulo.includes(buscador) &&
+        tarjeta.titulo.toLowerCase().includes(buscador.toLowerCase()) &&
         filters.every((filter) => tarjeta.keyword.includes(filter)) &&
         (!sectores || tarjeta.sectores.includes(sectores)) &&
         (!colores || tarjeta.colores.includes(colores))
@@ -230,13 +230,15 @@ const cardsControl = async () => {
  * VISTA DE CREAR PÁGINA
  * */
 
-const crearPagina = utils.createElementFromHTML(
+const crearPagina = {
+  elementoPadre: utils.createElementFromHTML(
   `<div  class="relative px-6 pt-32 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start">
   <h2 class="font-sans text-4xl absolute top-12 text-black font-bold"> Bienvenido </h2>
   <div class="mt-5 px-2 py-2 card">
     <div class="form-control">
       <input
         type="text"
+        id="pd-name-new-post"
         placeholder="Nombre para su nuevo sitio"
         class="text-left input input-lg input-bordered w-96"
       />
@@ -264,12 +266,15 @@ const crearPagina = utils.createElementFromHTML(
         </p>
       </div>
       <div class="mt-5">
-        <button class="btn w-96 bg-black text-white hover:bg-gray-700">Continuar</button>
+        <button id="pd-create-post" class="btn w-96 bg-black text-white hover:bg-gray-700">Continuar</button>
       </div>
     </div>
   </div>
 </div>`
-);
+  ),
+  post: 0,
+};
+
 const loginForm = utils.createElementFromHTML(
   `<div class="relative px-6 pt-32 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start" >
     <h2 class="font-sans text-4xl absolute top-12 text-black font-bold"> ¿Tienes Cuenta? </h2>
