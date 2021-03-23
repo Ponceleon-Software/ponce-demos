@@ -63,6 +63,14 @@ permaturuit.
  ┗ 📜ponce-demos.php
 
 ```
+
+### Futures Features
+#### Panel en Elementor
+- Incluir boton en panel de elementor
+- En caso que un administrador esté editando una página, incluir botón P que abra el panel lateral. Este panel permitirá navegar entre los diseños para instalar el mismo en la edición de página actual, conservando los valores del content actual
+
+<img src="https://user-images.githubusercontent.com/20848715/112188781-ace84780-8bd9-11eb-8906-b1d774801dd3.png" data-canonical-src="https://user-images.githubusercontent.com/20848715/112188781-ace84780-8bd9-11eb-8906-b1d774801dd3.png" width="200" height="auto" />
+
 ### Contributors
 * [José Ponceleón](https://github.com/ponceleon "@ponceleon") **(Director)**
 * [Cesar Pérez](https://github.com/cesaraugp "@cesaraugp") **(Developer)**
