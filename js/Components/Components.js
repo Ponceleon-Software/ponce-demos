@@ -1,5 +1,5 @@
-import {Modificador} from '../Utilities/Renderer.js'
-import {utils} from '../Utilities/utilities.js'
+import { Modificador } from "../Utilities/Renderer.js";
+import { utils } from "../Utilities/utilities.js";
 
 /**
  * Encapsula funcionalidad compartida entre todoslos componentes
@@ -27,9 +27,11 @@ Componente.prototype.render = function () {
   });
 
   if (children.length > template.length) {
+    const deleteArr = [];
     for (let i = template.length; i < children.length; i++) {
-      this.elementoPadre.removeChild(children[i]);
+      deleteArr.push(children[i]);
     }
+    deleteArr.forEach((value) => this.elementoPadre.removeChild(value));
   }
 };
 
@@ -96,4 +98,4 @@ LockeableSwitch.prototype.setChecked = function (checked) {
   this.input.checked = checked;
 };
 
-export {LockeableSwitch};
+export { LockeableSwitch, Componente };
