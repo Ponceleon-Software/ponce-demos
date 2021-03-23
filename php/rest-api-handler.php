@@ -48,7 +48,7 @@ class Rest_Api_Handler {
     ));
 
     register_rest_route( 'ponce-demos/v2', '/new_site/(?P<demo>[0-9]+)', array(
-      'methods' => 'GET',
+      'methods' => 'POST',
       'callback' => array( $this , 'create_post_endpoint'),
     ));
 
