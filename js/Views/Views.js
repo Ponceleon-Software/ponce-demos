@@ -81,7 +81,7 @@ const cardsControl = async () => {
       Serif
     </button>
     <button
-      class="btn btn-xs font-normal font-sans"
+      class="btn btn-xs font-normal "
       data-filter="Sin serifa"
     >
       Sans Serif
@@ -233,8 +233,15 @@ const cardsControl = async () => {
 
 const crearPagina = {
   elementoPadre: utils.createElementFromHTML(
-    `<div  class="relative px-6 pt-32 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start">
-  <h2 class="font-sans text-4xl absolute top-12 text-black font-bold"> Bienvenido </h2>
+    `<div  class="relative px-6 pt-4 pb-20 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start align-start">
+    <div class="flex flex-start w-full" id="pd-go-back">
+      <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+      </button>
+    </div>
+  <h2 class=" text-4xl text-black font-bold"> Bienvenido </h2>
   <div class="mt-5 px-2 py-2 card">
     <div class="form-control">
       <input
@@ -255,13 +262,13 @@ const crearPagina = {
         </button>
       </div>
       <div class="mt-5">
-        <p class="font-sans text-1xl">
+        <p class=" text-1xl">
           ¿Te gustaría que un Técnico Profesional se encargue de la
           construcción de tu sitio web?
         </p>
       </div>
       <div class="mt-5">
-        <p class="font-sans text-1xl">
+        <p class=" text-1xl">
           Si eliges un Técnico, recibirás una llamada para asistirte en el
           proceso.
         </p>
@@ -279,9 +286,13 @@ const crearPagina = {
 
 (function initCrearPagina() {
   const viewCreate = crearPagina.elementoPadre;
-
+  const botonVolver = viewCreate.querySelector("#pd-go-back");
   const botonCrear = viewCreate.querySelector("#pd-create-post"),
     inputName = viewCreate.querySelector("#pd-name-new-post");
+
+  botonVolver.onclick = () => {
+    viewsContainer.changeView("demos");
+  };
 
   botonCrear.onclick = async (e) => {
     if (crearPagina.post === 0 || crearPagina.wait) return;
@@ -354,7 +365,7 @@ const successPage = {
 
 const loginForm = utils.createElementFromHTML(
   `<div class="relative px-6 pt-32 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start" >
-    <h2 class="font-sans text-4xl absolute top-12 text-black font-bold"> ¿Tienes Cuenta? </h2>
+    <h2 class=" text-4xl absolute top-12 text-black font-bold"> ¿Tienes Cuenta? </h2>
     <div class="mt-2 px-10 py-2 card mb-6">
       <div class="flex flex-col justify-between">
         <a id="google-button" class="btn bg-black text-white  hover:bg-gray-700 mb-3 flex justify-start ">
@@ -367,7 +378,7 @@ const loginForm = utils.createElementFromHTML(
       </div>
         
       </div>
-        <h2 class="font-sans text-2xl text-black font-bold text-center"> O, Regístrate para Continuar </h2>
+        <h2 class=" text-2xl text-black font-bold text-center"> O, Regístrate para Continuar </h2>
           <div class="px-2 py-2 card mb-2 mt-2">
             <div class="flex flex-col mt-3 justify-between">
               <a id="google-button" class="btn bg-black text-white  hover:bg-gray-700 mb-3 flex justify-start ">
