@@ -1,10 +1,11 @@
-import { utils, wpRestApiPost } from "../Utilities/utilities.js";
-import { cardsControl, crearPagina, loginForm } from "./Views.js";
+import { utils } from "../Utilities/utilities.js";
+import { cardsControl, successPage, crearPagina, loginForm } from "./Views.js";
 
 const viewsContainer = {
   container: document.getElementById("pa-lateral-deslizable"),
   demos: utils.createElementFromHTML("<h2>ToDo pantalla de carga aquí</h2>"),
-  createPage: crearPagina,
+  createPage: crearPagina.elementoPadre,
+  success: successPage.elementoPadre,
   login: loginForm,
   init: async () => {
     viewsContainer.container.innerHTML = "";
@@ -29,32 +30,15 @@ const viewsContainer = {
   },
   createPageFrom: (idPage) => {
     console.log(idPage);
-    const viewCreate = viewsContainer.createPage;
 
-    const botonCrear = viewCreate.querySelector("#pd-create-post"),
-      inputName = viewCreate.querySelector("#pd-name-new-post");
-
-    botonCrear.onclick = async (e) => {
-      botonCrear.onclick = null;
-
-      let params = {};
-      if (inputName.value) {
-        params["post_title"] = inputName.value;
-      }
-
-      console.log(params);
-      const res = await wpRestApiPost(`new_site/${idPage}`, params);
-
-      if (res.ok) {
-        console.log(await res.json());
-      } else {
-        console.log("Error");
-      }
-
-      viewsContainer.changeView("demos");
-    };
+    crearPagina.post = idPage;
 
     viewsContainer.changeView("createPage");
+  },
+  showSuccessPage: (urlRedirect) => {
+    successPage.urlRedirect = urlRedirect;
+
+    viewsContainer.changeView("success");
   },
 };
 

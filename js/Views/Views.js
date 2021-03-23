@@ -1,7 +1,8 @@
 import { wpRestApi } from "../Utilities/utilities.js";
 import { Componente } from "../Components/Components.js";
 import { createAllCards } from "../Components/Cards.js";
-import { utils } from "../Utilities/utilities.js";
+import { utils, wpRestApiPost } from "../Utilities/utilities.js";
+import { viewsContainer } from "./ViewsContainer.js";
 
 /**
  * Controla la salida de las tarjetas y la manera en que se van a mostrar
@@ -232,7 +233,7 @@ const cardsControl = async () => {
 
 const crearPagina = {
   elementoPadre: utils.createElementFromHTML(
-  `<div  class="relative px-6 pt-32 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start">
+    `<div  class="relative px-6 pt-32 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start">
   <h2 class="font-sans text-4xl absolute top-12 text-black font-bold"> Bienvenido </h2>
   <div class="mt-5 px-2 py-2 card">
     <div class="form-control">
@@ -273,6 +274,82 @@ const crearPagina = {
 </div>`
   ),
   post: 0,
+  wait: false,
+};
+
+(function initCrearPagina() {
+  const viewCreate = crearPagina.elementoPadre;
+
+  const botonCrear = viewCreate.querySelector("#pd-create-post"),
+    inputName = viewCreate.querySelector("#pd-name-new-post");
+
+  botonCrear.onclick = async (e) => {
+    if (crearPagina.post === 0 || crearPagina.wait) return;
+
+    crearPagina.wait = true;
+
+    let params = {};
+    if (inputName.value) {
+      params["post_title"] = inputName.value;
+    }
+
+    console.log(params);
+    const res = await wpRestApiPost(`new_site/${crearPagina.post}`, params);
+
+    crearPagina.post = 0;
+
+    if (res.ok) {
+      const urlPost = await res.json();
+      console.log(urlPost);
+      if (urlPost) {
+        viewsContainer.showSuccessPage(urlPost);
+      } else {
+        viewsContainer.changeView("demos");
+      }
+    } else {
+      console.log("Error");
+      viewsContainer.changeView("demos");
+    }
+
+    crearPagina.wait = false;
+  };
+})();
+
+const successPage = {
+  elementoPadre: utils.createElementFromHTML(
+    `<div class=" relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
+      <h2 class=" text-4xl absolute top-12 text-black font-bold">Felicitaciones</h2>
+
+      <div class="mt-5 mb-4 px-2 py-2 card">
+        <div class="">
+          <img src="../assets/svg/check_circle-black-48dp.svg" class="w-36 h-36 m-auto mt-4" />
+        
+        </div>
+        <div class="mt-4">
+          <p class=" text-1xl text-justify">
+           Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea nulla impedit vero ad doloribus possimus, facere accusantium illo sequi dolore ab deserunt, consequatur perferendis ullam placeat eligendi? Maiores, expedita laudantium!
+           Dolor nesciunt perspiciatis magni architecto nostrum distinctio error delectus blanditiis, reiciendis 
+
+          </p>
+        </div>
+        <div class="mt-5">
+          <a id="pd-edit-new-page" target="_blank" class="btn w-96 bg-black text-white hover:bg-gray-700">Editar mi Página Web</a>
+        </div>
+      </div>
+    </div>`
+  ),
+  set urlRedirect(url) {
+    const buttonEdit = successPage.elementoPadre.querySelector(
+      "#pd-edit-new-page"
+    );
+    buttonEdit.href = url;
+  },
+  get urlRedirect() {
+    const buttonEdit = successPage.elementoPadre.querySelector(
+      "#pd-edit-new-page"
+    );
+    return buttonEdit.href;
+  },
 };
 
 const loginForm = utils.createElementFromHTML(
@@ -304,4 +381,4 @@ const loginForm = utils.createElementFromHTML(
   </div>`
 );
 
-export { cardsControl, crearPagina, loginForm };
+export { cardsControl, successPage, crearPagina, loginForm };
