@@ -161,7 +161,7 @@ const createAllCards = (settings) => {
     const tarjeta = new TarjetaConfiguracion(value);
     tarjeta.addKeyWords(value.sectores);
     tarjeta.addKeyWords(value.name);
-    tarjeta.addKeyWords(value.tipografia[0]);
+    tarjeta.addKeyWords(value.tipografia[0].split(","));
     return tarjeta;
   });
 };

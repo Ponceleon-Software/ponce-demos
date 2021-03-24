@@ -1,12 +1,14 @@
 import { utils } from "../Utilities/utilities.js";
-import { cardsControl, successPage, crearPagina, loginForm } from "./Views.js";
+import { cardsControl, successPage, crearPagina, unloggedPage, loginPage, signupPage } from "./Views.js";
 
 const viewsContainer = {
   container: document.getElementById("pa-lateral-deslizable"),
   demos: utils.createElementFromHTML("<h2>ToDo pantalla de carga aquí</h2>"),
   createPage: crearPagina.elementoPadre,
   success: successPage.elementoPadre,
-  login: loginForm,
+  unlogged: unloggedPage,
+  login: loginPage,
+  signup: signupPage,
   init: async () => {
     viewsContainer.container.innerHTML = "";
 
@@ -17,6 +19,14 @@ const viewsContainer = {
     viewsContainer.container.innerHTML = "";
 
     viewsContainer.container.appendChild(viewsContainer.demos);
+
+    const vistasSinDemos = [ "createPage", "success", "unlogged", "login", "signup" ];
+    vistasSinDemos
+      .map( val => viewsContainer[val] )
+      .forEach(val => {
+        const botonVolver = val.querySelector(".pd-go-back");
+        botonVolver.addEventListener( "click", () => viewsContainer.changeView("demos") );
+      });
   },
   changeView: (pageName) => {
     if (
@@ -29,11 +39,13 @@ const viewsContainer = {
     }
   },
   createPageFrom: (idPage) => {
-    console.log(idPage);
-
     crearPagina.post = idPage;
 
-    viewsContainer.changeView("createPage");
+    if(window.demo.user === "1"){
+      viewsContainer.changeView("createPage");
+    }else{
+      viewsContainer.changeView("unlogged");
+    }
   },
   showSuccessPage: (urlRedirect) => {
     successPage.urlRedirect = urlRedirect;

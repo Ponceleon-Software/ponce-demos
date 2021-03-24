@@ -57,6 +57,7 @@ class Plugin {
     $this->rest_api_handler = new Rest_Api_Handler();
 
     add_action('admin_enqueue_scripts', [$this, 'enqueue_demos_iframe'] );
+    add_action('wp_enqueue_scripts', [$this, 'enqueue_demos_iframe'] );
 
 	}
 
@@ -73,6 +74,7 @@ class Plugin {
     
     $data = array( 
       'pluginsUrl' => PONCE_DEMOS_URL,
+      'user' => is_user_logged_in(),
     );
 
     wp_localize_script( 'main', 'demo', $data );
