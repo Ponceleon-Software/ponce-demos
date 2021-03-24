@@ -93,3 +93,7 @@ body {
   left: 0;
   background-color: rgb(255, 255, 255);
 }
+
+.child-list {
+  background-color: rgb(255, 255, 255);
+}
