@@ -74,7 +74,7 @@ class Plugin {
     
     $data = array( 
       'pluginsUrl' => PONCE_DEMOS_URL,
-      'user' => wp_get_current_user()->exists(),
+      'user' => is_user_logged_in(),
     );
 
     wp_localize_script( 'main', 'demo', $data );
