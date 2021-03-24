@@ -19,6 +19,13 @@ class Rest_Api_Handler {
   public $pages_manager;
 
   /**
+   *Guarda el manager que se encarga de modificar los usuarios
+   *
+   *@var Users_Manager
+   */
+  public $users_manager;
+
+  /**
 	 * Constructor de la clase.
 	 *
 	 * Inicializa las rutas de la api rest.
@@ -29,6 +36,7 @@ class Rest_Api_Handler {
 
     $this->json_manager = new Json_Manager();
     $this->pages_manager = new Pages_Manager();
+    $this->users_manager = new Users_Manager();
     
     add_action( 'rest_api_init', [$this, 'register_all_endpoints'] );
 
@@ -52,6 +60,45 @@ class Rest_Api_Handler {
       'callback' => array( $this , 'create_post_endpoint'),
     ));
 
+    register_rest_route( 'ponce-demos/v2', 'register', array(
+      'methods' => 'POST',
+      'callback' => array( $this , 'create_user_and_login' ),
+    ));
+
+    register_rest_route( 'ponce-demos/v2', 'login', array(
+      'methods' => 'POST',
+      'callback' => array( $this , 'login_user' ),
+    ));
+
+  }
+
+  public function login_user ( $request ){
+
+      $username = $request->get_param( 'username' );
+      $password = $request->get_param( 'password' );
+
+      return $users_manager->login( $username, $password );
+
+  }
+
+  /**
+   * Crea un usuario e inicia sesión
+   *
+   * @param WP_Rest_Request
+   * 
+   * @return boolean|string True si el usuario está loggeado. Si hay algún
+   * error se devuelve el respectivo mensaje
+   */
+  public function create_user_and_login ( $request ){
+
+    $username = $request->get_param( 'username' );
+    $email = $request->get_param( 'email' );
+    $password = $request->get_param( 'password' );
+    $phone_number = $request->get_param( 'phone_number' );
+
+    $phone_number = $phone_number ? $phone_number : '';
+
+    return $users_manager->register_user( $username, $email, $password, $phone_number );
   }
 
   /**
