@@ -131,15 +131,6 @@ const cardsControl = async () => {
   controlTarjetas.sectores = utils.createElementFromHTML(selectSectores);
   controlTarjetas.colores = utils.createElementFromHTML(selectColores);
 
-  /*controlTarjetas.addElements({
-    elementoPadre: "pa-container-config",
-    buscador: "pa-buscador-config",
-    peso: "pa-weight-config",
-    serif: "pa-serif-config",
-    sectores: "pa-sectors-config",
-    colores: "pa-colors-config",
-  });*/
-
   controlTarjetas.template = () => {
     const state = JSON.parse(JSON.stringify(controlTarjetas.state));
     const { buscador, filters, sectores, colores } = state;
@@ -240,7 +231,7 @@ const cardsControl = async () => {
 const crearPagina = {
   elementoPadre: utils.createElementFromHTML(
     `<div  class="relative px-6 pt-4 pb-20 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start align-start">
-    <div class="flex flex-start w-full" id="pd-go-back">
+    <div class="flex flex-start w-full pd-go-back">
       <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -292,13 +283,8 @@ const crearPagina = {
 
 (function initCrearPagina() {
   const viewCreate = crearPagina.elementoPadre;
-  const botonVolver = viewCreate.querySelector("#pd-go-back");
   const botonCrear = viewCreate.querySelector("#pd-create-post"),
     inputName = viewCreate.querySelector("#pd-name-new-post");
-
-  botonVolver.onclick = () => {
-    viewsContainer.changeView("demos");
-  };
 
   botonCrear.onclick = async (e) => {
     if (crearPagina.post === 0 || crearPagina.wait) return;
@@ -335,6 +321,13 @@ const crearPagina = {
 const successPage = {
   elementoPadre: utils.createElementFromHTML(
     `<div class=" relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
+      <div class="flex flex-start w-full pd-go-back">
+        <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+        </button>
+      </div>
       <h2 class=" text-4xl absolute top-12 text-black font-bold">Felicitaciones</h2>
 
       <div class="mt-5 mb-4 px-2 py-2 card">
@@ -369,15 +362,22 @@ const successPage = {
   },
 };
 
-const loginForm = utils.createElementFromHTML(
+const unloggedPage = utils.createElementFromHTML(
   `<div class="relative px-6 pt-32 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start" >
+    <div class="flex flex-start w-full pd-go-back">
+      <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+      </button>
+    </div>
     <h2 class=" text-4xl absolute top-12 text-black font-bold"> ¿Tienes Cuenta? </h2>
     <div class="mt-2 px-10 py-2 card mb-6">
       <div class="flex flex-col justify-between">
         <a id="google-button" class="btn bg-black text-white  hover:bg-gray-700 mb-3 flex justify-start ">
           <img src="../assets/svg/google.svg" class="w-6 h-6 mx-5 colorize-white">Google Social Login
         </a>
-        <button class="btn bg-gray-100 text-black mb-3 flex justify-start w-96" >
+        <button id="pd-login-page-button" class="btn bg-gray-100 text-black mb-3 flex justify-start w-96" >
           <img src="../assets/img/logo-ponceleon.svg" class="w-8 h-8 ml-4 mr-4  " />
            Sí, Iniciar Sesión
         </button>
@@ -390,7 +390,7 @@ const loginForm = utils.createElementFromHTML(
               <a id="google-button" class="btn bg-black text-white  hover:bg-gray-700 mb-3 flex justify-start ">
                 <img src="../assets/svg/google.svg" class="w-6 h-6 mx-5 colorize-white">Google Social Login
               </a>   
-              <button class="btn bg-gray-100 text-black mb-3 flex justify-start w-96" >
+              <button id="pd-signup-page-button" class="btn bg-gray-100 text-black mb-3 flex justify-start w-96" >
               <img src="../assets/img/logo-ponceleon.svg" class="w-8 h-8 ml-4 mr-4  " /> Continuar
               </button>
             </div>
@@ -398,4 +398,130 @@ const loginForm = utils.createElementFromHTML(
   </div>`
 );
 
-export { cardsControl, successPage, crearPagina, loginForm };
+(function initUnloggedPage() {
+  const buttonLogin = unloggedPage.querySelector("#pd-login-page-button"),
+    buttonSignup = unloggedPage.querySelector("#pd-signup-page-button");
+
+  buttonLogin.addEventListener("click", (e) => viewsContainer.changeView("login"));
+  buttonSignup.addEventListener("click", (e) => viewsContainer.changeView("signup"))
+})()
+
+const loginPage = utils.createElementFromHTML( 
+  `<div class="relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
+    <div class="flex flex-start w-full pd-go-back">
+      <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+      </button>
+    </div>
+    <h2 class=" text-4xl absolute top-12 text-black font-bold">Continuar...</h2>
+
+    <div class="mt-5 mb-4 px-2 py-2 card">
+            
+      <form class="mt-4">
+        <div class="mt-20">
+                   
+          <input
+            name="username"
+            type="text"
+            placeholder="Usuario o Correo electrónico"
+            class="text-left input input-xm input-bordered w-96"
+          />
+
+        </div>
+        <div class="mt-5">
+                   
+          <input
+            name="password"
+            type="password"
+            placeholder="Contraseña"
+            class="text-left input input-xm input-bordered w-96"
+          />
+        </div>
+      </form>
+      <div class="mt-5">
+        <button class="mt-1 mb-32 btn w-96 bg-black text-white hover:bg-gray-700">Iniciar sesión</button>
+      </div>
+    </div>
+  </div>` 
+);
+
+const signupPage = utils.createElementFromHTML( 
+  `<div class="relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
+    <div class="flex flex-start w-full pd-go-back">
+      <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+      </button>
+    </div>
+      <h2 class=" text-4xl absolute top-12 text-black font-bold">Registrarme</h2>
+
+      <div class="mt-2 mb-4 px-2 py-2 card">
+            
+        <form class="mt-2">
+          <div class="mt-20">
+                   
+            <input
+              name="name"
+              type="text"
+              placeholder="Nombre Completo"
+              class="text-left input input-bordered w-96"
+            />
+          </div>
+          <div class="mt-3">
+                   
+            <input
+              name="email"
+              type="email"
+              placeholder="Correo Electrónico"
+              class="text-left input  input-bordered w-96"
+            />
+          </div>
+          <div class="mt-3">
+            <input
+              name="phone"
+              type="number"
+              placeholder="Número de teléfono"
+              class="text-left input input-bordered w-96"
+            />
+          </div>
+
+          <div class="mt-3 flex justify-around">
+            <input
+              name="password"
+              type="password"
+              placeholder="Contraseña"
+              class="text-left input input-bordered"
+              style="width: 11.9rem"
+            />
+            <input
+              name="password"
+              type="password"
+              placeholder="Repetir Contraseña"
+              class="text-left input input-bordered"
+              style="width: 11.9rem"
+            />
+          </div>
+          <div class="mt-3 w-56">
+            <label class=" text-1xl font-bold cursor-pointer justify-start px-1 pl-0 py-2 flex justify-between ">
+              <div>
+                <input type="checkbox" checked="checked" class="checkbox"> 
+                <span class="checkbox-mark"></span>
+              </div>
+              <span class="">Términos y Condiciones</span> 
+                  
+            </label>
+          </div>
+                
+        </form>
+        <div class="mt-1">
+          <button class="mt-1 mb-2 btn w-96 bg-black text-white hover:bg-gray-700">Continuar</button>
+        </div>
+      </div>
+    </div>
+  </div>`
+);
+
+export { cardsControl, successPage, crearPagina, unloggedPage, loginPage, signupPage };
