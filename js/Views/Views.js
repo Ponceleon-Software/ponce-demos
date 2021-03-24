@@ -105,7 +105,25 @@ const cardsControl = async () => {
   >
   <option disabled="disabled" selected="selected">colores</option>
   <option value="">Todos</option>
-  </select>`;
+  </select>`,
+    gridOrList = ` <div class="btn-group ml-auto my-auto " id="pa-serif-config">
+    <label class="cursor-pointer label">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px">
+      <path d="M0 0h24v24H0z" fill="none"/><path d="M20 13H3c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h17c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm0-10H3c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h17c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1z"/>
+      </svg>
+          <div>
+            <input type="checkbox" checked="checked" class="toggle"> 
+            <span class="toggle-mark"></span>
+          </div>
+       
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px"><path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M4 11h5V5H4v6zm0 7h5v-6H4v6zm6 0h5v-6h-5v6zm6 0h5v-6h-5v6zm-6-7h5V5h-5v6zm6-6v6h5V5h-5z"/>
+      </svg>
+    </label>
+ </div>
+
+   
+    `;
   //#endregion
 
   const controlTarjetas = new Componente();
@@ -130,6 +148,7 @@ const cardsControl = async () => {
   controlTarjetas.serif = utils.createElementFromHTML(serif);
   controlTarjetas.sectores = utils.createElementFromHTML(selectSectores);
   controlTarjetas.colores = utils.createElementFromHTML(selectColores);
+  controlTarjetas.gridOrList = utils.createElementFromHTML(gridOrList);
 
   controlTarjetas.template = () => {
     const state = JSON.parse(JSON.stringify(controlTarjetas.state));
@@ -183,6 +202,39 @@ const cardsControl = async () => {
     controlTarjetas.setState({ filters: filtersCopy });
   };
 
+  const clickButtonView = (e) => {
+    const toggleCSSclasses = (el, ...cls) =>
+      cls.map((cl) => el.classList.toggle(cl)); //Función para hacer toggle a varias clases, VIVA ES6 CARALHO
+    const container = document.getElementById("pa-container-config"); //Grid de tarjetas
+    const parents = document.querySelectorAll(".parent"); //Contenedor de BG de tarjeta
+    toggleCSSclasses(
+      container,
+      "grid-cols-2",
+      "xl:grid-cols-3", //remove
+      "grid-cols-1",
+      "xl:grid-cols-1"
+    ); //add
+    parents.forEach((parent, i, p) => {
+      const child = parent.childNodes[0]; //Elemento que se muestra al hacer hover
+      const childImg = child.childNodes[0]; //Imagen fullsize del hover
+      const childDiv = child.childNodes[1]; //Contenedor de elementos
+      const childDivText = childDiv.childNodes[0]; // Nombre del demo
+      parent.classList.toggle("h-32");
+      child.classList.toggle("child-list"); //add
+      childImg.classList.toggle("ml-18");
+      child.classList.toggle("child"); //remove
+      toggleCSSclasses(
+        childDiv,
+        "flex",
+        "my-auto",
+        "w-9/12",
+        "justify-between"
+      );
+      toggleCSSclasses(childDivText, "flex", "my-auto", "mr-0", "text-3xl");
+    });
+    return;
+  };
+
   const filterInputChange = (e) => {
     const filter = e.target.dataset.filter;
 
@@ -193,6 +245,7 @@ const cardsControl = async () => {
   controlTarjetas.serif.addEventListener("click", clickButtonFilter);
   controlTarjetas.colores.addEventListener("change", filterInputChange);
   controlTarjetas.sectores.addEventListener("change", filterInputChange);
+  controlTarjetas.gridOrList.addEventListener("change", clickButtonView); //Cambiar la vista de grid a lista
 
   controlTarjetas.render();
 
@@ -218,6 +271,7 @@ const cardsControl = async () => {
       controlTarjetas.serif,
       controlTarjetas.sectores,
       controlTarjetas.colores,
+      controlTarjetas.gridOrList,
     ]),
     controlTarjetas.elementoPadre,
   ]);
