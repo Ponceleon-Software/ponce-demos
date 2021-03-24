@@ -5,27 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Paneles</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@0.11.5/dist/styled.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-   <style>
-     .colorize-blue {
-  filter: brightness(1) sepia(1) hue-rotate(140deg) saturate(6);
-}
-     .colorize-white {
-      filter: invert(1) sepia(1) saturate(0) hue-rotate(120deg);
-}
-   </style>
+    <link rel="stylesheet" href="../style/tailwind.css">
+    <link rel="stylesheet" href="../style/daysi.css">
+    <style>
+      .colorize-blue {
+        filter: brightness(1) sepia(1) hue-rotate(140deg) saturate(6);
+      }
+      .colorize-white {
+            filter: invert(1) sepia(1) saturate(0) hue-rotate(120deg);
+      }
+    </style>
   </head>
   <body style="font-family:Roboto,sans-serif;">
+    
     <div class=" bg-gray-200 fixed shadow h-screen p-4 w-full transition-all duration-500 z-50 overflow-auto flex"  >
-      <div class=" relative px-6 pt-4 pb-20 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start align-start"  >
+      <div class="relative px-6 pt-4 pb-20 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start align-start" style="display: none"  >
         <div class="flex flex-start w-full" id="volvercrearsitio" onclick="changeView('demos')">
           <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success"><!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> 
@@ -41,17 +35,17 @@
           <div class="form-control">
             <input
               type="text"
-              placeholder="Nombre para su nuevo sitio"
+              placeholder="Este es un live reloading"
               class="text-left input input-lg input-bordered w-96"
             />
             <div class="flex flex-row mt-3 justify-around">
               <button
-                class="btn bg-black text-white hover:bg-gray-700"
-                style="width: 11.9rem"
+                class="btn bg-red text-white hover:bg-gray-700"
+                style="width: 5.9rem"
               >
-                Crear con ayuda
+                Crear mi sifftiosinayuda
               </button>
-              <button class="btn bg-gray-100 text-black" style="width: 11.9rem">
+              <button class="btn bg-gray-200 text-black" style="width: 11.9rem">
                 Yo me encargo
               </button>
             </div>
@@ -74,7 +68,7 @@
         </div>
       </div>
 
-      <div class=" hidden relative px-6 pt-32 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
+      <div class="relative px-6 pt-32 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start " style="display: none"  >
         <h2 class=" text-4xl absolute top-12 text-black font-bold">
           ¿Tienes Cuenta?
         </h2>
@@ -109,8 +103,9 @@
           </div>
           
       </div>
+      <!----- UPDATE 23/3/21 -->
      
-       <div class="hidden relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
+       <div class="hidden relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start" style="display: none" >
         <h2 class=" text-4xl absolute top-12 text-black font-bold">Felicitaciones</h2>
 
         <div class="mt-5 mb-4 px-2 py-2 card">
@@ -130,8 +125,107 @@
             </div>
         </div>
       </div>
+        
+        <!----- UPDATE 24/3/21 -->
+          
+        <!--INICIAR SESIÓN -->
+        <div class="relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
+        <h2 class=" text-4xl absolute top-12 text-black font-bold">Continuar...</h2>
 
+        <div class="mt-5 mb-4 px-2 py-2 card">
+            
+            <form class="mt-4">
+                <div class="mt-20">
+                   
+                    <input
+                     name="username"
+                      type="text"
+                      placeholder="Usuario o Correo electrónico"
+                      class="text-left input input-xm input-bordered w-96"
+                    />
+                </div>
+                    <div class="mt-5">
+                   
+                    <input
+                     name="password"
+                      type="password"
+                      placeholder="Contraseña"
+                      class="text-left input input-xm input-bordered w-96"
+                    />
+                </div>
+            </form>
+            <div class="mt-5">
+              <button class="mt-1 mb-32 btn w-96 bg-black text-white hover:bg-gray-700">Iniciar sesión</button>
+            </div>
+        </div>
+      </div>
+        <!--REGISTRO -->
+        <div class="relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
+        <h2 class=" text-4xl absolute top-12 text-black font-bold">Registrarme</h2>
 
+        <div class="mt-2 mb-4 px-2 py-2 card">
+            
+            <form class="mt-2">
+                <div class="mt-20">
+                   
+                    <input
+                     name="name"
+                      type="text"
+                      placeholder="Nombre Completo"
+                      class="text-left input input-bordered w-96"
+                    />
+                </div>
+                <div class="mt-3">
+                   
+                    <input
+                     name="email"
+                      type="email"
+                      placeholder="Correo Electrónico"
+                      class="text-left input  input-bordered w-96"
+                    />
+                </div>
+                <div class="mt-3">
+                    <input
+                     name="phone"
+                      type="number"
+                      placeholder="Número de teléfono"
+                      class="text-left input input-bordered w-96"
+                    />
+                </div>
+
+                <div class="mt-3 flex justify-around">
+                  <input
+                     name="password"
+                      type="password"
+                      placeholder="Contraseña"
+                      class="text-left input input-bordered"
+                         style="width: 11.9rem"
+                    />
+                    <input
+                     name="password"
+                      type="password"
+                      placeholder="Repetir Contraseña"
+                      class="text-left input input-bordered"
+                           style="width: 11.9rem"
+                    />
+                </div>
+                <div class="mt-3 w-56">
+                <label class=" text-1xl font-bold cursor-pointer justify-start px-1 pl-0 py-2 flex justify-between ">
+                    <div>
+                    <input type="checkbox" checked="checked" class="checkbox"> 
+                    <span class="checkbox-mark"></span>
+                  </div>
+                  <span class="">Términos y Condiciones</span> 
+                  
+                </label>
+                </div>
+                
+            </form>
+            <div class="mt-">
+              <button class="mt-1 mb-2 btn w-96 bg-black text-white hover:bg-gray-700">Continuar</button>
+            </div>
+        </div>
+      </div>
       </div>
     </div>
     
