@@ -54,24 +54,27 @@ const cardsControl = async () => {
   </svg>
 </button>`,
     peso = `<div class="btn-group my-3" id="pa-weight-config">
-    <button class="btn btn-xs font-light" data-filter="delgada">
+    <button class="btn btn-xs font-light" data-filter="Delgadas" title="Delgadas">
       L
     </button>
     <button
       class="btn btn-xs font-normal italic"
-      data-filter="inclinada"
+      data-filter="Inclinada"
+      title="Inclinadas"
     >
       I
     </button>
     <button
       class="btn btn-xs font-semibold"
-      data-filter="intermedia"
+      data-filter="Intermedias"
+      title="Intermedias"
     >
       B
     </button>
     <button
       class="btn btn-xs font-extrabold"
-      data-filter="gruesa"
+      data-filter="Gruesas"
+      title="Gruesas"
     >
       B+
     </button>
@@ -174,6 +177,9 @@ const cardsControl = async () => {
     let filter;
 
     filter = e.target.dataset.filter;
+
+    if ( !filter ) return;
+
     e.target.classList.toggle("btn-active");
 
     if (filtersCopy.includes(filter)) {

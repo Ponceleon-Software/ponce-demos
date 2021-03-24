@@ -73,6 +73,7 @@ class Plugin {
     
     $data = array( 
       'pluginsUrl' => PONCE_DEMOS_URL,
+      'user' => wp_get_current_user()->exists(),
     );
 
     wp_localize_script( 'main', 'demo', $data );
