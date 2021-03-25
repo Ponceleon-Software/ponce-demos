@@ -77,7 +77,7 @@ class Rest_Api_Handler {
       $username = $request->get_param( 'username' );
       $password = $request->get_param( 'password' );
 
-      return $users_manager->login( $username, $password );
+      return $this->users_manager->login( $username, $password );
 
   }
 
@@ -91,14 +91,21 @@ class Rest_Api_Handler {
    */
   public function create_user_and_login ( $request ){
 
+    $name = $request->get_param( 'name' );
     $username = $request->get_param( 'username' );
     $email = $request->get_param( 'email' );
     $password = $request->get_param( 'password' );
-    $phone_number = $request->get_param( 'phone_number' );
+    $phone_number = $request->get_param( 'phone' );
 
     $phone_number = $phone_number ? $phone_number : '';
 
-    return $users_manager->register_user( $username, $email, $password, $phone_number );
+    if( empty($username) ){
+      $lowername = strtolower( trim( $name ) );
+      $lowername = preg_replace("/\s+/i", "_", $lowername);
+      $username = preg_replace("/[^a-z\d_]/i", "", $lowername);
+    }
+
+    return $this->users_manager->register_user( $username, $email, $password, $name, $phone_number );
   }
 
   /**
