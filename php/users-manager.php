@@ -10,13 +10,14 @@ namespace Ponce_Demos;
 class Users_Manager {
 
   const DATA_IN_USE_MESSAGE = 'Username or Email already exists';
-  const BAD_PARAMETERS_MESSAGE = 'Parametros no validos'; 
+  const BAD_PARAMETERS_MESSAGE = 'Invalid params';
+  const ALREADY_LOGGED_MESSAGE = 'A user is already logged'; 
 
   public function __construct() {}
 
   /**
-   * Crea un usuario a partir de los datos básicos de un formulario e
-   * inicia sesión
+   * Crea un usuario a partir de los datos básicos del formulario 
+   * de ponce-demos e inicia sesión
    * 
    * @param string $username Username del nuevo usuario
    * @param string $email Correo electronico del nuevo usuario
@@ -27,7 +28,11 @@ class Users_Manager {
    * error se devuelve el respectivo mensaje
    * 
    */
-  public function register_user( $username, $email, $password, $phone = '') {
+  public function register_user( $username, $email, $password,  $name = '', $phone = '') {
+
+    if( is_user_logged_in() ){
+      return self::ALREADY_LOGGED_MESSAGE;
+    }
     
     if( 
       !validate_username( $username ) 
@@ -41,12 +46,19 @@ class Users_Manager {
       return self::DATA_IN_USE_MESSAGE;
     }
 
-    $user_id = wp_create_user( $username, $password, $email);
+    $insert_data = array(
+      'user_login' => $username,
+      'user_email' => $email,
+      'user_pass' => $password,
+      'first_name' => $name
+    );
+
+    $user_id = wp_insert_user( $insert_data );
     if( is_wp_error($user_id) ) {
       return $user_id->get_error_message();
     }
 
-    add_user_meta( $user_id, 'phone_number', $phone_number);
+    add_user_meta( $user_id, 'phone_number', $phone);
 
     return $this->login( $username, $password );
   }
@@ -63,7 +75,11 @@ class Users_Manager {
    */
   public function login( $username, $password ){
 
-    if( !validate_username( $username ) || empty( $password ) ){
+    if( is_user_logged_in() ){
+      return self::ALREADY_LOGGED_MESSAGE;
+    }
+
+    if( !(validate_username( $username ) || is_email( $username )) || empty( $password ) ){
       return self::BAD_PARAMETERS_MESSAGE;
     }
 
@@ -79,7 +95,7 @@ class Users_Manager {
       return $user->get_error_message();
     }
 
-    return is_user_logged_in();
+    return $user->ID;
 
   }
 

@@ -473,7 +473,7 @@ const loginPage = utils.createElementFromHTML(
 
     <div class="mt-5 mb-4 px-2 py-2 card">
             
-      <form class="mt-4">
+      <form id="pd-form-login" class="mt-4">
         <div class="mt-20">
                    
           <input
@@ -493,10 +493,10 @@ const loginPage = utils.createElementFromHTML(
             class="text-left input input-xm input-bordered w-96"
           />
         </div>
+        <div class="mt-5">
+          <button type="submit" class="mt-1 mb-32 btn w-96 bg-black text-white hover:bg-gray-700">Iniciar sesión</button>
+        </div>
       </form>
-      <div class="mt-5">
-        <button class="mt-1 mb-32 btn w-96 bg-black text-white hover:bg-gray-700">Iniciar sesión</button>
-      </div>
     </div>
   </div>` 
 );
@@ -514,7 +514,7 @@ const signupPage = utils.createElementFromHTML(
 
       <div class="mt-2 mb-4 px-2 py-2 card">
             
-        <form class="mt-2">
+        <form id="pd-form-signup" class="mt-2">
           <div class="mt-20">
                    
             <input
@@ -551,7 +551,7 @@ const signupPage = utils.createElementFromHTML(
               style="width: 11.9rem"
             />
             <input
-              name="password"
+              name="repeatpassword"
               type="password"
               placeholder="Repetir Contraseña"
               class="text-left input input-bordered"
@@ -561,21 +561,95 @@ const signupPage = utils.createElementFromHTML(
           <div class="mt-3 w-56">
             <label class=" text-1xl font-bold cursor-pointer justify-start px-1 pl-0 py-2 flex justify-between ">
               <div>
-                <input type="checkbox" checked="checked" class="checkbox"> 
+                <input name="terms" type="checkbox" checked="checked" class="checkbox"> 
                 <span class="checkbox-mark"></span>
               </div>
               <span class="">Términos y Condiciones</span> 
                   
             </label>
           </div>
-                
+          <div class="mt-1">
+            <button type="submit" class="mt-1 mb-2 btn w-96 bg-black text-white hover:bg-gray-700">Continuar</button>
+          </div>
         </form>
-        <div class="mt-1">
-          <button class="mt-1 mb-2 btn w-96 bg-black text-white hover:bg-gray-700">Continuar</button>
-        </div>
       </div>
     </div>
   </div>`
 );
+
+(function formsControl() {
+  const loginForm = loginPage.querySelector("#pd-form-login"),
+    signupForm = signupPage.querySelector("#pd-form-signup");
+
+  let procesando = false;
+
+  signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if ( procesando ) return;
+    procesando = true;
+
+    const name = signupForm["name"].value,
+      email = signupForm["email"].value,
+      phone = signupForm["phone"].value,
+      password = signupForm["password"].value,
+      repeatpassword = signupForm["repeatpassword"].value,
+      terms = signupForm["terms"].checked;
+
+    //ToDo validate form here
+    if( !name || !email || !password || password!==repeatpassword){
+      return;
+    }
+
+    const parameters = { name, email, phone, password, terms };
+    const res = await wpRestApiPost("register", parameters);
+
+    if( res.ok ){
+      const resJson = await res.json();
+
+      if( resJson > 0 ){
+        console.log( "Inició sesión" );
+        viewsContainer.changeView( "createPage" );
+      }else{
+        console.log( resJson );
+      }
+    }else{
+      console.log( "Error fatal" );
+    }
+
+    procesando = false;
+  });
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if ( procesando ) return;
+    procesando = true;
+
+    const username = loginForm["username"].value,
+      password = loginForm["password"].value;
+
+    //ToDo validate form here
+    if ( !username || !password ) return;
+
+    const parameters = { username, password };
+    const res = await wpRestApiPost("login", parameters);
+
+    if( res.ok ){
+      const resJson = await res.json();
+
+      if( typeof resJson ==="number" && resJson > 0 ){
+        console.log( "Inició sesión" );
+        viewsContainer.changeView( "createPage" );
+      }else{
+        console.log( resJson );
+      }
+    }else{
+      console.log( "Error fatal" );
+    }
+
+    procesando = false;
+  })
+})();
 
 export { cardsControl, successPage, crearPagina, unloggedPage, loginPage, signupPage };
