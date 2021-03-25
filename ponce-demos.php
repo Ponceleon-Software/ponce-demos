@@ -21,5 +21,6 @@ define( 'PONCE_DEMOS_META_PATH', PONCE_DEMOS_PATH . 'assets/demos/' );
 
 require_once PONCE_DEMOS_PATH . 'php/json-manager.php';
 require_once PONCE_DEMOS_PATH . 'php/pages-manager.php';
+require_once PONCE_DEMOS_PATH . 'php/users_manager.php';
 require_once PONCE_DEMOS_PATH . 'php/rest-api-handler.php';
-require PONCE_DEMOS_PATH . 'php/plugin.php';
+require_once PONCE_DEMOS_PATH . 'php/plugin.php';
