@@ -57,7 +57,7 @@ class Plugin {
     $this->rest_api_handler = new Rest_Api_Handler();
 
     add_action('admin_enqueue_scripts', [$this, 'enqueue_demos_iframe'] );
-    add_action('wp_enqueue_scripts', [$this, 'enqueue_demos_iframe'] );
+    //add_action('wp_enqueue_scripts', [$this, 'enqueue_demos_iframe'] ); 
 
 	}
 
