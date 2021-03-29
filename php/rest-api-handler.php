@@ -53,21 +53,27 @@ class Rest_Api_Handler {
     register_rest_route('ponce-demos/v2', 'demos', array(
       'methods' => 'GET',
       'callback' => array( $this->json_manager, 'get_demos_array' ),
+      'permission_callback' => '__return_true'
     ));
 
     register_rest_route( 'ponce-demos/v2', '/new_site/(?P<demo>[0-9]+)', array(
       'methods' => 'POST',
       'callback' => array( $this , 'create_post_endpoint'),
+      'permission_callback' => function(){
+      	return current_user_can( 'edit_pages' );
+      }
     ));
 
     register_rest_route( 'ponce-demos/v2', 'register', array(
       'methods' => 'POST',
       'callback' => array( $this , 'create_user_and_login' ),
+       'permission_callback' => '__return_true',
     ));
 
     register_rest_route( 'ponce-demos/v2', 'login', array(
       'methods' => 'POST',
       'callback' => array( $this , 'login_user' ),
+       'permission_callback' => '__return_true',
     ));
 
   }
