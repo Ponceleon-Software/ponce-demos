@@ -13,7 +13,8 @@ class Users_Manager
     const DATA_IN_USE_MESSAGE = 'Username or Email already exists';
     const BAD_PARAMETERS_MESSAGE = 'Invalid params';
     const ALREADY_LOGGED_MESSAGE = 'A user is already logged';
-    const SUCCESSFULL_AUTH_MESSAGE = 'Succesfuly Logged in';
+    const SUCCESSFULL_AUTH_MESSAGE = 'Succesful Login';
+    const SUCCESSFULL_REGISTER_MESSAGE = 'Succesful Register';
     const INVALID_USERNAME_MESSAGE = 'Username/Email is not valid or does not exist';
     const INVALID_PASSWORD_MESSAGE = 'Invalid password';
 
@@ -36,8 +37,14 @@ class Users_Manager
     public function register_user($username, $email, $password, $name = '', $phone = '')
     {
 
+        $response_code = 200;
+        $response_message = self::SUCCESSFULL_REGISTER_MESSAGE;
+        $response_body = array("result" => "successful_register");
+        $error = new \WP_Error();
+
         if (is_user_logged_in()) {
-            return self::ALREADY_LOGGED_MESSAGE;
+            $error->add(202, self::ALREADY_LOGGED_MESSAGE, array('result' => "unsuccessful_register"));
+            return $error;
         }
 
         if (
@@ -45,11 +52,14 @@ class Users_Manager
             || !is_email($email)
             || empty($password)
         ) {
-            return self::BAD_PARAMETERS_MESSAGE;
+            $badParam = !validate_username($username) ? 'Username' : !is_email($email) ? 'Email' : 'Password';
+            $error->add(400, self::BAD_PARAMETERS_MESSAGE, array('result' => "unsuccessful_register", 'invalid_param' => $badParam));
+            return $error;
         }
 
         if (username_exists($username) || email_exists($email)) {
-            return self::DATA_IN_USE_MESSAGE;
+            $error->add(400, self::DATA_IN_USE_MESSAGE, array('result' => "unsuccessful_register"));
+            return $error;
         }
 
         $insert_data = array(
@@ -62,7 +72,8 @@ class Users_Manager
 
         $user_id = wp_insert_user($insert_data);
         if (is_wp_error($user_id)) {
-            return $user_id->get_error_message();
+            $error->add(400, $user_id->get_error_message(), array('result' => "unsuccessful_register", 'is_wp_error' => true));
+            return $error;
         }
 
         add_user_meta($user_id, 'phone_number', $phone);
@@ -88,7 +99,7 @@ class Users_Manager
         $error = new \WP_Error();
 
         if (is_user_logged_in()) {
-            $error->add(202, self::ALREADY_LOGGED_MESSAGE, array('result' => "successful_auth"));
+            $error->add(202, self::ALREADY_LOGGED_MESSAGE, array('result' => "unsuccessful_auth"));
             return $error;
             // new \WP_Error( 'unsuccessful_auth',self::ALREADY_LOGGED_MESSAGE, array( 'status' => 202 ) );
         }
@@ -130,41 +141,3 @@ class Users_Manager
     }
 
 }
-/*
-add_action( 'rest_api_init', function () {
-register_rest_route( 'ponce-demos/v2', 'register', array(
-'methods' => 'GET',
-'callback' => 'add_user',
-));
-} );
-
-function add_user($request) {
-$username = $request->get_param( 'username' );
-$email = $request->get_param( 'email' );
-$password = $request->get_param( 'password' );
-
-$username = $username ? $username : 'username';
-$email = $email ? $email : 'false';
-
-$user_id = username_exists( $username );
-if ( !$user_id && email_exists($email) == false ) {
-$user_id = wp_create_user( $username, $password, $email);
-if( !is_wp_error($user_id) ) {
-$phone_number = $request->get_param( 'phone_number' );
-$phone_number = $phone_number ? $phone_number : 'false' ;
-add_user_meta( $user_id, 'phone_number', $phone_number);
-}
-}
-$creds = array(
-'user_login'    => $username,
-'user_password' => $password,
-'remember'      => true
-);
-
-$user = wp_signon( $creds, false );
-
-if ( is_wp_error( $user ) ) {
-echo $user->get_error_message();
-}
-}
- */

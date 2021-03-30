@@ -110,7 +110,9 @@ class Rest_Api_Handler
         $email = $request->get_param('email');
         $password = $request->get_param('password');
         $phone_number = $request->get_param('phone');
-
+        if (empty($username) || empty($password) || empty($email) || empty($phone_number) || empty($name)) {
+            return new \WP_Error(400, "Empty params", array('result' => "unsuccessful_register"));
+        }
         $phone_number = $phone_number ? $phone_number : '';
 
         if (empty($username)) {
