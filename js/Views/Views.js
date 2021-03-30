@@ -54,44 +54,46 @@ const cardsControl = async () => {
   </svg>
 </button>`,
     peso = `<div class="btn-group my-3" id="pa-weight-config">
-    <button class="btn btn-xs font-light" data-filter="Delgadas" title="Delgadas">
+    <button class="btn pt-0 btn-sm font-light sm: p-1" data-filter="Delgadas" title="Delgadas">
       L
     </button>
     <button
-      class="btn btn-xs font-normal italic"
+      class="btn pt-0 btn-sm font-normal italic sm: p-1"
       data-filter="Inclinada"
       title="Inclinadas"
     >
       I
     </button>
     <button
-      class="btn btn-xs font-semibold"
+      class="btn pt-0 btn-sm font-semibold sm: p-1"
       data-filter="Intermedias"
       title="Intermedias"
     >
       B
     </button>
     <button
-      class="btn btn-xs font-extrabold"
+      class="btn pt-0 btn-sm font-extrabold sm: p-1"
+      style="line-height:1.9rem;"
       data-filter="Gruesas"
       title="Gruesas"
     >
       B+
     </button>
   </div>`,
-    serif = `<div class="btn-group my-3 mx-3" id="pa-serif-config">
-    <button class="btn btn-xs font-serif" data-filter="Serifadas">
+    serif = `<div class="btn-group my-3 mx-auto lg:ml-5 lg:mr-14 md:mx-auto" id="pa-serif-config">
+    <button class="btn btn-sm font-serif sm: p-1 text-xs" data-filter="Serifadas">
       Serif
     </button>
     <button
-      class="btn btn-xs font-normal "
+      class="btn btn-sm font-normal sm: p-1 text-xs"
       data-filter="Sin serifa"
     >
       Sans Serif
     </button>
   </div>`,
     selectSectores = `<select
-      class="select select-bordered w-72 my-3 ml-12 select-xs"
+      class="select select-bordered my-3 mx-auto select-sm pl-0 pr-7 md:mx-auto xl:ml-24"
+      style="width:12%;"
       id="pa-sectors-config"
       data-filter="sectores"
     >
@@ -99,7 +101,8 @@ const cardsControl = async () => {
       <option value="">Todos</option>
     </select>`,
     selectColores = `<select
-  class="select select-bordered w-32 my-3 mx-4 select-xs"
+  class="select select-bordered my-3 mx-auto select-sm pl-0 pr-7 md:mx-auto xl:ml-44"
+  style="width:12%;"
   id="pa-colors-config"
   data-filter="colores"
   >
@@ -188,7 +191,7 @@ const cardsControl = async () => {
 
     filter = e.target.dataset.filter;
 
-    if ( !filter ) return;
+    if (!filter) return;
 
     e.target.classList.toggle("btn-active");
 
@@ -456,11 +459,15 @@ const unloggedPage = utils.createElementFromHTML(
   const buttonLogin = unloggedPage.querySelector("#pd-login-page-button"),
     buttonSignup = unloggedPage.querySelector("#pd-signup-page-button");
 
-  buttonLogin.addEventListener("click", (e) => viewsContainer.changeView("login"));
-  buttonSignup.addEventListener("click", (e) => viewsContainer.changeView("signup"))
-})()
+  buttonLogin.addEventListener("click", (e) =>
+    viewsContainer.changeView("login")
+  );
+  buttonSignup.addEventListener("click", (e) =>
+    viewsContainer.changeView("signup")
+  );
+})();
 
-const loginPage = utils.createElementFromHTML( 
+const loginPage = utils.createElementFromHTML(
   `<div class="relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
     <div class="flex flex-start w-full pd-go-back">
       <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
@@ -498,10 +505,10 @@ const loginPage = utils.createElementFromHTML(
         </div>
       </form>
     </div>
-  </div>` 
+  </div>`
 );
 
-const signupPage = utils.createElementFromHTML( 
+const signupPage = utils.createElementFromHTML(
   `<div class="relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
     <div class="flex flex-start w-full pd-go-back">
       <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
@@ -586,7 +593,7 @@ const signupPage = utils.createElementFromHTML(
   signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    if ( procesando ) return;
+    if (procesando) return;
     procesando = true;
 
     const name = signupForm["name"].value,
@@ -597,24 +604,24 @@ const signupPage = utils.createElementFromHTML(
       terms = signupForm["terms"].checked;
 
     //ToDo validate form here
-    if( !name || !email || !password || password!==repeatpassword){
+    if (!name || !email || !password || password !== repeatpassword) {
       return;
     }
 
     const parameters = { name, email, phone, password, terms };
     const res = await wpRestApiPost("register", parameters);
 
-    if( res.ok ){
+    if (res.ok) {
       const resJson = await res.json();
 
-      if( resJson > 0 ){
-        console.log( "Inició sesión" );
-        viewsContainer.changeView( "createPage" );
-      }else{
-        console.log( resJson );
+      if (resJson > 0) {
+        console.log("Inició sesión");
+        viewsContainer.changeView("createPage");
+      } else {
+        console.log(resJson);
       }
-    }else{
-      console.log( "Error fatal" );
+    } else {
+      console.log("Error fatal");
     }
 
     procesando = false;
@@ -623,33 +630,40 @@ const signupPage = utils.createElementFromHTML(
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    if ( procesando ) return;
+    if (procesando) return;
     procesando = true;
 
     const username = loginForm["username"].value,
       password = loginForm["password"].value;
 
     //ToDo validate form here
-    if ( !username || !password ) return;
+    if (!username || !password) return;
 
     const parameters = { username, password };
     const res = await wpRestApiPost("login", parameters);
 
-    if( res.ok ){
+    if (res.ok) {
       const resJson = await res.json();
 
-      if( typeof resJson ==="number" && resJson > 0 ){
-        console.log( "Inició sesión" );
-        viewsContainer.changeView( "createPage" );
-      }else{
-        console.log( resJson );
+      if (typeof resJson === "number" && resJson > 0) {
+        console.log("Inició sesión");
+        viewsContainer.changeView("createPage");
+      } else {
+        console.log(resJson);
       }
-    }else{
-      console.log( "Error fatal" );
+    } else {
+      console.log("Error fatal");
     }
 
     procesando = false;
-  })
+  });
 })();
 
-export { cardsControl, successPage, crearPagina, unloggedPage, loginPage, signupPage };
+export {
+  cardsControl,
+  successPage,
+  crearPagina,
+  unloggedPage,
+  loginPage,
+  signupPage,
+};
