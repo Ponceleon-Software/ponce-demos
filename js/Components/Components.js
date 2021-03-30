@@ -98,4 +98,21 @@ LockeableSwitch.prototype.setChecked = function (checked) {
   this.input.checked = checked;
 };
 
-export { LockeableSwitch, Componente };
+const spinner = {
+  elementoPadre: utils.createElement(
+    "div",
+    {
+      className: "h-full w-full flex items-center justify-center",
+      style: "border-top-color: gray",
+    },
+    [
+      utils.createElement("span", {
+        className:
+          "w-16 h-16 ml-2 rounded-full border-2 border-gray-200 animate-spin",
+        style: "border-top-color: gray",
+      }),
+    ]
+  ),
+};
+
+export { LockeableSwitch, Componente, spinner };
