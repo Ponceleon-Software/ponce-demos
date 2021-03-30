@@ -85,14 +85,14 @@ function TarjetaConfiguracion(options) {
               utils.createElement(
                 "div",
                 {
-                  className: " bg-cover z-10 border-black px-24 py-32  ",
+                  className: " bg-cover z-10 border-black px-24 py-24  ",
                   style: `background-image: url(${this.fullsize})`,
                 },
                 []
               ),
               utils.createElement(
                 "div",
-                { className: "z-10 w-28 border-black pl-3 mt-10 ml-6" },
+                { className: "z-10 w-28 border-black pl-3 mt-5 ml-6" },
                 [
                   utils.createElement("h2", {
                     className:
