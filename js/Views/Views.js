@@ -377,7 +377,7 @@ const crearPagina = {
 
 const successPage = {
   elementoPadre: utils.createElementFromHTML(
-    `<div class=" relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
+    `<div class=" relative px-6 pt-6 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
       <div class="flex flex-start w-full pd-go-back">
         <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success">
@@ -385,7 +385,7 @@ const successPage = {
           </svg>
         </button>
       </div>
-      <h2 class=" text-4xl absolute top-12 text-black font-bold">Felicitaciones</h2>
+      <h2 class=" text-4xl text-black font-bold">Felicitaciones</h2>
 
       <div class="mt-5 mb-4 px-2 py-2 card">
         <div class="">
@@ -420,7 +420,7 @@ const successPage = {
 };
 
 const unloggedPage = utils.createElementFromHTML(
-  `<div class="relative px-6 pt-32 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start" >
+  `<div class="relative px-6 pt-6 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start" >
     <div class="flex flex-start w-full pd-go-back">
       <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success">
@@ -428,7 +428,7 @@ const unloggedPage = utils.createElementFromHTML(
         </svg>
       </button>
     </div>
-    <h2 class=" text-4xl absolute top-12 text-black font-bold"> ¿Tienes Cuenta? </h2>
+    <h2 class=" text-4xl text-black font-bold"> ¿Tienes Cuenta? </h2>
     <div class="mt-2 px-10 py-2 card mb-6">
       <div class="flex flex-col justify-between">
         <a id="google-button" class="btn bg-black text-white  hover:bg-gray-700 mb-3 flex justify-start ">
@@ -468,7 +468,7 @@ const unloggedPage = utils.createElementFromHTML(
 })();
 
 const loginPage = utils.createElementFromHTML(
-  `<div class="relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
+  `<div class="relative px-6 pt-6 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
     <div class="flex flex-start w-full pd-go-back">
       <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success">
@@ -476,7 +476,7 @@ const loginPage = utils.createElementFromHTML(
         </svg>
       </button>
     </div>
-    <h2 class=" text-4xl absolute top-12 text-black font-bold">Continuar...</h2>
+    <h2 class=" text-4xl text-black font-bold">Continuar...</h2>
 
     <div class="mt-5 mb-4 px-2 py-2 card">
             
@@ -509,7 +509,7 @@ const loginPage = utils.createElementFromHTML(
 );
 
 const signupPage = utils.createElementFromHTML(
-  `<div class="relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
+  `<div class="relative px-6 pt-6 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
     <div class="flex flex-start w-full pd-go-back">
       <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success">
@@ -517,7 +517,7 @@ const signupPage = utils.createElementFromHTML(
         </svg>
       </button>
     </div>
-      <h2 class=" text-4xl absolute top-12 text-black font-bold">Registrarme</h2>
+      <h2 class=" text-4xl text-black font-bold">Registrarme</h2>
 
       <div class="mt-2 mb-4 px-2 py-2 card">
             
