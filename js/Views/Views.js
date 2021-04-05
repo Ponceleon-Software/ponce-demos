@@ -109,7 +109,7 @@ const cardsControl = async () => {
   <option disabled="disabled" selected="selected">colores</option>
   <option value="">Todos</option>
   </select>`,
-    gridOrList = ` <div class="btn-group ml-auto my-auto " id="pa-serif-config">
+    gridOrList = ` <div class="btn-group ml-auto my-auto " id="pa-gridOrList-config">
     <label class="cursor-pointer label">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px">
       <path d="M0 0h24v24H0z" fill="none"/><path d="M20 13H3c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h17c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm0-10H3c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h17c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1z"/>
@@ -123,10 +123,12 @@ const cardsControl = async () => {
             <path d="M4 11h5V5H4v6zm0 7h5v-6H4v6zm6 0h5v-6h-5v6zm6 0h5v-6h-5v6zm-6-7h5V5h-5v6zm6-6v6h5V5h-5z"/>
       </svg>
     </label>
- </div>
-
-   
-    `;
+ </div>`,
+    modal = `<div id="myModal" class="modal">
+      <span class="close">&times;</span>
+      <img class="modal-content" id="img01">
+      <div id="caption"></div>
+    </div>`;
   //#endregion
 
   const controlTarjetas = new Componente();
@@ -135,18 +137,22 @@ const cardsControl = async () => {
     filters: [],
     sectores: "",
     colores: "",
+    modal: "",
   };
 
   controlTarjetas.elementoPadre = utils.createElementFromHTML(
     `<div
       class="grid grid-cols-2 xl:grid-cols-3 gap-4"
       id="pa-container-config"
-    ></div>`
+    ></div>
+    `
   );
 
   controlTarjetas.tarjetas = createAllCards(settings);
 
   controlTarjetas.buscador = utils.createElementFromHTML(inputBuscador);
+  controlTarjetas.modal = utils.createElementFromHTML(modal);
+  console.log(controlTarjetas.modal);
   controlTarjetas.peso = utils.createElementFromHTML(peso);
   controlTarjetas.serif = utils.createElementFromHTML(serif);
   controlTarjetas.sectores = utils.createElementFromHTML(selectSectores);
@@ -155,7 +161,7 @@ const cardsControl = async () => {
 
   controlTarjetas.template = () => {
     const state = JSON.parse(JSON.stringify(controlTarjetas.state));
-    const { buscador, filters, sectores, colores } = state;
+    const { buscador, filters, sectores, colores, modal } = state;
 
     /**
      * Función que comprueba cada tarjeta para ver si debe mostrarse con
@@ -277,7 +283,9 @@ const cardsControl = async () => {
       controlTarjetas.gridOrList,
     ]),
     controlTarjetas.elementoPadre,
+    controlTarjetas.modal,
   ]);
+  //Handling para la vista de modal
 };
 
 /**

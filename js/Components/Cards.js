@@ -38,6 +38,35 @@ function TarjetaConfiguracion(options) {
     viewsContainer.createPageFrom(this.idPost);
   });
 
+  this.previewImage = utils.createElement(
+    "div",
+    {
+      className: " bg-cover z-10 border-black px-24 py-24  ",
+      style: `background-image: url(${this.fullsize})`,
+      alt: `${this.titulo}`,
+    },
+    []
+  );
+
+  this.previewImage.addEventListener("click", () => {
+    const style = this.previewImage.style;
+    let url = style.backgroundImage.slice(4, -1).replace(/"/g, "");
+    window.open(url, "_blank").focus();
+    //Modal para Abrir imagen en la misma pestaña (Experimental)
+    /*const modalel = document.getElementById("myModal");
+      const modalImg = document.getElementById("img01");
+      const captionText = document.getElementById("caption");
+      modalel.style.display = "block";
+      modalel.style.visibility = "visible";
+      console.log(this.previewImage.style);
+      const style = this.previewImage.style;
+      let url = style.backgroundImage.slice(4, -1).replace(/"/g, "");
+      console.log(url);
+      modalImg.src = url;
+      captionText.innerHTML ='captiontest' ;*/
+    //Modal para Abrir imagen en la misma pestaña (Experimental)
+  });
+
   /**
    * Muestra una alerta para indicar al usuario si el request fue
    * exitoso o no
@@ -82,14 +111,7 @@ function TarjetaConfiguracion(options) {
               className: "child z-10 flex flex-row border-black",
             },
             [
-              utils.createElement(
-                "div",
-                {
-                  className: " bg-cover z-10 border-black px-24 py-24  ",
-                  style: `background-image: url(${this.fullsize})`,
-                },
-                []
-              ),
+              this.previewImage,
               utils.createElement(
                 "div",
                 { className: "z-10 w-28 border-black pl-3 mt-5 ml-6" },
