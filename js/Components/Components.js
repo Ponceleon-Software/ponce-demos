@@ -112,7 +112,7 @@ const spinnerShow = (component = null, spinnerOptions = {}) => {
     style: "border-top-color: gray",
   });
 
-  const functions = {
+  const mainSpinner = {
     show: () => {
       if (state.mostrado) return;
       comp.appendChild(loadCircle);
@@ -125,15 +125,15 @@ const spinnerShow = (component = null, spinnerOptions = {}) => {
     },
     toggle: () => {
       if(state.mostrado){
-        functions.remove();
+        mainSpinner.remove();
       }else{
-        functions.show();
+        mainSpinner.show();
       }
     },
     get: () => loadCircle,
   };
 
-  return functions;
+  return mainSpinner;
 }
 
 export { LockeableSwitch, Componente, spinnerShow };
