@@ -98,21 +98,42 @@ LockeableSwitch.prototype.setChecked = function (checked) {
   this.input.checked = checked;
 };
 
-const spinner = {
-  elementoPadre: utils.createElement(
-    "div",
-    {
-      className: "h-full w-full flex items-center justify-center",
-      style: "border-top-color: gray",
-    },
-    [
-      utils.createElement("span", {
-        className:
-          "w-16 h-16 ml-2 rounded-full border-2 border-gray-200 animate-spin",
-        style: "border-top-color: gray",
-      }),
-    ]
-  ),
-};
+const spinnerShow = (component = null, spinnerOptions = {}) => {
+  const comp = component || utils.createElement("div");
+  const inner = comp.innerHTML;
 
-export { LockeableSwitch, Componente, spinner };
+  const size = spinnerOptions.size || 4;
+
+  const state = {mostrado: false};
+
+  const loadCircle = utils.createElement("span", {
+    className:
+      `w-${size} h-${size} ml-2 rounded-full border-2 border-gray-200 animate-spin`,
+    style: "border-top-color: gray",
+  });
+
+  const functions = {
+    show: () => {
+      if (state.mostrado) return;
+      comp.appendChild(loadCircle);
+      state.mostrado = true;
+    },
+    remove: () => {
+      if (!state.mostrado) return;
+      comp.removeChild(loadCircle);
+      state.mostrado = false;
+    },
+    toggle: () => {
+      if(state.mostrado){
+        functions.remove();
+      }else{
+        functions.show();
+      }
+    },
+    get: () => loadCircle,
+  };
+
+  return functions;
+}
+
+export { LockeableSwitch, Componente, spinnerShow };

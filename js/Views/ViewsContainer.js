@@ -1,5 +1,5 @@
 import { utils } from "../Utilities/utilities.js";
-import { spinner } from "../Components/Components.js";
+import { spinnerShow } from "../Components/Components.js";
 import {
   cardsControl,
   successPage,
@@ -8,10 +8,17 @@ import {
   loginPage,
   signupPage,
 } from "./Views.js";
-console.log(spinner);
+
 const viewsContainer = {
   container: document.getElementById("pa-lateral-deslizable"),
-  demos: spinner.elementoPadre,
+  demos: utils.createElement(
+    "div", 
+    {
+      className: "h-full w-full flex items-center justify-center",
+      style: "border-top-color: gray",
+    }, 
+    [spinnerShow(null, {size: 16}).get()]
+  ),
   createPage: crearPagina.elementoPadre,
   success: successPage.elementoPadre,
   unlogged: unloggedPage,

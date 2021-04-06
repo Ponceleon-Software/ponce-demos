@@ -1,5 +1,5 @@
 import { wpRestApi } from "../Utilities/utilities.js";
-import { Componente } from "../Components/Components.js";
+import { Componente, spinnerShow } from "../Components/Components.js";
 import { createAllCards } from "../Components/Cards.js";
 import { utils, wpRestApiPost } from "../Utilities/utilities.js";
 import { viewsContainer } from "./ViewsContainer.js";
@@ -351,17 +351,19 @@ const crearPagina = {
   const botonCrear = viewCreate.querySelector("#pd-create-post"),
     inputName = viewCreate.querySelector("#pd-name-new-post");
 
+  const loadMark = spinnerShow(botonCrear);
+
   botonCrear.onclick = async (e) => {
     if (crearPagina.post === 0 || crearPagina.wait) return;
 
     crearPagina.wait = true;
+    loadMark.show();
 
     let params = {};
     if (inputName.value) {
       params["post_title"] = inputName.value;
     }
 
-    console.log(params);
     const res = await wpRestApiPost(`new_site/${crearPagina.post}`, params);
 
     crearPagina.post = 0;
@@ -379,6 +381,7 @@ const crearPagina = {
       viewsContainer.changeView("demos");
     }
 
+    loadMark.remove();
     crearPagina.wait = false;
   };
 })();
