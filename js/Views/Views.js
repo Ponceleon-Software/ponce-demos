@@ -1,5 +1,5 @@
 import { wpRestApi } from "../Utilities/utilities.js";
-import { Componente } from "../Components/Components.js";
+import { Componente, spinnerShow } from "../Components/Components.js";
 import { createAllCards } from "../Components/Cards.js";
 import { utils, wpRestApiPost } from "../Utilities/utilities.js";
 import { viewsContainer } from "./ViewsContainer.js";
@@ -54,44 +54,46 @@ const cardsControl = async () => {
   </svg>
 </button>`,
     peso = `<div class="btn-group my-3" id="pa-weight-config">
-    <button class="btn btn-xs font-light" data-filter="Delgadas" title="Delgadas">
+    <button class="btn pt-0 btn-sm font-light sm: p-1" data-filter="Delgadas" title="Delgadas">
       L
     </button>
     <button
-      class="btn btn-xs font-normal italic"
+      class="btn pt-0 btn-sm font-normal italic sm: p-1"
       data-filter="Inclinada"
       title="Inclinadas"
     >
       I
     </button>
     <button
-      class="btn btn-xs font-semibold"
+      class="btn pt-0 btn-sm font-semibold sm: p-1"
       data-filter="Intermedias"
       title="Intermedias"
     >
       B
     </button>
     <button
-      class="btn btn-xs font-extrabold"
+      class="btn pt-0 btn-sm font-extrabold sm: p-1"
+      style="line-height:1.9rem;"
       data-filter="Gruesas"
       title="Gruesas"
     >
       B+
     </button>
   </div>`,
-    serif = `<div class="btn-group my-3 mx-3" id="pa-serif-config">
-    <button class="btn btn-xs font-serif" data-filter="Serifadas">
+    serif = `<div class="btn-group my-3 mx-auto lg:ml-5 lg:mr-14 md:mx-auto" id="pa-serif-config">
+    <button class="btn btn-sm font-serif sm: p-1 text-xs" data-filter="Serifadas">
       Serif
     </button>
     <button
-      class="btn btn-xs font-normal "
+      class="btn btn-sm font-normal sm: p-1 text-xs"
       data-filter="Sin serifa"
     >
       Sans Serif
     </button>
   </div>`,
     selectSectores = `<select
-      class="select select-bordered w-72 my-3 ml-12 select-xs"
+      class="select select-bordered my-3 mx-auto select-sm pl-0 pr-7 md:mx-auto xl:ml-24"
+      style="width:12%;"
       id="pa-sectors-config"
       data-filter="sectores"
     >
@@ -99,14 +101,15 @@ const cardsControl = async () => {
       <option value="">Todos</option>
     </select>`,
     selectColores = `<select
-  class="select select-bordered w-32 my-3 mx-4 select-xs"
+  class="select select-bordered my-3 mx-auto select-sm pl-0 pr-7 md:mx-auto xl:ml-44"
+  style="width:12%;"
   id="pa-colors-config"
   data-filter="colores"
   >
   <option disabled="disabled" selected="selected">colores</option>
   <option value="">Todos</option>
   </select>`,
-    gridOrList = ` <div class="btn-group ml-auto my-auto " id="pa-serif-config">
+    gridOrList = ` <div class="btn-group ml-auto my-auto " id="pa-gridOrList-config">
     <label class="cursor-pointer label">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" width="18px" height="18px">
       <path d="M0 0h24v24H0z" fill="none"/><path d="M20 13H3c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h17c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm0-10H3c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h17c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1z"/>
@@ -120,10 +123,12 @@ const cardsControl = async () => {
             <path d="M4 11h5V5H4v6zm0 7h5v-6H4v6zm6 0h5v-6h-5v6zm6 0h5v-6h-5v6zm-6-7h5V5h-5v6zm6-6v6h5V5h-5z"/>
       </svg>
     </label>
- </div>
-
-   
-    `;
+ </div>`,
+    modal = `<div id="myModal" class="modal">
+      <span class="close">&times;</span>
+      <img class="modal-content" id="img01">
+      <div id="caption"></div>
+    </div>`;
   //#endregion
 
   const controlTarjetas = new Componente();
@@ -132,18 +137,22 @@ const cardsControl = async () => {
     filters: [],
     sectores: "",
     colores: "",
+    modal: "",
   };
 
   controlTarjetas.elementoPadre = utils.createElementFromHTML(
     `<div
       class="grid grid-cols-2 xl:grid-cols-3 gap-4"
       id="pa-container-config"
-    ></div>`
+    ></div>
+    `
   );
 
   controlTarjetas.tarjetas = createAllCards(settings);
 
   controlTarjetas.buscador = utils.createElementFromHTML(inputBuscador);
+  controlTarjetas.modal = utils.createElementFromHTML(modal);
+  console.log(controlTarjetas.modal);
   controlTarjetas.peso = utils.createElementFromHTML(peso);
   controlTarjetas.serif = utils.createElementFromHTML(serif);
   controlTarjetas.sectores = utils.createElementFromHTML(selectSectores);
@@ -152,7 +161,7 @@ const cardsControl = async () => {
 
   controlTarjetas.template = () => {
     const state = JSON.parse(JSON.stringify(controlTarjetas.state));
-    const { buscador, filters, sectores, colores } = state;
+    const { buscador, filters, sectores, colores, modal } = state;
 
     /**
      * Función que comprueba cada tarjeta para ver si debe mostrarse con
@@ -188,7 +197,7 @@ const cardsControl = async () => {
 
     filter = e.target.dataset.filter;
 
-    if ( !filter ) return;
+    if (!filter) return;
 
     e.target.classList.toggle("btn-active");
 
@@ -274,7 +283,9 @@ const cardsControl = async () => {
       controlTarjetas.gridOrList,
     ]),
     controlTarjetas.elementoPadre,
+    controlTarjetas.modal,
   ]);
+  //Handling para la vista de modal
 };
 
 /**
@@ -340,17 +351,19 @@ const crearPagina = {
   const botonCrear = viewCreate.querySelector("#pd-create-post"),
     inputName = viewCreate.querySelector("#pd-name-new-post");
 
+  const loadMark = spinnerShow(botonCrear);
+
   botonCrear.onclick = async (e) => {
     if (crearPagina.post === 0 || crearPagina.wait) return;
 
     crearPagina.wait = true;
+    loadMark.show();
 
     let params = {};
     if (inputName.value) {
       params["post_title"] = inputName.value;
     }
 
-    console.log(params);
     const res = await wpRestApiPost(`new_site/${crearPagina.post}`, params);
 
     crearPagina.post = 0;
@@ -368,13 +381,14 @@ const crearPagina = {
       viewsContainer.changeView("demos");
     }
 
+    loadMark.remove();
     crearPagina.wait = false;
   };
 })();
 
 const successPage = {
   elementoPadre: utils.createElementFromHTML(
-    `<div class=" relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
+    `<div class=" relative px-6 pt-6 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
       <div class="flex flex-start w-full pd-go-back">
         <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success">
@@ -382,7 +396,7 @@ const successPage = {
           </svg>
         </button>
       </div>
-      <h2 class=" text-4xl absolute top-12 text-black font-bold">Felicitaciones</h2>
+      <h2 class=" text-4xl text-black font-bold">Felicitaciones</h2>
 
       <div class="mt-5 mb-4 px-2 py-2 card">
         <div class="">
@@ -417,7 +431,7 @@ const successPage = {
 };
 
 const unloggedPage = utils.createElementFromHTML(
-  `<div class="relative px-6 pt-32 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start" >
+  `<div class="relative px-6 pt-6 pb-8 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start" >
     <div class="flex flex-start w-full pd-go-back">
       <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success">
@@ -425,7 +439,7 @@ const unloggedPage = utils.createElementFromHTML(
         </svg>
       </button>
     </div>
-    <h2 class=" text-4xl absolute top-12 text-black font-bold"> ¿Tienes Cuenta? </h2>
+    <h2 class=" text-4xl text-black font-bold"> ¿Tienes Cuenta? </h2>
     <div class="mt-2 px-10 py-2 card mb-6">
       <div class="flex flex-col justify-between">
         <a id="google-button" class="btn bg-black text-white  hover:bg-gray-700 mb-3 flex justify-start ">
@@ -456,12 +470,16 @@ const unloggedPage = utils.createElementFromHTML(
   const buttonLogin = unloggedPage.querySelector("#pd-login-page-button"),
     buttonSignup = unloggedPage.querySelector("#pd-signup-page-button");
 
-  buttonLogin.addEventListener("click", (e) => viewsContainer.changeView("login"));
-  buttonSignup.addEventListener("click", (e) => viewsContainer.changeView("signup"))
-})()
+  buttonLogin.addEventListener("click", (e) =>
+    viewsContainer.changeView("login")
+  );
+  buttonSignup.addEventListener("click", (e) =>
+    viewsContainer.changeView("signup")
+  );
+})();
 
-const loginPage = utils.createElementFromHTML( 
-  `<div class="relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
+const loginPage = utils.createElementFromHTML(
+  `<div class="relative px-6 pt-6 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
     <div class="flex flex-start w-full pd-go-back">
       <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success">
@@ -469,7 +487,7 @@ const loginPage = utils.createElementFromHTML(
         </svg>
       </button>
     </div>
-    <h2 class=" text-4xl absolute top-12 text-black font-bold">Continuar...</h2>
+    <h2 class=" text-4xl text-black font-bold">Continuar...</h2>
 
     <div class="mt-5 mb-4 px-2 py-2 card">
             
@@ -498,11 +516,11 @@ const loginPage = utils.createElementFromHTML(
         </div>
       </form>
     </div>
-  </div>` 
+  </div>`
 );
 
-const signupPage = utils.createElementFromHTML( 
-  `<div class="relative px-6 pt-12 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
+const signupPage = utils.createElementFromHTML(
+  `<div class="relative px-6 pt-6 pb-3 artboard-demo max-w-md m-auto bg-base-200 flex flex-col justify-start"  >
     <div class="flex flex-start w-full pd-go-back">
       <button class="btn btn-square btn-ghost rounded-2xl display-inline hover:bg-gray-100">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current text-success">
@@ -510,7 +528,7 @@ const signupPage = utils.createElementFromHTML(
         </svg>
       </button>
     </div>
-      <h2 class=" text-4xl absolute top-12 text-black font-bold">Registrarme</h2>
+      <h2 class=" text-4xl text-black font-bold">Registrarme</h2>
 
       <div class="mt-2 mb-4 px-2 py-2 card">
             
@@ -586,7 +604,7 @@ const signupPage = utils.createElementFromHTML(
   signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    if ( procesando ) return;
+    if (procesando) return;
     procesando = true;
 
     const name = signupForm["name"].value,
@@ -597,24 +615,24 @@ const signupPage = utils.createElementFromHTML(
       terms = signupForm["terms"].checked;
 
     //ToDo validate form here
-    if( !name || !email || !password || password!==repeatpassword){
+    if (!name || !email || !password || password !== repeatpassword) {
       return;
     }
 
     const parameters = { name, email, phone, password, terms };
     const res = await wpRestApiPost("register", parameters);
 
-    if( res.ok ){
+    if (res.ok) {
       const resJson = await res.json();
 
-      if( resJson > 0 ){
-        console.log( "Inició sesión" );
-        viewsContainer.changeView( "createPage" );
-      }else{
-        console.log( resJson );
+      if (resJson > 0) {
+        console.log("Inició sesión");
+        viewsContainer.changeView("createPage");
+      } else {
+        console.log(resJson);
       }
-    }else{
-      console.log( "Error fatal" );
+    } else {
+      console.log("Error fatal");
     }
 
     procesando = false;
@@ -623,33 +641,40 @@ const signupPage = utils.createElementFromHTML(
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    if ( procesando ) return;
+    if (procesando) return;
     procesando = true;
 
     const username = loginForm["username"].value,
       password = loginForm["password"].value;
 
     //ToDo validate form here
-    if ( !username || !password ) return;
+    if (!username || !password) return;
 
     const parameters = { username, password };
     const res = await wpRestApiPost("login", parameters);
 
-    if( res.ok ){
+    if (res.ok) {
       const resJson = await res.json();
 
-      if( typeof resJson ==="number" && resJson > 0 ){
-        console.log( "Inició sesión" );
-        viewsContainer.changeView( "createPage" );
-      }else{
-        console.log( resJson );
+      if (typeof resJson === "number" && resJson > 0) {
+        console.log("Inició sesión");
+        viewsContainer.changeView("createPage");
+      } else {
+        console.log(resJson);
       }
-    }else{
-      console.log( "Error fatal" );
+    } else {
+      console.log("Error fatal");
     }
 
     procesando = false;
-  })
+  });
 })();
 
-export { cardsControl, successPage, crearPagina, unloggedPage, loginPage, signupPage };
+export {
+  cardsControl,
+  successPage,
+  crearPagina,
+  unloggedPage,
+  loginPage,
+  signupPage,
+};

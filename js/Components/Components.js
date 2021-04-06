@@ -98,4 +98,42 @@ LockeableSwitch.prototype.setChecked = function (checked) {
   this.input.checked = checked;
 };
 
-export { LockeableSwitch, Componente };
+const spinnerShow = (component = null, spinnerOptions = {}) => {
+  const comp = component || utils.createElement("div");
+  const inner = comp.innerHTML;
+
+  const size = spinnerOptions.size || 4;
+
+  const state = {mostrado: false};
+
+  const loadCircle = utils.createElement("span", {
+    className:
+      `w-${size} h-${size} ml-2 rounded-full border-2 border-gray-200 animate-spin`,
+    style: "border-top-color: gray",
+  });
+
+  const mainSpinner = {
+    show: () => {
+      if (state.mostrado) return;
+      comp.appendChild(loadCircle);
+      state.mostrado = true;
+    },
+    remove: () => {
+      if (!state.mostrado) return;
+      comp.removeChild(loadCircle);
+      state.mostrado = false;
+    },
+    toggle: () => {
+      if(state.mostrado){
+        mainSpinner.remove();
+      }else{
+        mainSpinner.show();
+      }
+    },
+    get: () => loadCircle,
+  };
+
+  return mainSpinner;
+}
+
+export { LockeableSwitch, Componente, spinnerShow };

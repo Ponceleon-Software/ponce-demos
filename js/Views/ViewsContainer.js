@@ -1,9 +1,24 @@
 import { utils } from "../Utilities/utilities.js";
-import { cardsControl, successPage, crearPagina, unloggedPage, loginPage, signupPage } from "./Views.js";
+import { spinnerShow } from "../Components/Components.js";
+import {
+  cardsControl,
+  successPage,
+  crearPagina,
+  unloggedPage,
+  loginPage,
+  signupPage,
+} from "./Views.js";
 
 const viewsContainer = {
   container: document.getElementById("pa-lateral-deslizable"),
-  demos: utils.createElementFromHTML("<h2>ToDo pantalla de carga aquí</h2>"),
+  demos: utils.createElement(
+    "div", 
+    {
+      className: "h-full w-full flex items-center justify-center",
+      style: "border-top-color: gray",
+    }, 
+    [spinnerShow(null, {size: 16}).get()]
+  ),
   createPage: crearPagina.elementoPadre,
   success: successPage.elementoPadre,
   unlogged: unloggedPage,
@@ -20,12 +35,20 @@ const viewsContainer = {
 
     viewsContainer.container.appendChild(viewsContainer.demos);
 
-    const vistasSinDemos = [ "createPage", "success", "unlogged", "login", "signup" ];
+    const vistasSinDemos = [
+      "createPage",
+      "success",
+      "unlogged",
+      "login",
+      "signup",
+    ];
     vistasSinDemos
-      .map( val => viewsContainer[val] )
-      .forEach(val => {
+      .map((val) => viewsContainer[val])
+      .forEach((val) => {
         const botonVolver = val.querySelector(".pd-go-back");
-        botonVolver.addEventListener( "click", () => viewsContainer.changeView("demos") );
+        botonVolver.addEventListener("click", () =>
+          viewsContainer.changeView("demos")
+        );
       });
   },
   changeView: (pageName) => {
@@ -41,9 +64,9 @@ const viewsContainer = {
   createPageFrom: (idPage) => {
     crearPagina.post = idPage;
 
-    if(window.demo.user === "1"){
+    if (window.demo.user === "1") {
       viewsContainer.changeView("createPage");
-    }else{
+    } else {
       viewsContainer.changeView("unlogged");
     }
   },

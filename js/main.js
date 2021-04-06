@@ -14,32 +14,38 @@ window.addEventListener("load", function () {
     : document.querySelector("#page");
   element.appendChild(frame);
   let iframe = document.getElementById("iframe");
-  iframe.addEventListener("load", function (e) {
-    const windowIframe = iframe.contentWindow;
-    const documentIframe = windowIframe.document;
+  iframe.contentWindow.addEventListener(
+    "DOMContentLoaded",
+    function (e) {
+      const windowIframe = iframe.contentWindow;
+      const documentIframe = windowIframe.document;
 
-    //#region Datos desde php
-    windowIframe.demo = demo;
-    //#endregion
+      //#region Datos desde php
+      windowIframe.demo = demo;
+      //#endregion
 
-    const changeIframe = function () {
-      if (iframe.style.width != "100vw") {
-        iframe.style.width = "100vw";
-        iframe.style.top = "0";
-        iframe.style.marginTop = "0";
-        iframe.style.height = "100%";
-      } else {
-        setTimeout(function () {
-          iframe.style = null;
-        }, 350);
-      }
-    };
-    let p_button = [
-      documentIframe.getElementById("pa-button-fixed"),
-      documentIframe.getElementById("pa-cubierta"),
-    ];
-    p_button.forEach((value) => value.addEventListener("click", changeIframe));
-  });
+      const changeIframe = function () {
+        if (iframe.style.width != "100vw") {
+          iframe.style.width = "100vw";
+          iframe.style.top = "0";
+          iframe.style.marginTop = "0";
+          iframe.style.height = "100%";
+        } else {
+          setTimeout(function () {
+            iframe.style = null;
+          }, 350);
+        }
+      };
+      let p_button = [
+        documentIframe.getElementById("pa-button-fixed"),
+        documentIframe.getElementById("pa-cubierta"),
+      ];
+      p_button.forEach((value) =>
+        value.addEventListener("click", changeIframe)
+      );
+    },
+    true
+  );
 });
 
 function getHomeUrl() {
