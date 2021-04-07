@@ -1,4 +1,4 @@
-let endpointurl = getHomeUrl();
+/*let endpointurl = getHomeUrl();
 window.addEventListener("load", function () {
   let frame;
   htmlbutton = `${`<iframe name="iframe" id="iframe" src="${endpointurl}/html/ponce-demos.html"></iframe>`}`;
@@ -52,3 +52,4 @@ function getHomeUrl() {
   var href = demo.pluginsUrl;
   return href;
 }
+*/

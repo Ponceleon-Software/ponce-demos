@@ -73,7 +73,8 @@ const CustomElement = {
    * @param {string} tagName El nombre de la etiqueta del elemento
    * @param {any} options Un objeto con los atributos que se le
    * desea añadir a la etiqueta html
-   * @param {HTMLElement[]} children Un arreglo de elementos
+   * @param {HTMLElement[]} children Un arreglo de elementos que
+   * se añadirán como hijos del elemento creado
    */
   create: (tagName, options = {}, children = []) => {
     const elemento = document.createElement(tagName);

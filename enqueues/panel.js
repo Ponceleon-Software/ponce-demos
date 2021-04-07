@@ -65,6 +65,10 @@ function PoncePanel(elements) {
     open: false,
     resizing: false,
     panelWidth: 600,
+    position: {
+      top: window.innerHeight/2 - 20,
+      left: window.innerWidth,
+    },
   };
 
   this.element = elements.parent;
@@ -75,9 +79,56 @@ function PoncePanel(elements) {
   this.back = elements.back;
   this.resizeBorder = elements.resizeBorder;
 
+  /**
+   * Devuelve el lado hacia el cual debe ir el botón según su posición
+   *
+   * @param {{top: number, left: number}} pos La posición del botón
+   *
+   * @return {"top"|"bottom"|"left"|"right"} El lado al que debe pegarse
+   * el botón
+   */
+  const magnetize = (pos) => {
+    const distance = {
+      top: pos.top,
+      bottom: window.innerHeight - pos.top,
+      left: pos.left,
+      right: window.innerWidth - pos.left,
+    };
+
+    const min = Math.min(distance.top, distance.bottom, distance.left, distance.right);
+
+    for(let key in distance){
+      if(distance[key] === min){
+        return key;
+      }
+    }
+  }
+
   this.template = function () {
     const state = JSON.parse(JSON.stringify(this.state));
-    const { open, resizing, panelWidth } = state;
+    const { open, resizing, panelWidth, position } = state;
+
+    if(!open){
+      this.containerButton.style.top = `${position.top}px`;
+      this.containerButton.style.left = `${position.left}px`;
+
+      if (!resizing){
+        const side = magnetize(position);
+
+        if(side === "top" || side === "left"){
+          this.containerButton.style[side] = `-0.5rem`;
+        } else {
+          const changeProp = (side === "right") ? "left" : "top";
+
+          this.containerButton.style[changeProp] = `calc(100% - 2.5rem)`;
+        }
+      }
+    } else {
+      const newLeft = window.innerWidth - panelWidth - this.containerButton.offsetWidth;
+      
+      this.containerButton.style.left = `${newLeft}px`;
+      this.containerButton.style.top = `1rem`;
+    }
 
     this.back.className = open
       ? `ponce-admin__back${resizing ? " ponce-admin__resizer" : ""}`
@@ -90,7 +141,6 @@ function PoncePanel(elements) {
 
     this.panel.style.width = `${panelWidth}px`;
     this.panel.style.right = `${open ? 0 : -panelWidth}px`;
-    this.containerButton.style.right = `${open ? panelWidth : 0}px`;
 
     this.panel.style.transition = this.containerButton.style.transition = resizing
       ? "none"
@@ -127,24 +177,47 @@ const initOpenEvents = (poncePanel) => {
  * @param {PoncePanel} poncePanel El componente reactivo del panel
  */
 const initPanelResizing = (poncePanel) => {
+  /**
+   * Lanza el evento resize según la posición de mouse
+   *
+   * @param {MouseEvent} e
+   */
   const move = (e) => {
-    if (e.pageX < 50 || window.innerWidth - e.pageX < 280) return;
+    if (e.clientX < 50 || window.innerWidth - e.clientX < 280) return;
 
     const event = new Event("resize");
-    event.newWidth = window.innerWidth - e.pageX;
+    event.newWidth = window.innerWidth - e.clientX;
     poncePanel.panel.dispatchEvent(event);
   };
 
+  /**
+   * Empieza el resizing
+   *
+   * @param {MouseEvent} e
+   */
   const initMovement = (e) => {
     poncePanel.setState({ resizing: true });
     window.addEventListener("mousemove", move);
   };
 
+  /**
+   * Se activa al hacer presionar el mouse sobre el panel de resize y
+   * inicia la escucha de movimiento
+   *
+   * @param {MouseEvent} e
+   */
   const initListening = (e) => {
     e.preventDefault();
     poncePanel.resizeBorder.addEventListener("mouseout", initMovement);
   };
 
+  /**
+   * Listener por defecto para el evento de resize del panel.
+   * Cambia el tamaño del panel
+   *
+   * @param {Event} e Resize event con una propieda newWidth que
+   * dice el ancho que debe tener el panel ahora
+   */
   const resize = (e) => {
     const frame = document.getElementById("iframe");
     frame.style.pointerEvents = "none"; //Evita que el resizing del panel se detenga al pasar sobre el iframe
@@ -180,6 +253,106 @@ const initPanelResizing = (poncePanel) => {
 };
 
 /**
+ * Inicializa la escucha de eventos que provocan el dragging del btón
+ *
+ * @param {PoncePanel} poncePanel El componente reactivo del panel
+ */
+const initButtonDragging = (poncePanel) => {
+  /**
+   * Abre el panel y remueve los eventListeners añadidos por 
+   * initButtonEvents
+   *
+   * @param {MouseEvent} e
+   */
+  const openPanel = (e) => {
+    e.preventDefault();
+    poncePanel.setState({open: true});
+
+    poncePanel.containerButton.removeEventListener("mouseup", openPanel);
+    poncePanel.containerButton.removeEventListener("mousemove", moveOverButton);
+  }
+
+  /**
+   * Escucha el movimiento del mouse en la pantalla y mueve al botón
+   * en base a ellos
+   *
+   * @param {MouseEvent} e
+   */
+  const moveOverScreen = (e) => {
+    e.preventDefault();
+
+    if (!poncePanel.state.resizing) return;
+
+    const posY = e.clientY - (poncePanel.containerButton.offsetHeight/2);
+    const posX = e.clientX - (poncePanel.containerButton.offsetWidth/2);
+
+    const event = new Event("elementmove");
+    event.position = {top: posY, left: posX};
+    poncePanel.containerButton.dispatchEvent(event);
+  }
+
+  /**
+   * Inicializa la escucha de eventos para mover el botón y cancela
+   * la posibilidad de abrir el panel durante el dragging
+   *
+   * @param {MouseEvent} e
+   */
+  const moveOverButton = (e) => {
+    e.preventDefault();
+
+    if (poncePanel.state.resizing) return;
+
+    poncePanel.containerButton.removeEventListener("mouseup", openPanel);
+    poncePanel.setState({resizing: true});
+
+    window.addEventListener("mousemove", moveOverScreen);
+    window.addEventListener("mouseup", finishDrag);
+    poncePanel.containerButton.removeEventListener("mousemove", moveOverButton);
+  }
+
+  /**
+   * Finaliza el draggado del botón
+   *
+   * @param {MouseEvent} e
+   */
+  const finishDrag = (e) => {
+    e.preventDefault();
+
+    if (!poncePanel.state.resizing) return;
+
+    poncePanel.setState({resizing: false});
+    window.removeEventListener("mousemove", moveOverScreen);
+  }
+
+  /**
+   * Se activa al presionar el botón y da la posibilidad de que se abra
+   * o se empieze el dragging dependiendo de la siguiente acción
+   *
+   * @param {MouseEvent} e
+   */
+  const initButtonEvents = (e) => {
+    if (poncePanel.state.open || e.button !== 0) return;
+
+    e.preventDefault();
+    poncePanel.containerButton.addEventListener("mouseup", openPanel);
+    poncePanel.containerButton.addEventListener("mousemove", moveOverButton);
+  }
+
+  /**
+   * Listener por defecto para el evento elementmove del botón
+   * Mueve el botón
+   *
+   * @param {Event} e
+   */
+  const moveButton = (e) => {
+    poncePanel.setState({position: e.position});
+  }
+
+  poncePanel.containerButton.addEventListener("mousedown", initButtonEvents);
+  poncePanel.containerButton.addEventListener("elementmove", moveButton);
+}
+
+/**
  * Contiene el objeto principal padre de todo el panel con toda su
  * funcionalidad activa
  *
@@ -205,6 +378,7 @@ const poncePanel = (config = {}) => {
   component.render();
   initOpenEvents(component);
   initPanelResizing(component);
+  initButtonDragging(component);
 
   //Devuelvo los elementos
   return {
