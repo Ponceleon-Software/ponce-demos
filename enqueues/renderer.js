@@ -1,4 +1,5 @@
 /* @var pathsInfo Es pasada desde el php por wp_localize_script */
+/* @var demo Es pasada desde el php por wp_localize_script */
 
 //Aquí se contiene todo lo que va a hacer la aplicación
 window.addEventListener("DOMContentLoaded", (e) => {
