@@ -1,8 +1,6 @@
-import { controlPanel } from "../Components/Panel.js";
 import { viewsContainer } from "../Views/ViewsContainer.js";
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  controlPanel();
   viewsContainer.init();
 });
 

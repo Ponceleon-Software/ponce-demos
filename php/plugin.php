@@ -68,9 +68,21 @@ class Plugin {
    * @access public
    */
   public function enqueue_demos_iframe () {
+
+    wp_enqueue_style('ponce-panel', plugins_url('/enqueues/panel.css', PONCE_DEMOS__FILE__));
+
+    wp_enqueue_script( 'ponce-demos-reactivity', plugins_url('/enqueues/reactivity.js', PONCE_DEMOS__FILE__) );
+    wp_enqueue_script('ponce-demos-panel', plugins_url('/enqueues/panel.js', PONCE_DEMOS__FILE__), array('ponce-demos-reactivity'));
+    wp_enqueue_script('ponce-demos-iframe', plugins_url('/enqueues/mainIframe.js', PONCE_DEMOS__FILE__), array('ponce-demos-reactivity'));
+    wp_enqueue_script('ponce-demos-render', plugins_url('/enqueues/renderer.js', PONCE_DEMOS__FILE__), array('ponce-demos-panel', 'ponce-demos-iframe'));
+
+    wp_localize_script('ponce-demos-render', 'pathsInfo', array(
+      'logo' => plugins_url('/assets/img/logo-ponceleon.svg', PONCE_DEMOS__FILE__),
+      'html' => plugins_url('/html/ponce-demos.html', PONCE_DEMOS__FILE__)
+    ));
     
-    wp_enqueue_style('frame-css', plugins_url('/style/frame.css', PONCE_DEMOS__FILE__));
-    wp_enqueue_script( 'main', plugins_url('/js/main.js', PONCE_DEMOS__FILE__), array(), null, true );
+    /*wp_enqueue_style('frame-css', plugins_url('/style/frame.css', PONCE_DEMOS__FILE__));*/
+    wp_enqueue_script( 'main', plugins_url('/js/main.js', PONCE_DEMOS__FILE__));
     
     $data = array( 
       'pluginsUrl' => PONCE_DEMOS_URL,

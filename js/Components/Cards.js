@@ -1,14 +1,10 @@
 import { utils } from "../Utilities/utilities.js";
-import { LockeableSwitch } from "../Components/Components.js";
 import { viewsContainer } from "../Views/ViewsContainer.js";
 /**
  * Crea una tarjeta estandar del panel
- * @param {string} titulo
- * @param {string} descripcion
- * @param {() => void} dbaction
- * @param {any} ajustes
+ *
+ * @param {any} options Objeto con los datos del demo
  */
-console.log(utils);
 function TarjetaConfiguracion(options) {
   this.titulo = options.name;
   this.tipografia = options.tipografia;
@@ -66,33 +62,6 @@ function TarjetaConfiguracion(options) {
       captionText.innerHTML ='captiontest' ;*/
     //Modal para Abrir imagen en la misma pestaña (Experimental)
   });
-
-  /**
-   * Muestra una alerta para indicar al usuario si el request fue
-   * exitoso o no
-   * @param {boolean} success Indica si el request fue exitoso
-   */
-  const showAlert = (success) => {
-    const body = this.tarjeta.firstChild;
-
-    const show = (alerta) => {
-      body.appendChild(alerta);
-      setTimeout(() => {
-        body.removeChild(alerta);
-      }, 2000);
-    };
-
-    if (success) {
-      show(this.alerta);
-    } else {
-      show(this.alertaEror);
-    }
-  };
-
-  this.switch = new LockeableSwitch(this.dbaction, showAlert);
-
-  this.alerta = utils.alertaCambios("success", "Se han guardado los cambios");
-  this.alertaEror = utils.alertaCambios("error", "Ha ocurrido un error");
 
   this.tarjeta = utils.createElement(
     "div",
