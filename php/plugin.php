@@ -81,15 +81,15 @@ class Plugin {
       'html' => plugins_url('/html/ponce-demos.html', PONCE_DEMOS__FILE__)
     ));
     
-    /*wp_enqueue_style('frame-css', plugins_url('/style/frame.css', PONCE_DEMOS__FILE__));
-    wp_enqueue_script( 'main', plugins_url('/js/main.js', PONCE_DEMOS__FILE__), array(), null, true );
+    /*wp_enqueue_style('frame-css', plugins_url('/style/frame.css', PONCE_DEMOS__FILE__));*/
+    wp_enqueue_script( 'main', plugins_url('/js/main.js', PONCE_DEMOS__FILE__));
     
     $data = array( 
       'pluginsUrl' => PONCE_DEMOS_URL,
       'user' => is_user_logged_in(),
     );
 
-    wp_localize_script( 'main', 'demo', $data );*/
+    wp_localize_script( 'main', 'demo', $data );
 
   }
 

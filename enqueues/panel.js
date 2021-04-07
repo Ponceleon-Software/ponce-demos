@@ -17,7 +17,7 @@ const poncePanelElements = (config = {}) => {
     ),
     panelContent: CustomElement.fromHTML(
       `<div
-        class="ponce-admin__panel-content"
+        class="ponce-admin__full"
       ></div>`
     ),
     containerButton: CustomElement.fromHTML(

@@ -5,7 +5,7 @@
  */
 const createIFrame = (config = {}) => {
   config.className = config.className || "ponce-admin__full";
-  config.id = "iframe";
+  config.id = config.id || "iframe";
   const frame = CustomElement.create("iframe", config);
 
   return frame;

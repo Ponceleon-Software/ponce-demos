@@ -63,10 +63,6 @@
   z-index: 99999;
 }
 
-.ponce-admin__panel-content {
-  margin: 3rem;
-}
-
 .ponce-admin__back {
   position: fixed;
   top: 0;
