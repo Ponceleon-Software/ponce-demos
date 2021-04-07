@@ -146,6 +146,8 @@ const initPanelResizing = (poncePanel) => {
   };
 
   const resize = (e) => {
+    const frame = document.getElementById("iframe");
+    frame.style.pointerEvents = "none"; //Evita que el resizing del panel se detenga al pasar sobre el iframe
     let newWidth = e.newWidth || window.innerWidth;
     if (newWidth < 280) {
       newWidth = 280;
@@ -167,6 +169,8 @@ const initPanelResizing = (poncePanel) => {
   });
 
   window.addEventListener("mouseup", (e) => {
+    const frame = document.getElementById("iframe");
+    frame.style.pointerEvents = "auto"; //Regresa la habilidad de capturar eventos al panel
     window.removeEventListener("mousemove", move);
     poncePanel.resizeBorder.removeEventListener("mouseout", initMovement);
     if (poncePanel.state.open) {
@@ -207,7 +211,7 @@ const poncePanel = (config = {}) => {
     container: () => elements.parent,
     elements: () => elements,
     get: (elementName) => elements[elementName],
-    open: () => component.setState({open: true}),
-    close: () => component.setState({open: false}),
+    open: () => component.setState({ open: true }),
+    close: () => component.setState({ open: false }),
   };
 };
