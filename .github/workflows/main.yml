@@ -15,5 +15,5 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
         server: ftp.ponceleon.club
-        username: ponce-demos_deploy_develop@ponceleon.club
+        username: ponce-demos_deploy_develop
         password: ${{ secrets.DEVELOP_FTP_PASSWORD }}
