@@ -16,4 +16,4 @@ jobs:
       with:
         server: ftp.ponceleon.club
         username: ponce-demos_deploy_develop@ponceleon.club
-        password: ${{ secrets.ftp_password }}
+        password: ${{ secrets.DEVELOP_FTP_PASSWORD }}
