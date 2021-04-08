@@ -1,0 +1,19 @@
+name: 🚀 Deploy de ponce-demos a Sitio Principal 
+on:
+  push:
+    branches:
+      - master
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2.3.2
+
+    - name: 📂 Sincronizar archivos
+      uses: sebastianpopp/ftp-action@v2.0.0
+      with:
+        host: ${{ secrets.MASTER_FTP_SERVER }}
+        user: ${{ secrets.MASTER_FTP_USER }}
+        password: ${{ secrets.MASTER_FTP_PASSWORD }}
