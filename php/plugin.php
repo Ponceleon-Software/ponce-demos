@@ -1,6 +1,8 @@
 <?php
 namespace Ponce_Demos;
 
+use Ponce_Demos\Editor\Elementor_Editor;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -30,6 +32,12 @@ class Plugin {
   public $rest_api_handler;
 
   /**
+   *
+   * @var Elementor_Editor
+   */
+  public $elementor_editor;
+
+  /**
    * Devuelve una instancia del plugin y se asegura de que solo pueda
    * existir una instancia
    * 
@@ -55,9 +63,16 @@ class Plugin {
 	private function __construct() {
 
     $this->rest_api_handler = new Rest_Api_Handler();
+    $this->elementor_editor = new Elementor_Editor();
 
     add_action('admin_enqueue_scripts', [$this, 'enqueue_demos_iframe'] );
-    //add_action('wp_enqueue_scripts', [$this, 'enqueue_demos_iframe'] ); 
+    //add_action('wp_enqueue_scripts', [$this, 'enqueue_demos_iframe'] );
+
+    /**
+     * Acción que se ejecuta al completar la inicialización de ponce
+     * demos
+     */
+    do_action('ponce_demos_init');
 
 	}
 
@@ -90,6 +105,12 @@ class Plugin {
     );
 
     wp_localize_script( 'main', 'demo', $data );
+
+    /**
+     * Se ejecuta luego de añadir todos los scripts necesarios para
+     * mostrar el iframe de ponce-demos
+     */
+    do_action('ponce-demos-enqueue-iframe');
 
   }
 

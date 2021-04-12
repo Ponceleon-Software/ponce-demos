@@ -37,8 +37,15 @@ class Pages_Manager {
       'post_type' => $post_type,
       'meta_input' => $metadata_array,
     );
+
+    /**
+     * Filtra la data que será pasada a wp_insert_post.
+     *
+     * @param $postarr La data del nuevo post
+     */
+    $post_info = apply_filters( 'ponce_demos_create_page', $postarr );
   
-    $insert_result = wp_insert_post( $postarr );
+    $insert_result = wp_insert_post( $post_info );
   
     if( $insert_result===0 || is_wp_error( $insert_result ) ){
       return false;
