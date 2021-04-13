@@ -20,6 +20,13 @@ const mainIFrame = (() => {
 		appendTo: (parent) => {
 			parent.appendChild(iframe);
 		},
-		get: () => iframe, 
+		get: () => iframe,
+		window: () => iframe.contentWindow 
 	};
 })();
+
+window.addEventListener("load", (e) => {
+	const modal = ErrorModal(mainIFrame.window());
+	document.body.appendChild(modal.element());
+	window.ponceErrorModal = modal;
+});

@@ -67,8 +67,6 @@ class Plugin {
 
     wp_register_script('ponce-demos-reactivity', plugins_url('/enqueues/reactivity.js', PONCE_DEMOS__FILE__));
 
-    wp_register_script('ponce-demos-errors', plugins_url('/enqueues/errorsModal.js', PONCE_DEMOS__FILE__));
-
     wp_register_script('ponce-demos-iframe', plugins_url('/enqueues/mainIframe.js', PONCE_DEMOS__FILE__), array('ponce-demos-reactivity'));
 
     wp_localize_script('ponce-demos-iframe', 'pathsInfo', array(
@@ -76,6 +74,22 @@ class Plugin {
       'html' => plugins_url('/html/ponce-demos.html', PONCE_DEMOS__FILE__)
     ));
 
+  }
+
+  public function enqueue_demos_iframe () {
+
+    wp_register_script('ponce-demos-modal', plugins_url('/enqueues/modal/modal.js', PONCE_DEMOS__FILE__), array('ponce-demos-reactivity'));
+    wp_register_script('ponce-demos-errors', plugins_url('/enqueues/modal/errorsModal.js', PONCE_DEMOS__FILE__), array('ponce-demos-modal'));
+    wp_register_script('ponce-demos-iframe', plugins_url('/enqueues/mainIframe.js', PONCE_DEMOS__FILE__), array('ponce-demos-reactivity', "ponce-demos-errors"));
+
+    wp_enqueue_style('ponce-modal', plugins_url('/enqueues/modal/modal.css', PONCE_DEMOS__FILE__));
+
+    wp_enqueue_script('ponce-demos-iframe');
+
+    wp_localize_script('ponce-demos-iframe', 'pathsInfo', array(
+      'logo' => plugins_url('/assets/img/logo-ponceleon.svg', PONCE_DEMOS__FILE__),
+      'html' => plugins_url('/html/ponce-demos.html', PONCE_DEMOS__FILE__)
+    ));
   }
 
   /**
@@ -86,11 +100,12 @@ class Plugin {
    */
   public function enqueue_demos_panel () {
 
+    $this->enqueue_demos_iframe();
+
     wp_register_script('ponce-demos-panel', plugins_url('/enqueues/panel.js', PONCE_DEMOS__FILE__), array('ponce-demos-reactivity'));
     wp_register_script('ponce-demos-render', plugins_url('/enqueues/renderer.js', PONCE_DEMOS__FILE__), array('ponce-demos-panel', 'ponce-demos-iframe', 'ponce-demos-errors'));
 
     wp_enqueue_style('ponce-panel', plugins_url('/enqueues/panel.css', PONCE_DEMOS__FILE__));
-    wp_enqueue_style('ponce-modal', plugins_url('/enqueues/modal.css', PONCE_DEMOS__FILE__));
 
     wp_enqueue_script('ponce-demos-render');
     

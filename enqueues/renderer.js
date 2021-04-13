@@ -10,6 +10,4 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
 	const panel = panelObject.get("panelContent");
 	mainIFrame.appendTo(panel);
-
-	const error = errorsModal(mainIFrame.get().contentWindow);
 });

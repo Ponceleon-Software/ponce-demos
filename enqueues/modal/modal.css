@@ -1,0 +1,157 @@
+.ponce-demos__size-screen {
+	width: 100vw;
+	height: 100vh;
+}
+
+.ponce-demos__size-full {
+	width: 100%;
+	height: 100%;
+}
+
+.ponce-demos__hidden {
+	display: none!important;
+}
+
+.ponce-demos__modal--container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 100000;
+}
+
+.ponce-demos__modal--back {
+	background-color: rgba(0, 0, 0, 0.5);
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+}
+
+.ponce-demos__modal {
+	position: relative;
+	background-color: white;
+	width: 600px;
+	height: 300px;
+	border-radius: 10px;
+	display: flex;
+	animation: appear 500ms;
+	z-index: 1;
+}
+
+.ponce-demos__modal--body {
+	padding: 2rem;
+	flex: auto;
+	display: flex;
+	flex-direction: column;
+	font-family: sans-serif;
+	color: gray;
+}
+
+.ponce-demos__modal--section {
+	height: 33%;
+}
+
+.ponce-demos__modal--center {
+	flex-grow: inherit;
+}
+
+.ponce-demos__modal--title {
+	font-size: x-large;
+	font-weight: 100;
+}
+
+.ponce-demos__modal--description {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	overflow: auto;
+}
+
+.ponce-demos__modal--description > p {
+	font-weight: 100;
+	font-size: small;
+	margin: 0;
+	max-height: 3rem;
+}
+
+.ponce-demos__modal--details {
+	list-style: inside;
+	margin: 0;
+	max-height: 100%;
+	overflow: auto;
+}
+
+.ponce-demos__modal--nav {
+	border-top: 1px solid lightgray;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.ponce-demos__modal--actions {
+	display: flex;
+}
+
+.ponce-demos__modal--actions > button {
+	background-color: white;
+	color: green;
+	border: 1px solid green;
+	border-radius: 5px;
+	padding-right: 0.75rem;
+	padding-left: 0.75rem;
+	padding-top: 0.25rem;
+	padding-bottom: 0.25rem;
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+.ponce-demos__modal--actions > button:hover{
+	background-color: green;
+	color: white;
+}
+
+.ponce-demos__modal--actions > button:active{
+	background-color: yellowgreen;
+}
+
+.ponce-demos__modal--actions > button:focus{
+	outline: none;
+}
+
+.ponce-demos__modal--contact {
+	margin: 0;
+	margin-top: 5px;
+	font-size: x-small;
+}
+
+.ponce-demos__modal---close-button {
+	font-size: larger;
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	width: 30px;
+	height: 30px;
+	border-radius: 100%;
+	outline: none;
+	color: gray;
+	background-color: rgba(0, 0, 0, 0.1);
+	border: 0;
+	cursor: pointer;
+}
+
+.ponce-demos__modal---close-button:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+.ponce-demos__modal---close-button:active {
+	background-color: rgba(0, 0, 0, 0.02);
+}
+
+@keyframes appear {
+	0%{
+		height: 5px;
+	}
+}
