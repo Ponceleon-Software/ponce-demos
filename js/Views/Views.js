@@ -353,7 +353,7 @@ const crearPagina = {
 
   const loadMark = spinnerShow(botonCrear);
 
-  botonCrear.onclick = async (e) => {
+  const createPage = async (e) => {
     if (crearPagina.post === 0 || crearPagina.wait) return;
 
     crearPagina.wait = true;
@@ -377,13 +377,17 @@ const crearPagina = {
         viewsContainer.changeView("demos");
       }
     } else {
-      console.log("Error");
+      const errorBody = await res.json();
+      window.setTimeout(() => { throw new Error(errorBody.message);}, 0);
       viewsContainer.changeView("demos");
     }
 
     loadMark.remove();
     crearPagina.wait = false;
+    
   };
+
+  botonCrear.onclick = createPage;
 })();
 
 const successPage = {
@@ -632,7 +636,9 @@ const signupPage = utils.createElementFromHTML(
         console.log(resJson);
       }
     } else {
+      const errorBody = await res.json();
       console.log("Error fatal");
+      window.setTimeout(() => {throw new Error(errorBody.message);}, 0);
     }
 
     procesando = false;
@@ -663,7 +669,9 @@ const signupPage = utils.createElementFromHTML(
         console.log(resJson);
       }
     } else {
+      const errorBody = await res.json();
       console.log("Error fatal");
+      window.setTimeout(() => {throw new Error(errorBody.message);}, 0);
     }
 
     procesando = false;
