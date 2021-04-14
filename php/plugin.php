@@ -65,8 +65,10 @@ class Plugin {
     $this->rest_api_handler = new Rest_Api_Handler();
     $this->elementor_editor = new Elementor_Editor();
 
-    add_action('admin_enqueue_scripts', [$this, 'enqueue_demos_iframe'] );
-    //add_action('wp_enqueue_scripts', [$this, 'enqueue_demos_iframe'] );
+    $this->register_main_scripts();
+
+    add_action('admin_enqueue_scripts', [$this, 'enqueue_demos_panel'] );
+    //add_action('wp_enqueue_scripts', [$this, 'enqueue_demos_panel'] ); 
 
     /**
      * Acción que se ejecuta al completar la inicialización de ponce
@@ -76,35 +78,69 @@ class Plugin {
 
 	}
 
+  public function register_main_scripts () {
+
+    wp_register_script('ponce-demos-reactivity', plugins_url('/enqueues/reactivity.js', PONCE_DEMOS__FILE__));
+
+    wp_register_script('ponce-demos-iframe', plugins_url('/enqueues/mainIframe.js', PONCE_DEMOS__FILE__), array('ponce-demos-reactivity'));
+
+    wp_localize_script('ponce-demos-iframe', 'pathsInfo', array(
+      'logo' => plugins_url('/assets/img/logo-ponceleon.svg', PONCE_DEMOS__FILE__),
+      'html' => plugins_url('/html/ponce-demos.html', PONCE_DEMOS__FILE__)
+    ));
+
+  }
+
+  public function enqueue_demos_iframe () {
+
+    wp_register_script('ponce-demos-modal', plugins_url('/enqueues/modal/modal.js', PONCE_DEMOS__FILE__), array('ponce-demos-reactivity'));
+    wp_register_script('ponce-demos-errors', plugins_url('/enqueues/modal/errorsModal.js', PONCE_DEMOS__FILE__), array('ponce-demos-modal'));
+    wp_register_script('ponce-demos-iframe', plugins_url('/enqueues/mainIframe.js', PONCE_DEMOS__FILE__), array('ponce-demos-reactivity', "ponce-demos-errors"));
+
+    wp_enqueue_style('ponce-modal', plugins_url('/enqueues/modal/modal.css', PONCE_DEMOS__FILE__));
+
+    wp_enqueue_script('ponce-demos-iframe');
+
+    wp_localize_script('ponce-demos-iframe', 'pathsInfo', array(
+      'logo' => plugins_url('/assets/img/logo-ponceleon.svg', PONCE_DEMOS__FILE__),
+      'html' => plugins_url('/html/ponce-demos.html', PONCE_DEMOS__FILE__)
+    ));
+  }
+
   /**
    * Añade en cola los scripts y estilos necesarios para
    * mostrar el iframe principal de la aplicación
    * 
    * @access public
    */
-  public function enqueue_demos_iframe () {
+  public function enqueue_demos_panel () {
+
+    $this->enqueue_demos_iframe();
+
+    wp_register_script('ponce-demos-panel', plugins_url('/enqueues/panel.js', PONCE_DEMOS__FILE__), array('ponce-demos-reactivity'));
+    wp_register_script('ponce-demos-render', plugins_url('/enqueues/renderer.js', PONCE_DEMOS__FILE__), array('ponce-demos-panel', 'ponce-demos-iframe', 'ponce-demos-errors'));
 
     wp_enqueue_style('ponce-panel', plugins_url('/enqueues/panel.css', PONCE_DEMOS__FILE__));
 
-    wp_enqueue_script( 'ponce-demos-reactivity', plugins_url('/enqueues/reactivity.js', PONCE_DEMOS__FILE__) );
-    wp_enqueue_script('ponce-demos-panel', plugins_url('/enqueues/panel.js', PONCE_DEMOS__FILE__), array('ponce-demos-reactivity'));
-    wp_enqueue_script('ponce-demos-iframe', plugins_url('/enqueues/mainIframe.js', PONCE_DEMOS__FILE__), array('ponce-demos-reactivity'));
-    wp_enqueue_script('ponce-demos-render', plugins_url('/enqueues/renderer.js', PONCE_DEMOS__FILE__), array('ponce-demos-panel', 'ponce-demos-iframe'));
-
-    wp_localize_script('ponce-demos-render', 'pathsInfo', array(
-      'logo' => plugins_url('/assets/img/logo-ponceleon.svg', PONCE_DEMOS__FILE__),
-      'html' => plugins_url('/html/ponce-demos.html', PONCE_DEMOS__FILE__)
-    ));
+    wp_enqueue_script('ponce-demos-render');
     
     /*wp_enqueue_style('frame-css', plugins_url('/style/frame.css', PONCE_DEMOS__FILE__));*/
     wp_enqueue_script( 'main', plugins_url('/js/main.js', PONCE_DEMOS__FILE__));
     
-    $data = array( 
+    $main_data = array( 
       'pluginsUrl' => PONCE_DEMOS_URL,
       'user' => is_user_logged_in(),
     );
 
-    wp_localize_script( 'main', 'demo', $data );
+    $paths_info = array(
+      'logo' => plugins_url('/assets/img/logo-ponceleon.svg', PONCE_DEMOS__FILE__),
+      'html' => plugins_url('/html/ponce-demos.html', PONCE_DEMOS__FILE__)
+    );
+
+    wp_localize_script( 'main', 'demo', $main_data );
+
+    wp_localize_script('ponce-demos-render', 'pathsInfo', $paths_info
+    );
 
     /**
      * Se ejecuta luego de añadir todos los scripts necesarios para
