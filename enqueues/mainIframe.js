@@ -9,6 +9,9 @@ const createIFrame = (config = {}) => {
   return frame;
 };
 
+/**
+ * Objeto que guarda y da funcionalidad al iframe principal
+ */
 const mainIFrame = (() => {
 	const iframe = createIFrame({
 		className: "ponce-admin__full",
@@ -25,6 +28,7 @@ const mainIFrame = (() => {
 	};
 })();
 
+/// Empieza la escucha de errores en el iframe por parte del modal
 window.addEventListener("load", (e) => {
 	const modal = ErrorModal(mainIFrame.window());
 	document.body.appendChild(modal.element());

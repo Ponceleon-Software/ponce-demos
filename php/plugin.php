@@ -63,19 +63,24 @@ class Plugin {
 
 	}
 
+  /** 
+   * Registra los scripts globales de los que dependerán la mayoría de los
+   * scripts del plugin
+   *
+   * @since v1.1
+   */
   public function register_main_scripts () {
 
     wp_register_script('ponce-demos-reactivity', plugins_url('/enqueues/reactivity.js', PONCE_DEMOS__FILE__));
 
-    wp_register_script('ponce-demos-iframe', plugins_url('/enqueues/mainIframe.js', PONCE_DEMOS__FILE__), array('ponce-demos-reactivity'));
-
-    wp_localize_script('ponce-demos-iframe', 'pathsInfo', array(
-      'logo' => plugins_url('/assets/img/logo-ponceleon.svg', PONCE_DEMOS__FILE__),
-      'html' => plugins_url('/html/ponce-demos.html', PONCE_DEMOS__FILE__)
-    ));
-
   }
 
+  /**
+   * Añade todos los scripts y styles necesarios para mostrar el iframe con su
+   * respectivo modal de errores
+   *
+   * @since v1.1
+   */
   public function enqueue_demos_iframe () {
 
     wp_register_script('ponce-demos-modal', plugins_url('/enqueues/modal/modal.js', PONCE_DEMOS__FILE__), array('ponce-demos-reactivity'));
@@ -94,7 +99,7 @@ class Plugin {
 
   /**
    * Añade en cola los scripts y estilos necesarios para
-   * mostrar el iframe principal de la aplicación
+   * mostrar el panel principal del dashboard de ponce-demos
    * 
    * @access public
    */
