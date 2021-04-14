@@ -2,7 +2,7 @@ name: 🚀 Deploy de ponce-demos a Sitio Principal
 on:
   push:
     branches:
-      - develop
+      - master
 jobs:
   web-deploy:
     name: 🎉 Deploy
