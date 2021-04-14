@@ -1,3 +1,9 @@
+/**
+ * Inicializa la funcionalidad por defecto del modal. Abrir, cerrar y las
+ * acciones de los botones
+ *
+ * @param {_ErrorModal} component El modal como componente reactivo
+ */
 const errorModalInit = (component) => {
 	const elements = component.elements;
 	const buttons = elements.buttons;
@@ -19,12 +25,13 @@ const errorModalInit = (component) => {
 }
 
 /**
- * Inicializa un modal para mostrar los errores de una o varias
- * paginas
+ * Devuelve un objeto al cual se le pueden subscribir ventanas para que escuche
+ * los errores de las mismas y los envíe al modal
  *
- * @param {_ErrorModal} component
+ * @param {_ErrorModal} component El modal como componente reactivo
  *
- * @return {{subscribe, unsubscribe}}
+ * @return {{subscribe, unsubscribe}} Un objeto con dos funciones. Una para
+ * iniciar la escucha de errores en una ventana y otra para finalizarla
  */
 const listenErrors = (component) => {
 
@@ -43,7 +50,7 @@ const listenErrors = (component) => {
 	};
 
 	/**
-	 * Añade una pagina cuyos error serán mostrados en el modal
+	 * Añade una pagina cuyos errores serán mostrados en el modal
 	 *
 	 * @param {Window} handler La pagina de la cual mostrar los errores.
 	 */
@@ -68,6 +75,15 @@ const listenErrors = (component) => {
 	}
 };
 
+/**
+ * Crea un componente del modal de errores, con toda su funcionalidad y
+ * escuchando los errores de la ventana pasada
+ *
+ * @param {Window} win Una ventana cuyos errores escuchará el modal
+ *
+ * @return {any} Un objeto con funciones para obtener elementos del modal,
+ * activar funcionalidades y suscribir o desuscribir ventanas
+ */
 const ErrorModal = (win) => {
 	const elements = modalElements();
 
