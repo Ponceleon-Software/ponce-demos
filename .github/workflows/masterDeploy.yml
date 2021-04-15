@@ -17,3 +17,4 @@ jobs:
         host: ${{ secrets.MASTER_FTP_SERVER }}
         user: ${{ secrets.MASTER_FTP_USER }}
         password: ${{ secrets.MASTER_FTP_PASSWORD }}
+        
