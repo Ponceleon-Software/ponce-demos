@@ -1,8 +1,8 @@
-const modalElements = () => { 
+const errorModalElements = () => { 
+	const modal = Modal({card: {className: "ponce-demos__error-modal"}});
+
 	const elements = {
-		element: CustomElement.create("div", {className: "ponce-demos__size-screen ponce-demos__modal--container"}),
-		back: CustomElement.create("div", {className: "ponce-demos__modal--back ponce-demos__size-full"}),
-		card: CustomElement.create("div", {className: "ponce-demos__modal"}),
+		modal: modal,
 		body: CustomElement.create("div", {className: "ponce-demos__modal--body"}),
 		close: CustomElement.create("button", {className: "ponce-demos__modal---close-button", innerHTML: "x"}),
 		sectionTitle: CustomElement.create("div", {className: "ponce-demos__modal--section"}),
@@ -23,10 +23,7 @@ const modalElements = () => {
 		contact: CustomElement.create("p", {className: "ponce-demos__modal--contact",innerHTML: `Contactanos al correo <a href="#">correo@correo.com</a>`}),
 	};
 
-	elements.element.appendChild(elements.back);
-	elements.element.appendChild(elements.card);
-
-	elements.card.appendChild(elements.body);
+	modal.appendChild(elements.body);
 
 	elements.body.appendChild(elements.close);
 	elements.body.appendChild(elements.sectionTitle);
@@ -54,13 +51,16 @@ const modalElements = () => {
 };
 
 function _ErrorModal(elements){
-	this.state = {open: false, error: null, showDetails: false};
+	this.state = {error: null, showDetails: false};
 
 	this.elements = elements;
-	this.element = elements.element;
-	this.card = elements.card;
+	this.element = elements.body;
 
+	this.modal = elements.modal;
+
+	this.sectionTitle = elements.sectionTitle;
 	this.sectionDescription = elements.sectionDescription;
+	this.sectionNav = elements.sectionNav;
 
 	this.descriptionContainer = elements.descriptionContainer;
 	this.debugDetails = elements.debugDetails;
@@ -69,13 +69,15 @@ function _ErrorModal(elements){
 	this.message = elements.message;
 	this.description = elements.description;
 
+	this.close = elements.close;
+
 	this.template = () => {
 		const state = JSON.parse(JSON.stringify(this.state));
-		const {open, error, showDetails} = state;
-
-		this.element.classList[(open && error) ? "remove" : "add"]("ponce-demos__hidden");
+		const {error, showDetails} = state;
 		
 		if(error){
+			this.modal.open();
+
 			this.title.innerHTML = error.name;
 
 			this.sectionDescription.innerHTML = "";
@@ -98,12 +100,11 @@ function _ErrorModal(elements){
 				this.message.innerHTML = error.message;
 				this.description.innerHTML = error.stack;				
 			}
+		}else{
+			this.modal.close();
 		}
 
-		const childs = [this.card];
-		if(this.elements.back){
-			childs.push(this.elements.back);
-		}
+		const childs = [this.close ,this.sectionTitle, this.sectionDescription, this.sectionNav];
 
 		return childs;
 	}

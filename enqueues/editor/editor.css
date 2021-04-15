@@ -1,0 +1,29 @@
+.ponce-demos__elementor-modal {
+	height: 90%;
+	width: 80%;
+}
+
+.ponce-demos__elementor-body {
+	display: flex;
+	flex-direction: column;
+}
+
+.ponce-demos__elementor-head {
+	height: 2rem;
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.ponce-demos__elementor-close {
+	font-size: x-large;
+	width: 2rem;
+	height: 2rem;
+	background-color: transparent;
+	border: none;
+	outline: none;
+	cursor: pointer;
+}
+
+.ponce-demos__elementor-iframe {
+	flex: auto;
+}

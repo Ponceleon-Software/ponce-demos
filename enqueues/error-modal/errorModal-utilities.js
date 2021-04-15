@@ -2,15 +2,12 @@ const errorModalInit = (component) => {
 	const elements = component.elements;
 	const buttons = elements.buttons;
 
-	const close = () => {
-		component.setState({error: null, open: false});
-	};
+	const close = component.modal.close;
 
 	const showDetails = () => {
-		component.setState({showDetails: true});
+		component.setState({showDetails: !component.state.showDetails});
 	};
 
-	elements.back.addEventListener("click", close);
 	elements.close.addEventListener("click", close);
 
 	buttons.refresh.addEventListener("click", () => location.reload());
@@ -38,7 +35,8 @@ const listenErrors = (component) => {
 			column: err.colno,
 			stack: err.error.stack,
 		};
-		component.setState({error: error, open: true});
+		component.setState({error: error});
+		component.modal.open();
 		return false;
 	};
 
@@ -69,7 +67,7 @@ const listenErrors = (component) => {
 };
 
 const ErrorModal = (win) => {
-	const elements = modalElements();
+	const elements = errorModalElements();
 
 	const component = new _ErrorModal(elements);
 	errorModalInit(component);
@@ -82,11 +80,12 @@ const ErrorModal = (win) => {
 		element: () => elements.element,
 		get: (element) => elements[element],
 		setError: (error) => {
-			component.setState({error: error, open: true});
+			component.setState({error: error});
 		},
 		close: () => {
-			component.setState({error: null, open: false});
+			component.setState({error: null});
 		},
+		getModal: () => component.modal,
 		subscribe: listener.subscribe,
 		unsubscribe: listener.unsubscribe,
 	}

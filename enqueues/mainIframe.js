@@ -9,6 +9,9 @@ const createIFrame = (config = {}) => {
   return frame;
 };
 
+/**
+ * Guarda el iframe principal de ponce-demos
+ */
 const mainIFrame = (() => {
 	const iframe = createIFrame({
 		className: "ponce-admin__full",
@@ -26,7 +29,6 @@ const mainIFrame = (() => {
 })();
 
 window.addEventListener("load", (e) => {
-	const modal = ErrorModal(mainIFrame.window());
-	document.body.appendChild(modal.element());
-	window.ponceErrorModal = modal;
+	const errorModal = ErrorModal(mainIFrame.window());
+	window.ponceErrorModal = errorModal.getModal();
 });
