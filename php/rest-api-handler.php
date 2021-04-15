@@ -79,6 +79,12 @@ class Rest_Api_Handler
             'permission_callback' => '__return_true',
         ));
 
+        /**
+         * Se ejecuta luego de registrar todas las rutas de la rest api
+         * de ponce-demos
+         */
+        do_action('ponce-demos-rest-api');
+
     }
 
     public function login_user($request)

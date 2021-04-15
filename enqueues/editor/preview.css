@@ -1,0 +1,11 @@
+.elementor-add-ponce-button {
+	position: relative;
+	margin-left: 5px;
+	background-color: black;
+	background-size: 100%;
+	background-image: url(../../assets/img/logo-ponceleon.svg);
+}
+
+.elementor-add-ponce-button > i {
+	visibility: hidden;
+}

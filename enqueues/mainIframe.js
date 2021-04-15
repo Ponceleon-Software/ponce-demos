@@ -10,7 +10,9 @@ const createIFrame = (config = {}) => {
 };
 
 /**
- * Objeto que guarda y da funcionalidad al iframe principal
+
+ * Guarda el iframe principal de ponce-demos
+
  */
 const mainIFrame = (() => {
 	const iframe = createIFrame({
@@ -30,7 +32,6 @@ const mainIFrame = (() => {
 
 /// Empieza la escucha de errores en el iframe por parte del modal
 window.addEventListener("load", (e) => {
-	const modal = ErrorModal(mainIFrame.window());
-	document.body.appendChild(modal.element());
-	window.ponceErrorModal = modal;
+	const errorModal = ErrorModal(mainIFrame.window());
+	window.ponceErrorModal = errorModal.getModal();
 });

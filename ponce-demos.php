@@ -23,4 +23,7 @@ require_once PONCE_DEMOS_PATH . 'php/json-manager.php';
 require_once PONCE_DEMOS_PATH . 'php/pages-manager.php';
 require_once PONCE_DEMOS_PATH . 'php/users-manager.php';
 require_once PONCE_DEMOS_PATH . 'php/rest-api-handler.php';
+
+require_once PONCE_DEMOS_PATH . 'php/editor/elementor-editor.php';
+
 require_once PONCE_DEMOS_PATH . 'php/plugin.php';
