@@ -64,7 +64,7 @@ const viewsContainer = {
   createPageFrom: (idPage) => {
     crearPagina.post = idPage;
 
-    if (window.demo.user === "1") {
+    if (window.demosConfig.isUserLogged === "1") {
       viewsContainer.changeView("createPage");
     } else {
       viewsContainer.changeView("unlogged");

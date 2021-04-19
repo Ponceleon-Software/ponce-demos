@@ -152,8 +152,8 @@ class Plugin {
     wp_enqueue_script( 'main', plugins_url('/js/main.js', PONCE_DEMOS__FILE__));
     
     $main_data = array( 
-      'pluginsUrl' => PONCE_DEMOS_URL,
-      'user' => is_user_logged_in(),
+      'isUserLogged' => is_user_logged_in(),
+      'onInstallDemo' => 'default',
     );
 
     $paths_info = array(
@@ -161,7 +161,7 @@ class Plugin {
       'html' => plugins_url('/html/ponce-demos.html', PONCE_DEMOS__FILE__)
     );
 
-    wp_localize_script( 'main', 'demo', $main_data );
+    wp_localize_script( 'main', 'demosConfig', $main_data );
 
     wp_localize_script('ponce-demos-render', 'pathsInfo', $paths_info
     );

@@ -21,6 +21,19 @@ function TarjetaConfiguracion(options) {
 
   this.keyword = [];
 
+  this.toJson = () => {
+    const model = {
+      'template_id': this.idPost,
+      'source': 'local',
+      'type': 'page',
+      'title': this.titulo,
+      'thumbnail': this.thumbnail,
+      'hasPageSettings': false,
+      'url': this.url,
+    };
+    return model;
+  }
+
   this.contenido = utils.createElement("div", {
     className: "form-control my-4",
   });
@@ -31,7 +44,13 @@ function TarjetaConfiguracion(options) {
     innerHTML: `<p>Install</p>`,
   });
   this.installButton.addEventListener("click", () => {
-    viewsContainer.createPageFrom(this.idPost);
+    if(window.demosConfig.onInstallDemo === 'default'){
+      viewsContainer.createPageFrom(this.idPost);
+      return;
+    }
+    if(window.demosConfig.onInstallDemo){
+      window.demosConfig.onInstallDemo(this.toJson());
+    }
   });
 
   this.previewImage = utils.createElement(
