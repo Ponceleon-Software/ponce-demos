@@ -26,7 +26,10 @@ const mainIFrame = (() => {
 			parent.appendChild(iframe);
 		},
 		get: () => iframe,
-		window: () => iframe.contentWindow 
+		window: () => iframe.contentWindow ,
+		addConfig: (demosConfig) => {
+			iframe.contentWindow.demosConfig = demosConfig;
+		},
 	};
 })();
 

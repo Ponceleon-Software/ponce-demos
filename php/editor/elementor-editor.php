@@ -35,13 +35,18 @@ class Elementor_Editor {
 
 		wp_register_script('ponce-demos-preview', $this->$enqueues_editor_js . '/preview.js', [ 'ponce-demos-editor', 'ponce-demos-elementor-modal' ]);
 
+		wp_register_script('ponce-demos-elementor-config', $this->$enqueues_editor_js . '/config.js', [ 'ponce-demos-iframe' ]);
+
 		wp_enqueue_script('ponce-demos-preview');
+		wp_enqueue_script('ponce-demos-elementor-config');
 
 		wp_enqueue_style('ponce-demos-elementor-editor', $this->$enqueues_editor_js . '/editor.css');
 
 		wp_localize_script('ponce-demos-preview', 'urlData', array(
 			'pluginsUrl' => plugins_url("", PONCE_DEMOS__FILE__)
 		));
+
+		wp_localize_script('ponce-demos-elementor-config', 'demosConfig', array( 'isUserLogged' => is_user_logged_in() ));
 	}
 
 	public function enqueue_preview_styles() {
