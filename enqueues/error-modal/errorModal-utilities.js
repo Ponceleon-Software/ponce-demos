@@ -54,7 +54,6 @@ const listenErrors = (component) => {
 	 */
 	const subscribe = (handler) => {
 		handler.addEventListener("error", onError);
-		console.log("subscrito");
 	};
 
 	/**
@@ -64,7 +63,6 @@ const listenErrors = (component) => {
 	 */
 	const unsubscribe = (handler) => {
 		handler.removeEventListener("error", onError);
-		console.log("Desubscrito");
 	}
 
 	return {

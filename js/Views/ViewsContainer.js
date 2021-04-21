@@ -11,14 +11,15 @@ import {
 
 const viewsContainer = {
   container: document.getElementById("ponce-demos-main"),
-  demos: utils.createElement(
-    "div", 
+  loading: utils.createElement(
+    "div",
     {
       className: "h-full w-full flex items-center justify-center",
       style: "border-top-color: gray",
-    }, 
-    [spinnerShow(null, {size: 16}).get()]
+    },
+    [spinnerShow(null, { size: 16 }).get()]
   ),
+  demos: utils.createElement("div"),
   createPage: crearPagina.elementoPadre,
   success: successPage.elementoPadre,
   unlogged: unloggedPage,
@@ -27,13 +28,18 @@ const viewsContainer = {
   init: async () => {
     viewsContainer.container.innerHTML = "";
 
-    viewsContainer.container.appendChild(viewsContainer.demos);
+    viewsContainer.container.appendChild(viewsContainer.loading);
 
     viewsContainer.demos = await cardsControl();
 
     viewsContainer.container.innerHTML = "";
 
     viewsContainer.container.appendChild(viewsContainer.demos);
+
+    viewsContainer.container.addEventListener("changeview", (e) => {
+      const view = e.view;
+      viewsContainer.changeView(view);
+    });
 
     const vistasSinDemos = [
       "createPage",
