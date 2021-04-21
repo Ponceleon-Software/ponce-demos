@@ -1,43 +1,81 @@
-(function() {
-	let onInstallDemo = false;
+(function () {
+  let onInstallDemo = false;
 
-	if(Backbone){
-		const DemoModel = Backbone.Model.extend( {
-			defaults: {
-				template_id: 0,
-				title: '',
-				source: '',
-				type: '',
-				subtype: '',
-				author: '',
-				thumbnail: '',
-				url: '',
-				export_link: '',
-				tags: [],
-			},
-		} );
+  try {
 
-		onInstallDemo = (model) => {
-			const templateModel = new DemoModel(model);
+    const DemoModel = Backbone.Model.extend({
+      defaults: {
+        template_id: 0,
+        title: "",
+        source: "",
+        type: "",
+        subtype: "",
+        author: "",
+        thumbnail: "",
+        url: "",
+        export_link: "",
+        tags: [],
+      },
+    });
 
-			const args = { model: templateModel };
+    const changeIframeView = (page) => {
+      const el = mainIFrame.document().getElementById("ponce-demos-main");
+      const event = new Event("changeview");
+      event.view = page;
+      el.dispatchEvent(event);
+    };
 
-			console.log(model);
+    const tempLayout = {
+      showLoadingView: () => changeIframeView("loading"),
+      hideLoadingView: () => changeIframeView("demos"),
+      hideModal: () => {
+        ponceElementorModal.close();
+        elementor.templates.layout = elementor.templates.component.layout;
+      },
+    };
 
-			$e.run('library/open');
+    const initElementorLayout = () => {
+      const layout = elementor.templates.component.getModalLayout();
+      elementor.templates.component.layout = new layout( { component: elementor.templates.component } );
 
-			$e.run('library/insert-template', args);
+      elementor.templates.component.layout.getModal().on( 'hide', () => elementor.templates.component.close() );
+    }
 
-			ponceElementorModal.close();
-		};
-	}	
+    onInstallDemo = (model) => {
+      const templateModel = new DemoModel(model);
 
-	const phpConfig = demosConfig || {};
+      const args = { model: templateModel };
 
-	const config = {
-		...phpConfig,
-		onInstallDemo,
-	}
+      if(!elementor.templates.layout){
+        initElementorLayout();
+      }
 
-	mainIFrame.addConfig(config);
+      elementor.templates.layout = tempLayout;
+
+      $e.run("library/insert-template", args);
+    };
+  } catch (ex){
+    if(!window.ponceErrorModal){
+      console.error(ex);
+    }
+    const error = {
+      name: "Unexpected Error",
+      type: ex.name,
+      message: ex.message,
+      file: ex.fileName,
+      line: ex.lineNumber,
+      column: err.columnNumber,
+      stack: ex.stack,
+    };
+    window.ponceErrorModal.setError(error);
+  }
+
+  const phpConfig = demosConfig || {};
+
+  const config = {
+    ...phpConfig,
+    onInstallDemo,
+  };
+
+  mainIFrame.addConfig(config);
 })();
