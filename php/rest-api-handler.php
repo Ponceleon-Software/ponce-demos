@@ -63,7 +63,7 @@ class Rest_Api_Handler
             'methods' => 'POST',
             'callback' => array($this, 'create_post_endpoint'),
             'permission_callback' => function () {
-                return current_user_can('edit_pages');
+                return true;
             },
         ));
 
@@ -143,7 +143,7 @@ class Rest_Api_Handler
         $post_content = $demo_data['post_content'];
         $post_type = $post_type ? $post_type : 'page';
         $post_title = $post_title ? $post_title : 'demo - ' . $demo_data['name'];
-        $meta_data_post = $this->json_manager->get_meta_data($id_demo);
+        $meta_data_post = $this->json_manager->get_meta_data($id_demo, true);
 
         $id_new_post = $this->pages_manager
             ->create_page($post_title, $post_content, $post_type, $meta_data_post);
@@ -151,8 +151,13 @@ class Rest_Api_Handler
         if (!$id_new_post) {
             return $id_new_post;
         }
+
         $edit_post_link = admin_url('post.php?post=' . $id_new_post) . '&action=elementor';
-        return $edit_post_link;
+
+        return array(
+            'postId' => $id_new_post,
+            'editUrl' => $edit_post_link,
+        );
     }
 
 }

@@ -369,10 +369,9 @@ const crearPagina = {
     crearPagina.post = 0;
 
     if (res.ok) {
-      const urlPost = await res.json();
-      console.log(urlPost);
-      if (urlPost) {
-        viewsContainer.showSuccessPage(urlPost);
+      const postData = await res.json();
+      if (postData.editUrl) {
+        viewsContainer.showSuccessPage(postData.editUrl);
       } else {
         viewsContainer.changeView("demos");
       }

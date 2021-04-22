@@ -25,17 +25,11 @@ class Pages_Manager {
    */
   public function create_page(string $post_title, string $post_content = '' , string $post_type = 'page', array $meta_data = array()) {
 
-    $metadata_array = [];
-
-    foreach ($meta_data as $meta_dato) {
-      $metadata_array[ $meta_dato['meta_key'] ] = $meta_dato['meta_value'];
-    }
-
     $postarr = array(
       'post_title' => $post_title,
       'post_content' => $post_content,
       'post_type' => $post_type,
-      'meta_input' => $metadata_array,
+      'meta_input' => $meta_data,
     );
 
     /**

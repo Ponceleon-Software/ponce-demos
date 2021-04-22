@@ -108,11 +108,15 @@ class Json_Manager
      * Obtiene toda la metadata de un demo una sola vez
      *
      * @param $id El id del demo
+     * @param $asociative Si devolver como un array llave => valor o
+     * tal como está en el json de metadatos. Por defecto false.
      *
      * @return array|null Si el archivo existe retorna un array con
      * el contenido del json. Sino retorna null
+     *
+     * @since v1.0.0
      */
-    public function get_meta_data(int $id)
+    public function get_meta_data(int $id, $asociative = false)
     {
 
         if (!array_key_exists($id, $this->obtained_meta_datas)) {
@@ -126,7 +130,19 @@ class Json_Manager
 
         }
 
-        return $this->obtained_meta_datas[$id];
+        $meta_data = $this->obtained_meta_datas[$id];
+
+        if($asociative){
+            $metadata_array = [];
+
+            foreach ($meta_data as $meta_dato) {
+              $metadata_array[ $meta_dato['meta_key'] ] = $meta_dato['meta_value'];
+            }
+
+            $meta_data = $metadata_array;
+        }
+
+        return $meta_data;
 
     }
 

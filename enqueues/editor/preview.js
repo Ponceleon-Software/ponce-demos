@@ -16,7 +16,7 @@
         let el = addSection;
         let i = 0;
         while(el = el.previousSibling){
-          if(el.tagName === 'SECTION'){
+          if( !el.classList.contains('elementor-add-section-inline') ){
             i++;
           }
         }

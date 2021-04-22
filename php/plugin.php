@@ -98,6 +98,7 @@ class Plugin {
   public function register_main_scripts () {
 
     wp_register_script('ponce-demos-reactivity', plugins_url('/enqueues/reactivity.js', PONCE_DEMOS__FILE__));
+    wp_register_script('ponce-demos-calls', plugins_url('/enqueues/api-calls.js', PONCE_DEMOS__FILE__));
   }
 
   public function register_modal_scripts () {
