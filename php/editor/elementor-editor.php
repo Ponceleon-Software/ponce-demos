@@ -35,7 +35,7 @@ class Elementor_Editor {
 
 		wp_register_script('ponce-demos-preview', $this->$enqueues_editor_js . '/preview.js', [ 'ponce-demos-editor', 'ponce-demos-elementor-modal' ]);
 
-		wp_register_script('ponce-demos-elementor-config', $this->$enqueues_editor_js . '/config.js', [ 'ponce-demos-iframe', 'backbone' ]);
+		wp_register_script('ponce-demos-elementor-config', $this->$enqueues_editor_js . '/config.js', [ 'ponce-demos-iframe', 'ponce-demos-calls', 'backbone' ]);
 
 		wp_enqueue_script('ponce-demos-preview');
 		wp_enqueue_script('ponce-demos-elementor-config');

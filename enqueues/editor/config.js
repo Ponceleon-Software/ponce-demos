@@ -41,7 +41,41 @@
       elementor.templates.component.layout.getModal().on( 'hide', () => elementor.templates.component.close() );
     }
 
-    onInstallDemo = (model) => {
+    onInstallDemo = async (info = {}) => {
+      //#region Crear template
+      const params = { 'post_type': 'elementor_library' };
+
+      tempLayout.showLoadingView();
+
+      const res = await ponceDemosCalls.wpRestApiPost(`new_site/${info.template_id}`, params);
+
+      let model = { ...info };
+
+      try{
+        const response = await res.json();
+
+        model.template_id = response.postId;
+      }catch(err){
+        tempLayout.hideLoadingView();
+        tempLayout.hideModal();
+        if(!window.ponceErrorModal){
+          console.error(ex);
+        }
+        const error = {
+          name: "Unexpected Error",
+          type: ex.name,
+          message: ex.message,
+          file: ex.fileName,
+          line: ex.lineNumber,
+          column: err.columnNumber,
+          stack: ex.stack,
+        };
+        window.ponceErrorModal.setError(error);
+        return;
+      }
+      //#endregion
+
+      //#region insertar en editor
       const templateModel = new DemoModel(model);
 
       const args = { model: templateModel };
@@ -53,8 +87,9 @@
       elementor.templates.layout = tempLayout;
 
       $e.run("library/insert-template", args);
+      //#endregion
     };
-  } catch (ex){
+  } catch (err){
     if(!window.ponceErrorModal){
       console.error(ex);
     }
